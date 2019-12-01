@@ -5,6 +5,7 @@ __pycache__/
 
 instance/
 static/
+advencal/initial.sql
 
 .pytest_cache/
 .coverage

@@ -6,6 +6,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from advencal.db import get_db
 
+from datetime import date
+
 def create_app():
 
     app = Flask(__name__)
@@ -33,8 +35,16 @@ def create_app():
                 int(col)
             except Exception as e:
                 raise(e)
+            
+            # Reaching to db for every cell is sub-optimal, to say the least,
+            # but I'm in a hurry. :( This call should be moved to index() def 
+            # and the result put into global var.
+            db = get_db()
+            day_data = db.execute(
+                'SELECT * FROM day WHERE id = ' + str(row * 4 + col + 1)
+            ).fetchone()
             img_url = url_for('static', filename='unc_' + str(row) + '_' + str(col) + '.png')
-            retval = '<td style="width: 200px; height: 200px; text-align: center; vertical-align: middle; background-image: url(' + img_url + ');"><a href=# style="font-family: Arial, Helvetica, sans-serif; font-size: 100px; text-decoration: none; color: black; color: rgba(0, 0, 0, 0.3);">24</a></td>'
+            retval = '<td style="width: 200px; height: 200px; text-align: center; vertical-align: middle; background-image: url(' + img_url + ');"><a href=# style="font-family: Arial, Helvetica, sans-serif; font-size: 100px; text-decoration: none; color: black; color: rgba(0, 0, 0, 0.3);">' + str(day_data['day_no']) + '</a></td>'
             return retval
         return dict(get_image=get_image)
 
