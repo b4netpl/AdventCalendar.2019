@@ -2,40 +2,15 @@
 
 {% block content %}
 
-    <table id="calendar" class="display" style="width:100%">
+    <table id="calendar" class="display" cellpadding="0" border="0" cellspacing="0">
         <tbody>
+            {% for row in range(6) %}
             <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
+                {% for col in range(4) %}
+                {{ get_image(row,col)|safe }}
+                {% endfor %}
             </tr>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 

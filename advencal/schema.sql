@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS day;
+DROP TABLE IF EXISTS discovered_days;
 
 CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -10,15 +11,15 @@ CREATE TABLE user (
 CREATE TABLE day (
   id INTEGER PRIMARY KEY,
   day_no INTEGER NOT NULL,
-  background_img TEXT NOT NULL,
-  discovered_img TEXT NOT NULL,
-  quest TEXT
+  quest TEXT,
+  quest_answer TEXT
 );
 
 CREATE TABLE discovered_days (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   day_id INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
+  answered BOOLEAN NOT NULL,
   FOREIGN KEY (day_id) REFERENCES day (id),
   FOREIGN KEY (user_id) REFERENCES user (id)
 );
