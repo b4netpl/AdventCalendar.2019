@@ -44,7 +44,7 @@ def create_app():
                 'SELECT * FROM day WHERE id = ' + str(row * 4 + col + 1)
             ).fetchone()
             img_url = url_for('static', filename='unc_' + str(row) + '_' + str(col) + '.png')
-            retval = '<td style="width: 200px; height: 200px; text-align: center; vertical-align: middle; background-image: url(' + img_url + ');"><a href=# style="font-family: Arial, Helvetica, sans-serif; font-size: 100px; text-decoration: none; color: black; color: rgba(0, 0, 0, 0.3);">' + str(day_data['day_no']) + '</a></td>'
+            retval = '<td style="width: 200px; height: 200px; text-align: center; vertical-align: middle; background-image: url(' + img_url + ');"><a href=# style="font-size: 100px; text-decoration: none; color: black; color: rgba(0, 0, 0, 0.3);">' + str(day_data['day_no']) + '</a></td>'
             return retval
         return dict(get_image=get_image)
 

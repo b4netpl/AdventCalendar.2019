@@ -4,6 +4,7 @@ venv/
 __pycache__/
 
 instance/
+!static/style.css
 static/
 advencal/initial.sql
 
