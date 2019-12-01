@@ -29,8 +29,8 @@ def create_app():
                 int(col)
             except Exception as e:
                 raise(e)
-            img_url = url_for('static', filename='slice_' + str(row) + '_' + str(col) + '.jpg')
-            retval = '<td style="width: 100px; height: 100px; background-image: url(' + img_url + ');"><a href=# style="font-family: Arial, Helvetica, sans-serif;">1</a></td>'
+            img_url = url_for('static', filename='unc_' + str(row) + '_' + str(col) + '.png')
+            retval = '<td style="width: 200px; height: 200px; text-align: center; vertical-align: middle; background-image: url(' + img_url + ');"><a href=# style="font-family: Arial, Helvetica, sans-serif; font-size: 100px; text-decoration: none; color: black; color: rgba(0, 0, 0, 0.3);">24</a></td>'
             return retval
         return dict(get_image=get_image)
 
