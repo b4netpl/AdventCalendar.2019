@@ -1,0 +1,24 @@
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS day;
+
+CREATE TABLE user (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
+
+CREATE TABLE day (
+  id INTEGER PRIMARY KEY,
+  day_no INTEGER NOT NULL,
+  background_img TEXT NOT NULL,
+  discovered_img TEXT NOT NULL,
+  quest TEXT
+);
+
+CREATE TABLE discovered_days (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  day_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  FOREIGN KEY (day_id) REFERENCES day (id),
+  FOREIGN KEY (user_id) REFERENCES user (id)
+);

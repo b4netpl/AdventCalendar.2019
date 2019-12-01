@@ -7,8 +7,18 @@ def create_app():
     app = Flask(__name__)
 
     app.config.from_mapping(
-        SECRET_KEY=os.environ['SECRET_KEY']
+        SECRET_KEY=os.environ['SECRET_KEY'],
+        DATABASE=os.path.join(app.instance_path, 'advencal.sqlite'),
     )
+
+    # ensure the instance folder exists
+    try:
+        os.makedirs(app.instance_path)
+    except OSError:
+        pass
+    
+    from . import db
+    db.init_app(app)
 
     @app.route('/')
     # pylint: disable=unused-variable
