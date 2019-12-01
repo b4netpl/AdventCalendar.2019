@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 
 def create_app():
 
@@ -14,7 +14,7 @@ def create_app():
     # pylint: disable=unused-variable
     def index():
 
-        return 'meh'
+        return render_template('calendar.html')
 
     return app
 
