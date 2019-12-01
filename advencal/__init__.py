@@ -1,6 +1,10 @@
 import os
 
-from flask import Flask, render_template, redirect, url_for, session
+from flask import Flask, render_template, redirect, url_for, session, request, flash
+
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from advencal.db import get_db
 
 def create_app():
 
@@ -43,11 +47,31 @@ def create_app():
         else:
             return render_template('calendar.html')
 
-    @app.route('/login')
+    @app.route('/login', methods=('GET', 'POST'))
     # pylint: disable=unused-variable
     def login():
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            db = get_db()
+            error = None
+            user = db.execute(
+                'SELECT * FROM user WHERE username = ?', (username,)
+            ).fetchone()
 
-        return render_template('calendar.html')
+            if user is None:
+                error = 'Incorrect username.'
+            elif not check_password_hash(user['password'], password):
+                error = 'Incorrect password.'
+
+            if error is None:
+                session.clear()
+                session['user_id'] = user['id']
+                return redirect(url_for('index'))
+            
+            flash(error)
+
+        return render_template('login.html')
 
     @app.route('/logout')
     # pylint: disable=unused-variable
