@@ -4,8 +4,7 @@ venv/
 __pycache__/
 
 instance/
-!static/style.css
-static/
+advencal/static/production/
 advencal/initial.sql
 
 .pytest_cache/
@@ -19,3 +18,4 @@ build/
 .flaskenv
 
 .vscode/
+**/.DS_Store

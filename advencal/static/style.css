@@ -1,0 +1,17 @@
+body {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.cell {
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    vertical-align: middle; 
+}
+
+.uncovered {
+    font-size: 100px;
+    text-decoration: none;
+    color: black;
+    color: rgba(0, 0, 0, 0.3);
+}
