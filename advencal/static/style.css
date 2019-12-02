@@ -33,7 +33,7 @@ body {
   }
   
   .popup {
-    margin: 20% auto;
+    overflow-y: scroll;
     padding: 20px;
     background: #fff;
     border-radius: 5px;
@@ -61,8 +61,9 @@ body {
     color: #06D85F;
   }
   .popup .content {
-    max-height: 30%;
+    max-height: 80%;
     overflow: auto;
+    overflow-y: scroll;
   }
   
   @media screen and (max-width: 700px){

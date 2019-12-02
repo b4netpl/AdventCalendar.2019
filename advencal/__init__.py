@@ -41,7 +41,7 @@ def create_app():
             # and the result put into global var.
             
             day_id = str(row * 4 + col + 1)
-            date_today = date.today().day + 18
+            date_today = date.today().day + 1
             
             db = get_db()
             day_data = db.execute(
@@ -117,12 +117,12 @@ def create_app():
         else:
             if request.method == 'POST':
                 db = get_db()
-                # TODO if quest check answer
+                # if quest check answer
                 day_data = db.execute(
                     'SELECT * FROM day WHERE id = ' + request.form['day_id']
                 ).fetchone()
                 if day_data['quest'] is not None:
-                    if request.form['answer'].lower() == day_data['quest_answer']:
+                    if request.form['answer'].lower() == day_data['quest_answer'].lower():
                         db.execute(
                             'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ')'
                         )
