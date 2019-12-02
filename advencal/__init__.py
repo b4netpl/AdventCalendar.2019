@@ -41,6 +41,7 @@ def create_app():
             # and the result put into global var.
             
             day_id = str(row * 4 + col + 1)
+            date_today = date.today().day
             
             db = get_db()
             day_data = db.execute(
@@ -50,17 +51,17 @@ def create_app():
                 'SELECT * FROM discovered_days WHERE day_id = ' + day_id + ' AND user_id = ' + str(session.get('user_id'))
             ).fetchone()
             # if its discovered change img
-            if is_discovered is None:
+            if is_discovered is None or not is_discovered['answered']:
                 img_url = url_for('static', filename=app.env + '/unc_' + str(row) + '_' + str(col) + '.png')
             else:
                 img_url = url_for('static', filename=app.env + '/disc_' + str(row) + '_' + str(col) + '.png')
             retval = '<td class="cell" style="background-image: url(' + img_url + ');">'
             # set link based on date, discovered and quest
             custom_popups = {}
-            if is_discovered is None:
-                if date.today().day < day_data['day_no']:
+            if is_discovered is None or not is_discovered['answered']:
+                if date_today < day_data['day_no']:
                     retval += '<a href="#notyetpopup" class="notyet">' + str(day_data['day_no']) + '</a>'
-                elif date.today().day >= day_data['day_no']:
+                elif date_today >= day_data['day_no']:
                     retval += '<a href="#discoverpopup' + day_id + '" class="undiscovered">' + str(day_data['day_no']) + '</a>'
                     custom_popups[day_id] = {
                         'type': 'discoverpopup' + day_id,
@@ -72,11 +73,36 @@ def create_app():
             
             retval += '</td>'
             for popup in custom_popups:
+                retval += '<div id="' + custom_popups[popup]['type'] + '" class="overlay">'
+                if custom_popups[popup]['quest'] is None:
+                    retval += '<div class="popup"><h2>Tym razem się udało!</h2>'
+                else:
+                    retval += '<div class="popup"><h2>Ojej! Zadanie!</h2>'
+
                 retval += (
-                    '<div id="' + custom_popups[popup]['type'] + '" class="overlay">' +
-                    '<div class="popup"><h2>Tym razem się udało!</h2>' +
                     '<a class="close" href="#">&times;</a>' +
-                    '<div class="content"><form method="post"><input type="hidden" id="day_id" name="day_id" value="' + day_id + '"><input type="submit" value="Odkryj"></form></div>' +
+                    '<div class="content">'
+                )
+
+                if custom_popups[popup]['quest'] is not None:
+                    retval += custom_popups[popup]['quest'] + '<br><br>'
+                
+                retval += (
+                    '<form method="post">' +
+                    '<input type="hidden" id="day_id" name="day_id" value="' + day_id + '">'
+                )
+
+                if custom_popups[popup]['quest'] is not None:
+                    retval += (
+                        '<label for="answer">Odpowiedź</label>' +
+                        '<input name="answer" id="answer" required>' +
+                        '<input type="submit" value="Odpowiedz">'
+                    )
+                else:
+                    retval += '<input type="submit" value="Odkryj">'
+                
+                retval += (
+                    '</form></div>' +
                     '</div></div>'
                 )
             return retval
@@ -92,9 +118,23 @@ def create_app():
             if request.method == 'POST':
                 db = get_db()
                 # TODO if quest check answer
-                db.execute(
-                    'INSERT INTO discovered_days (day_id, user_id, answered) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ', true)'
-                )
+                day_data = db.execute(
+                    'SELECT * FROM day WHERE id = ' + request.form['day_id']
+                ).fetchone()
+                if day_data['quest'] is not None:
+                    if request.form['answer'].lower() == day_data['quest_answer']:
+                        db.execute(
+                            'INSERT INTO discovered_days (day_id, user_id, answered) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ', true)'
+                        )
+                    else:
+                        db.execute(
+                            'INSERT INTO discovered_days (day_id, user_id, answered) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ', false)'
+                        )
+                else:
+                    db.execute(
+                        'INSERT INTO discovered_days (day_id, user_id, answered) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ', true)'
+                    )
+
                 db.commit()
             return render_template('calendar.html')
         
