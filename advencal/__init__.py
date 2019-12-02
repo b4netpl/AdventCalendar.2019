@@ -41,7 +41,7 @@ def create_app():
             # and the result put into global var.
             
             day_id = str(row * 4 + col + 1)
-            date_today = date.today().day
+            date_today = date.today().day + 18
             
             db = get_db()
             day_data = db.execute(
@@ -51,14 +51,14 @@ def create_app():
                 'SELECT * FROM discovered_days WHERE day_id = ' + day_id + ' AND user_id = ' + str(session.get('user_id'))
             ).fetchone()
             # if its discovered change img
-            if is_discovered is None or not is_discovered['answered']:
+            if is_discovered is None:
                 img_url = url_for('static', filename=app.env + '/unc_' + str(row) + '_' + str(col) + '.png')
             else:
                 img_url = url_for('static', filename=app.env + '/disc_' + str(row) + '_' + str(col) + '.png')
             retval = '<td class="cell" style="background-image: url(' + img_url + ');">'
             # set link based on date, discovered and quest
             custom_popups = {}
-            if is_discovered is None or not is_discovered['answered']:
+            if is_discovered is None:
                 if date_today < day_data['day_no']:
                     retval += '<a href="#notyetpopup" class="notyet">' + str(day_data['day_no']) + '</a>'
                 elif date_today >= day_data['day_no']:
@@ -125,10 +125,6 @@ def create_app():
                     if request.form['answer'].lower() == day_data['quest_answer']:
                         db.execute(
                             'INSERT INTO discovered_days (day_id, user_id, answered) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ', true)'
-                        )
-                    else:
-                        db.execute(
-                            'INSERT INTO discovered_days (day_id, user_id, answered) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ', false)'
                         )
                 else:
                     db.execute(

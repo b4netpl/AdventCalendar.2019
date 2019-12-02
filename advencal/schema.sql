@@ -19,7 +19,6 @@ CREATE TABLE discovered_days (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   day_id INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
-  answered BOOLEAN NOT NULL,
   FOREIGN KEY (day_id) REFERENCES day (id),
   FOREIGN KEY (user_id) REFERENCES user (id)
 );
