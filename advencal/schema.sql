@@ -20,5 +20,6 @@ CREATE TABLE discovered_days (
   day_id INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
   FOREIGN KEY (day_id) REFERENCES day (id),
-  FOREIGN KEY (user_id) REFERENCES user (id)
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  UNIQUE(day_id, user_id)
 );

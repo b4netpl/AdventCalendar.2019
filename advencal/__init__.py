@@ -124,11 +124,11 @@ def create_app():
                 if day_data['quest'] is not None:
                     if request.form['answer'].lower() == day_data['quest_answer']:
                         db.execute(
-                            'INSERT INTO discovered_days (day_id, user_id, answered) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ', true)'
+                            'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ')'
                         )
                 else:
                     db.execute(
-                        'INSERT INTO discovered_days (day_id, user_id, answered) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ', true)'
+                        'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ')'
                     )
 
                 db.commit()
