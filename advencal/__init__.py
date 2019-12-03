@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, redirect, url_for, session, request, flash
+from flask import Flask, render_template, redirect, url_for, session, request, flash, g
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -108,6 +108,18 @@ def create_app():
             return retval
         return dict(get_image=get_image)
 
+    @app.before_request
+    # pylint: disable=unused-variable
+    def load_logged_in_user():
+        user_id = session.get('user_id')
+
+        if user_id is None:
+            g.user = None
+        else:
+            g.user = get_db().execute(
+                'SELECT * FROM user WHERE id = ' + str(user_id)
+            ).fetchone()
+
     @app.route('/', methods=('GET', 'POST'))
     # pylint: disable=unused-variable
     def index():
@@ -155,6 +167,7 @@ def create_app():
             if error is None:
                 session.clear()
                 session['user_id'] = user['id']
+                session['admin'] = user['admin']
                 return redirect(url_for('index'))
             
             flash(error)
