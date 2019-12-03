@@ -7,6 +7,24 @@
   </head>
   <body>
     <div class="container">
+      <nav>
+        <h1>Kalendarz adwentowy 2019!</h1>
+        {% if g.user %}
+        <ul>
+          <li><span>{{ g.user['username'] }}</span></li>
+          {% if g.user['admin'] %}
+          <!--<li><a href="#">Użytkownicy</a></li>
+          <li><a href="#">Zagadki</a></li>-->
+          <li><a href="#">Resety</a></li>
+          {% endif %}
+          <li><a href="{{ url_for('logout') }}">Wyloguj</a></li>
+        </ul>
+        {% endif %}
+      </nav>
+
+      {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+      {% endfor %}
 
       {% block content %}{% endblock %}
 
