@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <form method="post">
+    <fieldset>
+      <legend>Usuń odwiedziny</legend>
+      <input type="radio" name="del_discos" id="del_all" value="del_all" checked="checked">
+      <label for="del_all">wszystkie</label><br>
+      <input type="radio" name="del_discos" id="del_taf" value="del_taf">
+      <label for="del_taf">dzisiejsze i przyszłe</label><br>
+      <input type="checkbox" name="del_except_quests" id="del_except_quests" value="del_except_quests">
+      <label for="del_except_quests">poza questami</label><br>
+      <label for="del_users">dla użytkowników:</label><br>
+      <select name="del_users" id="del_users" size="5" multiple>
+          {% for id, username in users %}
+          <option value="{{ id }}">{{ username }}</option>
+          {% endfor %}
+      </select><br>
+      <input type="submit" value="Usuń">
+    </fieldset>
+  </form>
+
+{% endblock %}

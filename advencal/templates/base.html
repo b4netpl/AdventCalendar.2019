@@ -15,7 +15,7 @@
           {% if g.user['admin'] %}
           <!--<li><a href="#">Użytkownicy</a></li>
           <li><a href="#">Zagadki</a></li>-->
-          <li><a href="#">Resety</a></li>
+          <li><a href="{{ url_for('tweaks') }}">Zmiany</a></li>
           {% endif %}
           <li><a href="{{ url_for('logout') }}">Wyloguj</a></li>
         </ul>

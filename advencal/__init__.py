@@ -41,7 +41,7 @@ def create_app():
             # and the result put into global var.
             
             day_id = str(row * 4 + col + 1)
-            date_today = date.today().day + 1
+            date_today = date.today().day
             
             db = get_db()
             day_data = db.execute(
@@ -145,7 +145,39 @@ def create_app():
 
                 db.commit()
             return render_template('calendar.html')
-        
+
+    @app.route('/tweaks', methods=('GET', 'POST'))
+    # pylint: disable=unused-variable
+    def tweaks():
+
+        if session.get('user_id') is None:
+            return redirect(url_for('login'))
+        if not session.get('admin'):
+            return redirect(url_for('index'))
+
+        if request.method == 'POST':
+            date_today = date.today().day
+            # TODO get users from request.form.getlist('del_users')
+            conditions = ['user_id in (' + ','.join(request.form.getlist('del_users')) + ')']
+            if request.form['del_discos'] == 'del_taf':
+                conditions.append('day_id not in (select id from day where day_no < ' + str(date_today) + ')')
+            if request.form.get('del_except_quests'):
+                conditions.append('day_id not in (select id from day where quest is not null)')
+            db = get_db()
+            db.execute(
+                'DELETE FROM discovered_days WHERE ' + ' AND '.join(conditions)
+            )
+            db.commit()
+
+            return redirect(url_for('index'))
+
+        if request.method == 'GET':
+            db = get_db()
+            users = db.execute(
+                'SELECT id, username FROM user'
+            ).fetchall()
+            
+            return render_template('tweaks.html', users=users)
 
     @app.route('/login', methods=('GET', 'POST'))
     # pylint: disable=unused-variable
