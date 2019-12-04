@@ -12,8 +12,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: pwd
-      run: pwd
       
     - name: scp files
       uses: garygrossgarten/github-action-scp@release
@@ -22,4 +20,12 @@ jobs:
         username: ${{ secrets.USERNAME }}
         privateKey: ${{ secrets.KEY }}
         local: "/home/runner/work/AdventCalendar.2019/AdventCalendar.2019"
-        remote: "test"
+        remote: ${{ secrets.DEST_PATH }}
+        
+    - name: restart web server
+      uses: garygrossgarten/github-action-ssh@v0.3.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        privateKey: ${{ secrets.KEY }}
+        command: ${{ secrets.RESTART }}
