@@ -21,4 +21,12 @@
     </fieldset>
   </form>
 
+  <form method="post">
+      <fieldset>
+          <legend>Przesuń kalendarz w czasie</legend>
+          <label for="time_shift">Dla którego dnia miesiąca wygenerować kalendarz?</label><br>
+          <input name="time_shift" id="time_shift" value="{{ date_today }}">
+          <input type="submit" value="Ustaw">
+      </fieldset>
+  </form>
 {% endblock %}

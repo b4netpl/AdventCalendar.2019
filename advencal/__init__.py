@@ -26,6 +26,8 @@ def create_app():
     from . import db
     db.init_app(app)
 
+    # This is necessary for get_image() function to be available in
+    # jinja template.
     @app.context_processor
     # pylint: disable=unused-variable
     def image_processor():
@@ -40,8 +42,12 @@ def create_app():
             # but I'm in a hurry. :( This call should be moved to index() def 
             # and the result put into global var.
             
+            date_offset = 0
+            if session.get('admin') and session.get('time_shift'):
+                date_offset = int(session['time_shift']) - date.today().day
+
             day_id = str(row * 4 + col + 1)
-            date_today = date.today().day
+            date_today = date.today().day + date_offset
             
             db = get_db()
             day_data = db.execute(
@@ -155,18 +161,28 @@ def create_app():
         if not session.get('admin'):
             return redirect(url_for('index'))
 
+        date_today = date.today().day
+
         if request.method == 'POST':
-            date_today = date.today().day
-            conditions = ['user_id in (' + ','.join(request.form.getlist('del_users')) + ')']
-            if request.form['del_discos'] == 'del_taf':
-                conditions.append('day_id not in (select id from day where day_no < ' + str(date_today) + ')')
-            if request.form.get('del_except_quests'):
-                conditions.append('day_id not in (select id from day where quest is not null)')
-            db = get_db()
-            db.execute(
-                'DELETE FROM discovered_days WHERE ' + ' AND '.join(conditions)
-            )
-            db.commit()
+            
+            if 'del_discos' in request.form:
+                conditions = ['user_id in (' + ','.join(request.form.getlist('del_users')) + ')']
+                if request.form['del_discos'] == 'del_taf':
+                    conditions.append('day_id not in (select id from day where day_no < ' + str(date_today) + ')')
+                if request.form.get('del_except_quests'):
+                    conditions.append('day_id not in (select id from day where quest is not null)')
+                db = get_db()
+                # TODO count rows to delete
+                db.execute(
+                    'DELETE FROM discovered_days WHERE ' + ' AND '.join(conditions)
+                )
+                db.commit()
+
+            elif 'time_shift' in request.form:
+                if date_today != int(request.form['time_shift']):
+                    session['time_shift'] = request.form['time_shift']
+                else:
+                    session.pop('time_shift', None)
 
             return redirect(url_for('index'))
 
@@ -176,7 +192,7 @@ def create_app():
                 'SELECT id, username FROM user'
             ).fetchall()
             
-            return render_template('tweaks.html', users=users)
+            return render_template('tweaks.html', users=users, date_today=date_today)
 
     @app.route('/login', methods=('GET', 'POST'))
     # pylint: disable=unused-variable
