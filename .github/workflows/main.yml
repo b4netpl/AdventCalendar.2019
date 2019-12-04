@@ -13,11 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: scp files
-      uses: appleboy/scp-action@v0.0.1
+      uses: garygrossgarten/github-action-scp@release
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
-        port: 22
-        source: "*"
-        target: "test"
+        privateKey: ${{ secrets.KEY }}
+        local: "*"
+        remote: "test"
