@@ -21,5 +21,5 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         privateKey: ${{ secrets.KEY }}
-        local: "/home/runner/work/AdventCalendar.2019/AdventCalendar.2019/*"
+        local: "/home/runner/work/AdventCalendar.2019/AdventCalendar.2019"
         remote: "test"
