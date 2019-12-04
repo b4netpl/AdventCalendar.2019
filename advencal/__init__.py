@@ -96,7 +96,7 @@ def create_app():
                     retval += (
                         '<label for="answer">Odpowiedź</label>' +
                         '<input name="answer" id="answer" required>' +
-                        '<input type="submit" value="Odpowiedz">'
+                        '<input type="submit" value="Mlerp!">'
                     )
                 else:
                     retval += '<input type="submit" value="Odkryj">'
@@ -157,7 +157,6 @@ def create_app():
 
         if request.method == 'POST':
             date_today = date.today().day
-            # TODO get users from request.form.getlist('del_users')
             conditions = ['user_id in (' + ','.join(request.form.getlist('del_users')) + ')']
             if request.form['del_discos'] == 'del_taf':
                 conditions.append('day_id not in (select id from day where day_no < ' + str(date_today) + ')')
