@@ -12,6 +12,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - name: pwd
+      run: pwd
+      
     - name: scp files
       uses: garygrossgarten/github-action-scp@release
       with:
