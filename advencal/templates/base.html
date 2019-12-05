@@ -29,6 +29,10 @@
       <div class="flash">{{ message }}</div>
       {% endfor %}
 
+      {% if win %}
+      Yay!
+      {% endif %}
+
       {% block content %}{% endblock %}
 
     </div>

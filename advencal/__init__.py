@@ -73,9 +73,6 @@ def create_app():
                         'type': 'discoverpopup' + day_id,
                         'quest': day_data['quest']
                     }
-                # TODO late discover!
-                #else:
-                #    retval += '?'
             
             retval += '</td>'
             for popup in custom_popups:
@@ -133,8 +130,10 @@ def create_app():
         if session.get('user_id') is None:
             return redirect(url_for('login'))
         else:
+            win = False
+            db = get_db()
             if request.method == 'POST':
-                db = get_db()
+                
                 # if quest check answer
                 day_data = db.execute(
                     'SELECT * FROM day WHERE id = ' + request.form['day_id']
@@ -150,7 +149,16 @@ def create_app():
                     )
 
                 db.commit()
-            return render_template('calendar.html')
+            
+            days_discovered = db.execute(
+                'select count(distinct day.id) from day inner join discovered_days on day.id=day_id where user_id = ?', (session['user_id'], )
+            ).fetchone()
+            import sys
+            print(days_discovered, file=sys.stderr)
+            if int(days_discovered[0]) == 24:
+                win = True
+            
+            return render_template('calendar.html', win=win)
 
     @app.route('/tweaks', methods=('GET', 'POST'))
     # pylint: disable=unused-variable
