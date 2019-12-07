@@ -36,6 +36,31 @@ nav ul li a, nav ul li span, header .action {
   padding: 0.5rem; 
 }
 
+.winbtn {
+  display: inline-block;
+  background-color: rgb(204, 9, 37);
+  border: rgb(253, 127, 35) solid 4px;	
+  font-size: 32px;
+  font-weight: bold;
+  color: rgb(255, 253, 56);
+  text-align: center;
+  text-decoration: none;
+  padding: 16px;
+  border-radius: 16px;
+  width: 800px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.winbtn:hover {
+  background-color: rgb(255, 253, 56);
+  color: rgb(204, 9, 37);
+}
+
+.winbtn:active {
+  border: rgb(255, 253, 56) solid 4px; 
+}
+
 .flash { 
   margin: 1em 0; 
   padding: 1em; 
