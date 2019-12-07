@@ -198,8 +198,11 @@ def create_app():
             users = db.execute(
                 'SELECT id, username FROM user'
             ).fetchall()
+            days = db.execute(
+                'SELECT id, day_no, quest FROM day ORDER BY day_no'
+            ).fetchall()
             
-            return render_template('tweaks.html', users=users, date_today=date_today)
+            return render_template('tweaks.html', users=users, date_today=date_today, days=days)
 
     @app.route('/login', methods=('GET', 'POST'))
     # pylint: disable=unused-variable

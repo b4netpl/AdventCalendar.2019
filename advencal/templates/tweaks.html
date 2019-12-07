@@ -29,4 +29,42 @@
           <input type="submit" value="Ustaw">
       </fieldset>
   </form>
+
+  <form method="post">
+    <fieldset>
+      <legend>Edytuj questy</legend>
+        <table>
+          <thead><th>Dzień</th><th>Quest</th><th></th><th></th><th></th></thead>
+          {% for day_id, day_no, quest in days %}
+          <tr>
+            <td>{{ day_no }}</td>
+            <td>{%- if quest %}
+                {{ quest|striptags|truncate(65) }}</td>
+                    <td><button type="button" onclick="window.location.href='#preview{{ day_id }}';">preview</button>
+                    <div id="preview{{ day_id }}" class="overlay">
+                        <div class="popup">
+                            <h2>Ojej! Zadanie!</h2>
+                            <a class="close" href="#">&times;</a>
+                            <div class="content">
+                                {{ quest|safe }}
+                                <br><br>
+                                <form method="post">
+                                    <label for="answer">Odpowiedź</label>
+                                    <input name="answer" id="answer" required>
+                                    <input type="submit" value="Mlerp!" disabled>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                <td></td>
+                {% endif %}</td>
+            <td><button type="button">edit</button></td>
+            <td><button type="button">del</button></td>
+          </tr>
+          {% endfor %}
+        </table>
+    </fieldset>
+  </form>
+
 {% endblock %}
