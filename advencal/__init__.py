@@ -153,8 +153,7 @@ def create_app():
             days_discovered = db.execute(
                 'select count(distinct day.id) from day inner join discovered_days on day.id=day_id where user_id = ?', (session['user_id'], )
             ).fetchone()
-            import sys
-            print(days_discovered, file=sys.stderr)
+
             if int(days_discovered[0]) == 24:
                 win = True
             
