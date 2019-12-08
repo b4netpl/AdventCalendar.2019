@@ -209,8 +209,11 @@ def create_app():
             days = db.execute(
                 'SELECT id, day_no, quest FROM day ORDER BY day_no'
             ).fetchall()
+            discos = db.execute(
+                'SELECT day_id, user_id FROM discovered_days'
+            ).fetchall()
             
-            return render_template('tweaks.html', users=users, date_today=date_today, days=days)
+            return render_template('tweaks.html', users=users, date_today=date_today, days=days, discos=discos)
 
     @app.route('/questedit', methods=['POST'])
     # pylint: disable=unused-variable
