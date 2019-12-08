@@ -190,6 +190,14 @@ def create_app():
                     session['time_shift'] = request.form['time_shift']
                 else:
                     session.pop('time_shift', None)
+            
+            elif 'quest_del' in request.form:
+                db = get_db()
+                db.execute(
+                    'UPDATE day SET quest=NULL, quest_answer=NULL WHERE id = ?', (request.form['quest_del'], )
+                )
+                db.commit()
+                return redirect(url_for('tweaks'))
 
             return redirect(url_for('index'))
 
@@ -215,14 +223,14 @@ def create_app():
 
         db = get_db()
 
-        if request.form.get('quest_edit'):
+        if 'quest_edit' in request.form:
             day_id = request.form['quest_edit']
             quest_data = db.execute(
                 'SELECT * FROM day WHERE id = ?', (day_id,)
             ).fetchone()
             return render_template('questedit.html', quest=quest_data['quest'], quest_answer=quest_data['quest_answer'], day_id=day_id)
 
-        if request.form.get('day_id') and request.form['quest'] != "None":
+        if 'day_id' in request.form and request.form['quest'] != "None":
             db.execute(
                 'UPDATE day SET quest = ?, quest_answer = ? WHERE id = ?', (request.form['quest'], request.form['quest_answer'], request.form['day_id'])
             )
