@@ -30,7 +30,6 @@
       </fieldset>
   </form>
 
-  <form method="post">
     <fieldset>
       <legend>Edytuj questy</legend>
         <table>
@@ -57,14 +56,13 @@
                         </div>
                     </div>
                 {% else %}
-                <td></td>
+                </td><td>
                 {% endif %}</td>
-            <td><button type="button">edit</button></td>
-            <td><button type="button">del</button></td>
+            <td><form action="/questedit" method="POST"><button type="submit" name="quest_edit" value="{{ day_id }}">edit</button></form></td>
+            <td>{%- if quest %}<button type="submit" name="quest_del" value="{{ day_id }}">del</button>{% endif %}</td>
           </tr>
           {% endfor %}
         </table>
     </fieldset>
-  </form>
-
+  
 {% endblock %}

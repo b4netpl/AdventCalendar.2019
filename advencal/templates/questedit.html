@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <form method="post">
+      <fieldset>
+          <legend>Edytuj treść questa i odpowiedź</legend>
+          <label for="quest">Treść questa</label><br>
+          <textarea name="quest" id="quest" rows="10">{{ quest }}</textarea><br><br>
+          <label for="quest_answer">Odpowiedź</label><br>
+          <input name="quest_answer" id="quest_answer" value="{{ quest_answer }}"><br>
+          <input type="hidden" name="day_id" id="day_id" value="{{ day_id }}">
+          <input type="submit" value="Dodaj">
+      </fieldset>
+  </form>
+
+{% endblock %}

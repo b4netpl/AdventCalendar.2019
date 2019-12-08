@@ -204,6 +204,33 @@ def create_app():
             
             return render_template('tweaks.html', users=users, date_today=date_today, days=days)
 
+    @app.route('/questedit', methods=['POST'])
+    # pylint: disable=unused-variable
+    def questedit():
+
+        if session.get('user_id') is None:
+            return redirect(url_for('login'))
+        if not session.get('admin'):
+            return redirect(url_for('index'))
+
+        db = get_db()
+
+        if request.form.get('quest_edit'):
+            day_id = request.form['quest_edit']
+            quest_data = db.execute(
+                'SELECT * FROM day WHERE id = ?', (day_id,)
+            ).fetchone()
+            return render_template('questedit.html', quest=quest_data['quest'], quest_answer=quest_data['quest_answer'], day_id=day_id)
+
+        if request.form.get('day_id') and request.form['quest'] != "None":
+            db.execute(
+                'UPDATE day SET quest = ?, quest_answer = ? WHERE id = ?', (request.form['quest'], request.form['quest_answer'], request.form['day_id'])
+            )
+            db.commit()
+        
+        return redirect(url_for('tweaks'))
+
+
     @app.route('/login', methods=('GET', 'POST'))
     # pylint: disable=unused-variable
     def login():
