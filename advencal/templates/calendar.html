@@ -2,25 +2,86 @@
 
 {% block content %}
 
-    <table id="calendar" class="display" cellpadding="0" border="0" cellspacing="0">
-        <tbody>
-            {% for row in range(6) %}
-            <tr>
-                {% for col in range(4) %}
-                {{ get_image(row,col)|safe }}
-                {% endfor %}
+<table id="calendar" class="mx-auto" cellpadding="0" border="0" cellspacing="0">
+    <tbody>
+        {%- for row in range(6) %}
+        <tr>
+            {%- for col in range(4) %}
+            {%- set day_id = row * 4 + col + 1 %}
+            {%- if day_id in discovered %}
+            <td class="cell" style="background-image: url('/static/{{ app_env }}/disc_{{ row }}_{{ col }}.png');"></td>
+            {%- else %}
+            <td class="cell" style="background-image: url('/static/{{ app_env }}/unc_{{ row }}_{{ col }}.png');">
+                {%- if date_today < day_data[day_id]['day_no'] %}
+                <a href="#notyetpopup" class="notyet" data-toggle="modal" data-target="#notyetpopup">{{ day_data[day_id]['day_no'] }}</a></td>
+                {%- else %}
+                <a href="#discoverpopup{{ day_id }}" class="undiscovered" data-toggle="modal" data-target="#discoverpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
+                {%- if day_data[day_id]['quest'] %}
+                <div class="modal fade" id="discoverpopup{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="discoverpopup{{ day_id }}Label" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="discoverpopup{{ day_id }}Label">Ojej! Zadanie!</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                {{ day_data[day_id]['quest']|safe }}
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day_id }}">
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="answer" id="answer" class="form-control" placeholder="Twoja odpowiedź..." aria-label="Twoja odpowiedź..." aria-describedby="button-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit" id="button-addon2">Mlerp!</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {%- else %}
+                <div class="modal fade" id="discoverpopup{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="discoverpopup{{ day_id }}Label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="discoverpopup{{ day_id }}Label">Tym razem się udało!</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-footer">
+                                <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day_id }}">
+                                    <button class="btn btn-primary" type="submit" id="button-addon2">Odkryj</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>                    
+                {%- endif %}
+                {%- endif %}
+                {%- endif %}
+                {%- endfor %}
             </tr>
-            {% endfor %}
+            {%- endfor %}
         </tbody>
     </table>
-
-    <div id="notyetpopup" class="overlay">
-	    <div class="popup">
-		    <h2>Mlerp!</h2>
-		    <a class="close" href="#">&times;</a>
-		    <div class="content">
-			    Jeszcze nie czas!
-		    </div>
-	    </div>
+    
+    <div class="modal fade" id="notyetpopup" tabindex="-1" role="dialog" aria-labelledby="notyetpopupLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="notyetpopupLabel">Mlerp!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Jeszcze nie czas!
+                </div>
+            </div>
+        </div>
     </div>
-{% endblock %}
+    {% endblock %}

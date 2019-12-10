@@ -26,90 +26,6 @@ def create_app():
     from . import db
     db.init_app(app)
 
-    # This is necessary for get_image() function to be available in
-    # jinja template.
-    @app.context_processor
-    # pylint: disable=unused-variable
-    def image_processor():
-        def get_image(row, col):
-            try:
-                int(row)
-                int(col)
-            except Exception as e:
-                raise(e)
-            
-            # Reaching to db for every cell is sub-optimal, to say the least,
-            # but I'm in a hurry. :( This call should be moved to index() def 
-            # and the result put into global var.
-            
-            date_offset = 0
-            if session.get('admin') and session.get('time_shift'):
-                date_offset = int(session['time_shift']) - date.today().day
-
-            day_id = str(row * 4 + col + 1)
-            date_today = date.today().day + date_offset
-            
-            db = get_db()
-            day_data = db.execute(
-                'SELECT * FROM day WHERE id = ' + day_id
-            ).fetchone()
-            is_discovered = db.execute(
-                'SELECT * FROM discovered_days WHERE day_id = ' + day_id + ' AND user_id = ' + str(session.get('user_id'))
-            ).fetchone()
-            # if its discovered change img
-            if is_discovered is None:
-                img_url = url_for('static', filename=app.env + '/unc_' + str(row) + '_' + str(col) + '.png')
-            else:
-                img_url = url_for('static', filename=app.env + '/disc_' + str(row) + '_' + str(col) + '.png')
-            retval = '<td class="cell" style="background-image: url(' + img_url + ');">'
-            # set link based on date, discovered and quest
-            custom_popups = {}
-            if is_discovered is None:
-                if date_today < day_data['day_no']:
-                    retval += '<a href="#notyetpopup" class="notyet">' + str(day_data['day_no']) + '</a>'
-                elif date_today >= day_data['day_no']:
-                    retval += '<a href="#discoverpopup' + day_id + '" class="undiscovered">' + str(day_data['day_no']) + '</a>'
-                    custom_popups[day_id] = {
-                        'type': 'discoverpopup' + day_id,
-                        'quest': day_data['quest']
-                    }
-            
-            retval += '</td>'
-            for popup in custom_popups:
-                retval += '<div id="' + custom_popups[popup]['type'] + '" class="overlay">'
-                if custom_popups[popup]['quest'] is None:
-                    retval += '<div class="popup"><h2>Tym razem się udało!</h2>'
-                else:
-                    retval += '<div class="popup"><h2>Ojej! Zadanie!</h2>'
-
-                retval += (
-                    '<a class="close" href="#">&times;</a>' +
-                    '<div class="content">'
-                )
-
-                if custom_popups[popup]['quest'] is not None:
-                    retval += custom_popups[popup]['quest'] + '<br><br>'
-                
-                retval += (
-                    '<form method="post">' +
-                    '<input type="hidden" id="day_id" name="day_id" value="' + day_id + '">'
-                )
-
-                if custom_popups[popup]['quest'] is not None:
-                    retval += (
-                        '<label for="answer">Odpowiedź</label>' +
-                        '<input name="answer" id="answer" required>' +
-                        '<input type="submit" value="Mlerp!">'
-                    )
-                else:
-                    retval += '<input type="submit" value="Odkryj">'
-                
-                retval += (
-                    '</form></div>' +
-                    '</div></div>'
-                )
-            return retval
-        return dict(get_image=get_image)
 
     @app.before_request
     # pylint: disable=unused-variable
@@ -157,7 +73,37 @@ def create_app():
             if int(days_discovered[0]) == 24:
                 win = True
             
-            return render_template('calendar.html', win=win)
+            date_offset = 0
+            if session.get('admin') and session.get('time_shift'):
+                date_offset = int(session['time_shift']) - date.today().day
+
+            date_today = date.today().day + date_offset
+            
+            def dict_factory(cursor, row):
+                d = {}
+                for idx, col in enumerate(cursor.description):
+                    d[col[0]] = row[idx]
+                return d
+            
+            db.row_factory = dict_factory
+            days = db.execute(
+                'SELECT * FROM day'
+            ).fetchall()
+
+            day_data = {}
+            for day in days:
+                day_data[day['id']] = {
+                    'day_no': day['day_no'],
+                    'quest': day['quest'],
+                    'quest_answer': day['quest_answer']
+                }
+
+            db.row_factory = lambda cursor, row: row[0]
+            discovered = db.execute(
+                'SELECT day_id FROM discovered_days WHERE user_id = ?', (str(session.get('user_id')), )
+            ).fetchall()
+
+            return render_template('calendar.html', win=win, date_today=date_today, day_data=day_data, discovered=discovered, app_env=app.env)
 
     @app.route('/tweaks', methods=('GET', 'POST'))
     # pylint: disable=unused-variable
@@ -265,7 +211,7 @@ def create_app():
                 session['admin'] = user['admin']
                 return redirect(url_for('index'))
             
-            flash(error)
+            flash(error, 'warning')
 
         return render_template('login.html')
 

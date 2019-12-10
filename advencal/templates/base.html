@@ -1,41 +1,61 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Mlerp!</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  </head>
-  <body>
-    <div class="container">
-      <nav>
-        <h1>Kalendarz adwentowy 2019!</h1>
-        {% if g.user %}
-        <ul>
-          <li><span>{{ g.user['username'] }}</span></li>
-          {% if g.user['admin'] %}
-          <!--<li><a href="#">Użytkownicy</a></li>
-          <li><a href="#">Zagadki</a></li>-->
-          <li><a href="{{ url_for('tweaks') }}">Zmiany</a></li>
-            {% if session['time_shift'] %}
-            <li><span>Dzień: {{ session['time_shift'] }}</span></li>
-            {% endif %}
-          {% endif %}
-          <li><a href="{{ url_for('logout') }}">Wyloguj</a></li>
-        </ul>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Mlerp!</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  
+  <nav class="navbar navbar-expand-md navbar-dark bg-success mb-4">
+    <a href="{{ url_for('index') }}" class="navbar-brand">Kalendarz adwentowy 2019!</a>
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {% if g.user %}
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="navbar-nav ml-auto">
+        <span class="navbar-text text-light">{{ g.user['username'] }}</span>
+        {% if g.user['admin'] %}
+        <a href="{{ url_for('tweaks') }}" class="nav-item nav-link">Zmiany</a>
+        {% if session['time_shift'] %}
+        <span class="navbar-text text-light">Dzień: {{ session['time_shift'] }}</span>
         {% endif %}
-      </nav>
-
-      {% for message in get_flashed_messages() %}
-      <div class="flash">{{ message }}</div>
-      {% endfor %}
-
-      {% if win %}
-      <img src="/static/production/supermaja.png"><br><button class="winbtn" type="button" onclick="printJS('/static/production/klucz.pdf')">WYDRUKUJ KLUCZ DO NAGRODY!</button>
-      {% endif %}
-
-      {% block content %}{% endblock %}
-
+        {% endif %}
+        <a href="{{ url_for('logout') }}" class="nav-item nav-link">Wyloguj</a>
+      </div>
+    </div>            
+    {% endif %}
+  </nav>
+  <main class="container-fluid">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ category }}  alert-dismissible fade show" role="alert">{{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    <script src="/static/production/print.min.js"></script>
-  </body>
+    {% endfor %}
+    
+    {% if win %}
+    <div class="row">
+      <div class="jumbotron mx-auto bg-light">
+        <img class="mx-auto" src="/static/production/supermaja.png">
+        <hr class="my-3">
+        <button class="btn btn-warning btn-lg btn-block font-weight-bold" type="button" onclick="printJS('/static/production/klucz.pdf')">WYDRUKUJ KLUCZ DO NAGRODY!</button>
+      </div>
+    </div>
+    {% endif %}
+    <div class="row">
+      <div class="col mx-auto"> 
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </main>
+  <script src="/static/production/print.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
 </html>

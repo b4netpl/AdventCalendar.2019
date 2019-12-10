@@ -1,73 +1,3 @@
-html {
-    font-family: Tahoma, Arial, Helvetica, sans-serif;
-    padding: 1rem;
-}
-
-h1 { 
-  margin: 1rem 0;
-}
-
-nav { 
-  background: rgb(132, 190, 135); 
-  display: flex; 
-  align-items: center; 
-  padding: 0 0.5rem;
-}
-
-nav h1 { 
-  flex: auto; 
-  margin: 0; 
-}
-
-nav h1 a { 
-  text-decoration: none; 
-  padding: 0.25rem 0.5rem; 
-}
-
-nav ul  { 
-  display: flex; 
-  list-style: none; 
-  margin: 0; 
-  padding: 0; 
-}
-
-nav ul li a, nav ul li span, header .action { 
-  display: block; 
-  padding: 0.5rem; 
-}
-
-.winbtn {
-  display: inline-block;
-  background-color: rgb(204, 9, 37);
-  border: rgb(253, 127, 35) solid 4px;	
-  font-size: 32px;
-  font-weight: bold;
-  color: rgb(255, 253, 56);
-  text-align: center;
-  text-decoration: none;
-  padding: 16px;
-  border-radius: 16px;
-  width: 800px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-}
-
-.winbtn:hover {
-  background-color: rgb(255, 253, 56);
-  color: rgb(204, 9, 37);
-}
-
-.winbtn:active {
-  border: rgb(255, 253, 56) solid 4px; 
-}
-
-.flash { 
-  margin: 1em 0; 
-  padding: 1em; 
-  background: #caf6ca; 
-  border: 1px solid #37a83d; 
-}
-
 .cell {
     width: 200px;
     height: 200px;
@@ -76,67 +6,14 @@ nav ul li a, nav ul li span, header .action {
 }
 
 .undiscovered, .notyet {
-    font-size: 100px;
-    text-decoration: none;
-    color: black;
-    color: rgba(0, 0, 0, 0.3);
+  font-size: 100px;
+  text-decoration: none;
+  color: black;
+  color: rgba(0, 0, 0, 0.3);
 }
 
-.overlay {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.7);
-    transition: opacity 500ms;
-    visibility: hidden;
-    opacity: 0;
-  }
-  .overlay:target {
-    visibility: visible;
-    opacity: 1;
-  }
-  
-  .popup {
-    overflow-y: scroll;
-    padding: 20px;
-    background: #fff;
-    border-radius: 5px;
-    width: 50%;
-    position: sticky;
-    transition: all 5s ease-in-out;
-  }
-  
-  .popup h2 {
-    margin-top: 0;
-    color: #333;
-    font-family: Tahoma, Arial, sans-serif;
-  }
-  .popup .close {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    transition: all 200ms;
-    font-size: 30px;
-    font-weight: bold;
-    text-decoration: none;
-    color: #333;
-  }
-  .popup .close:hover {
-    color: #06D85F;
-  }
-  .popup .content {
-    max-height: 80%;
-    overflow: auto;
-    overflow-y: scroll;
-  }
-  
-  @media screen and (max-width: 700px){
-    .box{
-      width: 70%;
-    }
-    .popup{
-      width: 70%;
-    }
-  }
+.undiscovered:hover, .notyet:hover {
+  text-decoration: none;
+  color: gray;
+  color: rgba(0, 0, 0, 0.5);
+}
