@@ -36,7 +36,7 @@ def create_app():
             g.user = None
         else:
             g.user = get_db().execute(
-                'SELECT * FROM user WHERE id = ' + str(user_id)
+                'SELECT * FROM user WHERE id = ?', (str(user_id), )
             ).fetchone()
 
     @app.route('/', methods=('GET', 'POST'))
@@ -52,16 +52,16 @@ def create_app():
                 
                 # if quest check answer
                 day_data = db.execute(
-                    'SELECT * FROM day WHERE id = ' + request.form['day_id']
+                    'SELECT * FROM day WHERE id = ?', (request.form['day_id'], )
                 ).fetchone()
                 if day_data['quest'] is not None:
                     if request.form['answer'].lower() == day_data['quest_answer'].lower():
                         db.execute(
-                            'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ')'
+                            'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (?, ?)', (request.form['day_id'], str(session['user_id']), )
                         )
                 else:
                     db.execute(
-                        'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (' + request.form['day_id'] + ', ' + str(session['user_id']) + ')'
+                        'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (?, ?)', (request.form['day_id'], str(session['user_id']), )
                     )
 
                 db.commit()
