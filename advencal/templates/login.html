@@ -1,11 +1,55 @@
-{% extends 'base.html' %}
-
-{% block content %}
-  <form method="post">
-    <label for="username">Login</label>
-    <input name="username" id="username" required>
-    <label for="password">Hasło</label>
-    <input type="password" name="password" id="password" required>
-    <input type="submit" value="Mlerp">
-  </form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Mlerp!</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://kit.fontawesome.com/4d4eb29d18.js" crossorigin="anonymous"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+  <link rel="manifest" href="/static/site.webmanifest">
+</head>
+<body>
+  <main class="container-fluid">
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="alert alert-{{ category }}  alert-dismissible fade show" role="alert">{{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}    
+    <div class="col-sm-4 col-sm offset-4 mx-auto rounded border pt-4 mt-4">
+        <div class="text-center">
+      <img class="mb-4 mx-auto" src="/static/mlerp.png" width="299" height="64">
+        </div>
+      <form method="post" class="form-group">
+        <label for="username" class="sr-only">Login</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="fas fa-user"></i></span>
+            </div>
+          <input name="username" id="username" class="form-control" placeholder="Login" required autofocus>
+        </div>
+        <label for="password" class="sr-only">Hasło</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="fas fa-key"></i></span>
+            </div>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Hasło" required>
+        </div>
+        <input type="submit" value="Mlerp" class="btn btn-success btn-block mb-3">
+      </form>
+    </div>
+    <div class="col-sm-6 col-sm offset-3 mx-auto mt-4 text-center">
+      <span class="text-muted">&copy; 2019 Mlerp Inc.</span>
+    </div>
+  </main>
+  <script src="/static/production/print.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
