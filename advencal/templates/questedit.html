@@ -2,16 +2,22 @@
 
 {% block content %}
 
-  <form method="post">
-      <fieldset>
-          <legend>Edytuj treść questa i odpowiedź</legend>
-          <label for="quest">Treść questa</label><br>
-          <textarea name="quest" id="quest" rows="10">{{ quest }}</textarea><br><br>
-          <label for="quest_answer">Odpowiedź</label><br>
-          <input name="quest_answer" id="quest_answer" value="{{ quest_answer }}"><br>
-          <input type="hidden" name="day_id" id="day_id" value="{{ day_id }}">
-          <input type="submit" value="Dodaj">
-      </fieldset>
-  </form>
+<form method="post">
+  <fieldset class="form-group border rounded p-2">
+    <legend class="w-auto">Edytuj treść questa i odpowiedź</legend>
+    <div class="form-group">
+      
+      <label for="quest">Treść questa</label>
+      <textarea class="form-control" name="quest" id="quest" rows="10">{{ quest }}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="quest_answer">Odpowiedź</label>
+      <input class="form-control" name="quest_answer" id="quest_answer" value="{{ quest_answer }}">
+    </div>
+    
+    <input type="hidden" name="day_id" id="day_id" value="{{ day_id }}">
+    <button type="submit" class="btn btn-primary btn-block">Dodaj</button>
+  </fieldset>
+</form>
 
 {% endblock %}

@@ -153,7 +153,7 @@ def create_app():
                 'SELECT id, username FROM user'
             ).fetchall()
             days = db.execute(
-                'SELECT id, day_no, quest FROM day ORDER BY day_no'
+                'SELECT id, day_no, quest, quest_answer FROM day ORDER BY day_no'
             ).fetchall()
             discos = db.execute(
                 'SELECT day_id, user_id FROM discovered_days'
