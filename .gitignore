@@ -8,6 +8,7 @@ advencal/static/production
 advencal/static/development
 advencal/initial.sql
 advencal/static/scss
+advencal/static/.sass-cache
 
 .pytest_cache/
 .coverage
