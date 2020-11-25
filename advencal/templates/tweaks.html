@@ -46,7 +46,7 @@
         <legend class="w-auto">Przesuń kalendarz w czasie</legend>
         <label class="my-1 mr-2" for="time_shift">Dla którego dnia miesiąca wygenerować kalendarz?</label>
         <input class="form-control my-1 mr-sm-2" name="time_shift" id="time_shift" value="{{ date_today }}">
-        <button type="submit" class="btn btn-primary my-1">Ustaw</button>
+        <button type="submit" class="btn btn-success my-1">Ustaw</button>
     </fieldset>
 </form>
 
@@ -66,7 +66,7 @@
                 <th scope="row">{{ day_no }}</th>
                 <td style="width: 100%">{%- if quest %}
                     {{ quest|striptags|truncate(65) }}</td>
-                    <td><button class="btn btn-outline-primary btn-sm" type="button" onclick="window.location.href='#preview{{ day_id }}';" data-toggle="modal" data-target="#preview{{ day_id }}"><i class="fas fa-eye"></i></button>
+                    <td><button class="btn btn-outline-success btn-sm" type="button" onclick="window.location.href='#preview{{ day_id }}';" data-toggle="modal" data-target="#preview{{ day_id }}"><i class="fas fa-eye"></i></button>
                         <div class="modal fade" id="preview{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="preview{{ day_id }}Label" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
@@ -84,7 +84,7 @@
                                             <div class="input-group mb-3">
                                                 <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ quest_answer }}" aria-label="{{ quest_answer }}" aria-describedby="button-addon2" readonly>
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-primary" type="submit" id="button-addon2" disabled>Sprawdź!</button>
+                                                    <button class="btn btn-success" type="submit" id="button-addon2" disabled>Sprawdź!</button>
                                                 </div>
                                             </div>
                                         </form>
