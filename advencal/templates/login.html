@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Mlerp!</title>
+  <title>Jutrzenkowy Kalendarz Adwentowy!</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="https://kit.fontawesome.com/4d4eb29d18.js" crossorigin="anonymous"></script>
@@ -23,7 +23,7 @@
     {% endfor %}    
     <div class="col-sm-4 col-sm offset-4 mx-auto rounded border pt-4 mt-4">
       <div class="text-center">
-        <img class="mb-4 mx-auto" src="/static/mlerp.png" width="299" height="64">
+        <img class="mb-4 mx-auto" src="/static/23.png" width="48" height="45">
       </div>
       <form method="post" class="form-group">
         <label for="username" class="sr-only">Login</label>
@@ -40,11 +40,11 @@
           </div>
           <input type="password" name="password" id="password" class="form-control" placeholder="Hasło" required>
         </div>
-        <input type="submit" value="Mlerp" class="btn btn-success btn-block mb-3">
+        <input type="submit" value="Zaloguj" class="btn btn-success btn-block mb-3">
       </form>
     </div>
     <div class="col-sm-6 col-sm offset-3 mx-auto mt-4 text-center">
-      <span class="text-muted">&copy; 2019 Mlerp Inc.</span>
+      <span class="text-muted">&copy; 2020 Jutrzenka</span>
     </div>
   </main>
   <script src="/static/production/print.min.js"></script>
