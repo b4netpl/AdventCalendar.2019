@@ -70,7 +70,7 @@ def create_app():
                 'select count(distinct day.id) from day inner join discovered_days on day.id=day_id where user_id = ?', (session['user_id'], )
             ).fetchone()
 
-            if int(days_discovered[0]) == 24:
+            if int(days_discovered[0]) == 18:
                 win = True
             
             date_offset = 0
