@@ -45,10 +45,13 @@
     
     {% if win %}
     <div class="row">
-      <div class="jumbotron mx-auto bg-light">
-        <img class="mx-auto" src="/static/production/supermaja.png">
+      <div class="jumbotron mx-auto bg-light text-center">
+        <img class="mx-auto" src="/static/production/wygrana.png">
         <hr class="my-3">
-        <button class="btn btn-warning btn-lg btn-block font-weight-bold" type="button" onclick="printJS('/static/production/klucz.pdf')">WYDRUKUJ KLUCZ DO NAGRODY!</button>
+        <form action="{{ url_for('static', filename='production/klucz.pdf') }}">
+          <button class="btn btn-warning font-weight-bold" type="submit">Link do czegoś</button>
+          <button class="btn btn-warning font-weight-bold" type="button" onclick="printJS('/static/production/klucz.pdf')">Drukowanie czegoś do wydrukowania</button>
+        </form>
       </div>
     </div>
     {% endif %}
