@@ -131,6 +131,13 @@ def create_app():
                 )
                 db.commit()
 
+            elif 'solve_users' in request.form:
+                db = get_db()
+                db.execute(
+                    'INSERT OR IGNORE INTO discovered_days (day_id, user_id) WITH users(user_id) AS (SELECT * FROM (VALUES (' + '),('.join(request.form.getlist('solve_users')) + '))) SELECT id, user_id FROM day, users'
+                )
+                db.commit()
+
             elif 'time_shift' in request.form:
                 if date_today != int(request.form['time_shift']):
                     session['time_shift'] = request.form['time_shift']

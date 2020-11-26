@@ -41,6 +41,31 @@
     </fieldset>
 </form>
 
+<form method="post">
+    <fieldset class="form-group border rounded p-2">
+        <legend class="w-auto">Dodaj odwiedziny i rozwiąż wszystkie zadania</legend>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="solve_users">dla użytkowników:</label>
+                    <select class="form-control" name="solve_users" id="solve_users" size="5" multiple>
+                        {%- for id, username in users %}
+                        <option value="{{ id }}">{{ username }}</option>
+                        {%- endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 offset-5 mx-auto">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block">Rozwiąż</button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
 <form class="form-inline" method="post">
     <fieldset class="form-group border rounded p-2">
         <legend class="w-auto">Przesuń kalendarz w czasie</legend>
