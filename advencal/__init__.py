@@ -208,9 +208,9 @@ def create_app():
             ).fetchone()
 
             if user is None:
-                error = 'Incorrect username.'
+                error = 'Niepoprawny login'
             elif not check_password_hash(user['password'], password):
-                error = 'Incorrect password.'
+                error = 'Niepoprawne hasło'
 
             if error is None:
                 session.clear()
