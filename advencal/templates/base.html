@@ -24,7 +24,7 @@
       <div class="navbar-nav ml-auto">
         <span class="navbar-text text-light">{{ g.user['username'] }}</span>
         {% if g.user['admin'] %}
-        <a href="{{ url_for('tweaks') }}" class="nav-item nav-link">Zmiany</a>
+        <a href="{{ url_for('tweaks') }}" class="nav-item nav-link">Ustawienia</a>
         {% if session['time_shift'] %}
         <span class="navbar-text text-light">Dzień: {{ session['time_shift'] }}</span>
         {% endif %}
