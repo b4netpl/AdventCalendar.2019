@@ -227,8 +227,49 @@ def create_app():
     def logout():
         session.clear()
         return redirect(url_for('index'))
-    
+
+    @app.route('/changepass', methods=('GET', 'POST'))
+    # pylint: disable=unused-variable
+    def changepass():
+
+        if session.get('user_id') is None:
+            return redirect(url_for('login'))
+        
+        if request.method == 'POST':
+            user_id = session.get('user_id')
+            old_pass = request.form['old_pass']
+            new_pass = request.form['new_pass']
+            new_pass_again = request.form['new_pass_again']
+
+            db = get_db()
+            error = False
+            user = db.execute(
+                'SELECT * FROM user WHERE id = ?', (user_id,)
+            ).fetchone()
+
+            if not check_password_hash(user['password'], old_pass):
+                flash('Niepoprawne hasło', 'danger')
+                error = True
+
+            if new_pass != new_pass_again:
+                flash('Nowe hasła nie są jednakowe', 'danger')
+                error = True
+
+            if error is False:
+                db.execute(
+                    'UPDATE user SET password = ? WHERE id = ?', (generate_password_hash(new_pass), user_id)
+                )
+                db.commit()
+
+                flash('Hasło zmienione poprawnie', 'success')
+                return redirect(url_for('index'))
+            
+            flash('Hasło nie zostało zmienione', 'warning')
+
+        return render_template('changepass.html')
+
     return app
+
 
 if __name__ == "__main__":
     app = create_app()

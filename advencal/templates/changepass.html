@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method="post">
+  <fieldset class="form-group border rounded p-2 col-4">
+    <legend class="w-auto">Zmień hasło</legend>
+
+    <div class="form-group">
+      <input class="form-control" name="old_pass" id="new_pass" type="password" placeholder="Stare hasło">
+    </div>
+
+    <div class="form-group">
+        <input class="form-control" name="new_pass" id="new_pass" type="password" placeholder="Nowe hasło">
+    </div>
+
+    <div class="form-group">
+        <input class="form-control" name="new_pass_again" id="new_pass_again" type="password" placeholder="Potwierdź nowe hasło">
+    </div>
+    
+    <button type="submit" class="btn btn-warning btn-block">Zmień hasło</button>
+
+</fieldset>
+</form>
+
+
+{% endblock %}

@@ -29,6 +29,7 @@
         <span class="navbar-text text-light">Dzień: {{ session['time_shift'] }}</span>
         {% endif %}
         {% endif %}
+        <a href="{{ url_for('changepass') }}" class="nav-item nav-link">Zmień hasło</a>
         <a href="{{ url_for('logout') }}" class="nav-item nav-link">Wyloguj</a>
       </div>
     </div>            
