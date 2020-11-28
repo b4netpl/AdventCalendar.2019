@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, redirect, url_for, session, request, flash, g
+from flask import Flask, render_template, redirect, url_for, session, request, flash, g, Markup
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -188,15 +188,19 @@ def create_app():
             'SELECT id, username, admin FROM user'
         ).fetchall()
 
+        usersmap = {}
+        for user in users:
+            usersmap[user['id']] = user['username']
+
         if request.method == 'POST':
             
             if 'new_user' in request.form:
 
                 new_user = request.form['new_user']
                 if new_user in map(itemgetter('username'), users):
-                    flash('Użytkownik ' + new_user + ' już istnieje', 'warning')
+                    flash(Modal('Użytkownik <strong>' + new_user + '</strong> już istnieje'), 'warning')
                     return render_template('users.html', users=users)
-
+                
                 if request.form['pass_source'] == 'pass_input':
                     new_pass = request.form['new_pass']
                 else:
@@ -206,12 +210,16 @@ def create_app():
                     'INSERT INTO user (username, password) VALUES (?, ?)', (new_user, generate_password_hash(new_pass), )
                 )
                 db.commit()
-                flash('Login: ' + new_user + ', hasło: ' + new_pass, 'success')
+                credentials = {
+                    "login": new_user,
+                    "pass": new_pass
+                }
+                #flash('Login: ' + new_user + ', hasło: ' + new_pass, 'success')
                 users = db.execute(
                     'SELECT id, username, admin FROM user'
                 ).fetchall()
 
-                return render_template('users.html', users=users)
+                return render_template('users.html', users=users, credentials=credentials)
 
             if 'change_pass_source' in request.form:
                 if request.form['change_pass_source'] == 'change_pass_input':
@@ -223,15 +231,19 @@ def create_app():
                     'UPDATE user SET password = ? WHERE id = ?', (generate_password_hash(new_pass), request.form['user_id'] )
                 )
                 db.commit()
-                flash('Nowe hasło: ' + new_pass, 'success')
-                return render_template('users.html', users=users)
+                #flash('Nowe hasło: ' + new_pass, 'success')
+                credentials = {
+                    "login": usersmap[int(request.form['user_id'])],
+                    "pass": new_pass
+                }
+                return render_template('users.html', users=users, credentials=credentials)
 
             if 'user_del' in request.form:
                 db.execute(
-                    'DELETE FROM user WHERE id = ?', (request.form['user_del'])
+                    'DELETE FROM user WHERE id = ?', (request.form['user_del'], )
                 )
                 db.commit()
-                flash('Użytkownik został usunięty', 'success')
+                flash(Markup('Użytkownik <strong>' + usersmap[int(request.form['user_del'])] + '</strong> został usunięty'), 'success')
                 users = db.execute(
                     'SELECT id, username, admin FROM user'
                 ).fetchall()
@@ -256,13 +268,13 @@ def create_app():
         if 'quest_edit' in request.form:
             day_id = request.form['quest_edit']
             quest_data = db.execute(
-                'SELECT * FROM day WHERE id = ?', (day_id,)
+                'SELECT * FROM day WHERE id = ?', (day_id, )
             ).fetchone()
             return render_template('questedit.html', quest=quest_data['quest'], quest_answer=quest_data['quest_answer'], day_id=day_id)
 
         if 'day_id' in request.form and request.form['quest'] != "None":
             db.execute(
-                'UPDATE day SET quest = ?, quest_answer = ? WHERE id = ?', (request.form['quest'], request.form['quest_answer'], request.form['day_id'])
+                'UPDATE day SET quest = ?, quest_answer = ? WHERE id = ?', (request.form['quest'], request.form['quest_answer'], request.form['day_id'], )
             )
             db.commit()
         
@@ -331,7 +343,7 @@ def create_app():
 
             if error is False:
                 db.execute(
-                    'UPDATE user SET password = ? WHERE id = ?', (generate_password_hash(new_pass), user_id)
+                    'UPDATE user SET password = ? WHERE id = ?', (generate_password_hash(new_pass), user_id, )
                 )
                 db.commit()
 
