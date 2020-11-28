@@ -8,6 +8,12 @@ from advencal.db import get_db
 
 from datetime import date
 
+import string
+import random
+
+from operator import itemgetter
+
+
 def create_app():
 
     app = Flask(__name__)
@@ -167,6 +173,74 @@ def create_app():
             ).fetchall()
             
             return render_template('tweaks.html', users=users, date_today=date_today, days=days, discos=discos)
+
+    @app.route('/users', methods=('GET', 'POST'))
+    # pylint: disable=unused-variable
+    def users():
+
+        if session.get('user_id') is None:
+            return redirect(url_for('login'))
+        if not session.get('admin'):
+            return redirect(url_for('index'))
+        
+        db = get_db()
+        users = db.execute(
+            'SELECT id, username, admin FROM user'
+        ).fetchall()
+
+        if request.method == 'POST':
+            
+            if 'new_user' in request.form:
+
+                new_user = request.form['new_user']
+                if new_user in map(itemgetter('username'), users):
+                    flash('Użytkownik ' + new_user + ' już istnieje', 'warning')
+                    return render_template('users.html', users=users)
+
+                if request.form['pass_source'] == 'pass_input':
+                    new_pass = request.form['new_pass']
+                else:
+                    new_pass = ''.join(random.sample(string.ascii_letters + string.digits, 20))
+
+                db.execute(
+                    'INSERT INTO user (username, password) VALUES (?, ?)', (new_user, generate_password_hash(new_pass), )
+                )
+                db.commit()
+                flash('Login: ' + new_user + ', hasło: ' + new_pass, 'success')
+                users = db.execute(
+                    'SELECT id, username, admin FROM user'
+                ).fetchall()
+
+                return render_template('users.html', users=users)
+
+            if 'change_pass_source' in request.form:
+                if request.form['change_pass_source'] == 'change_pass_input':
+                    new_pass = request.form['change_pass']
+                else:
+                    new_pass = ''.join(random.sample(string.ascii_letters + string.digits, 20))
+
+                db.execute(
+                    'UPDATE user SET password = ? WHERE id = ?', (generate_password_hash(new_pass), request.form['user_id'] )
+                )
+                db.commit()
+                flash('Nowe hasło: ' + new_pass, 'success')
+                return render_template('users.html', users=users)
+
+            if 'user_del' in request.form:
+                db.execute(
+                    'DELETE FROM user WHERE id = ?', (request.form['user_del'])
+                )
+                db.commit()
+                flash('Użytkownik został usunięty', 'success')
+                users = db.execute(
+                    'SELECT id, username, admin FROM user'
+                ).fetchall()
+                return render_template('users.html', users=users)
+
+        if request.method == 'GET':
+            pass
+
+        return render_template('users.html', users=users)
 
     @app.route('/questedit', methods=['POST'])
     # pylint: disable=unused-variable

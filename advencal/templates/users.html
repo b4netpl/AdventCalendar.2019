@@ -8,9 +8,19 @@
 <form class="form-inline" method="post">
     <fieldset class="form-group border rounded p-2">
         <legend class="w-auto">Dodaj użytkownika</legend>
-        <label class="my-1 mr-2" for="time_shift">Dla którego dnia miesiąca wygenerować kalendarz?</label>
-        <input class="form-control my-1 mr-sm-2" name="time_shift" id="time_shift" value="{{ date_today }}">
-        <button type="submit" class="btn btn-success my-1">Ustaw</button>
+        <label class="my-1 mr-2" for="new_user">Login</label>
+        <input class="form-control my-1 mr-sm-2" name="new_user" id="new_user">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="pass_source" id="pass_input" value="pass_input" checked="checked">
+            <label class="form-check-label" for="pass_input">Podaj hasło</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="pass_source" id="pass_gen" value="pass_gen">
+            <label class="form-check-label" for="pass_gen">Wygeneruj losowe hasło</label>
+        </div>
+        <label class="my-1 mr-2" for="new_pass">Hasło</label>
+        <input class="form-control my-1 mr-sm-2" name="new_pass" id="new_pass">
+        <button type="submit" class="btn btn-success my-1">Dodaj użytkownika</button>
     </fieldset>
 </form>
 
@@ -19,50 +29,78 @@
     <table class="table table-hover">
         <thead>
             <th scope="col">Nazwa użytkownika</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
         </thead>
         <tbody>
-            {% for day_id, day_no, quest, quest_answer in days %}
+            {% for id, username, admin in users %}
             <tr>
-                <th scope="row">{{ day_no }}</th>
-                <td style="width: 100%">{%- if quest %}
-                    {{ quest|striptags|truncate(65) }}</td>
-                    <td><button class="btn btn-outline-success btn-sm" type="button" onclick="window.location.href='#preview{{ day_id }}';" data-toggle="modal" data-target="#preview{{ day_id }}"><i class="fas fa-eye"></i></button>
-                        <div class="modal fade" id="preview{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="preview{{ day_id }}Label" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="preview{{ day_id }}Label">Ojej! Zadanie!</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        {{ quest|safe }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day_id }}">
-                                            <div class="input-group mb-3">
-                                                <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ quest_answer }}" aria-label="{{ quest_answer }}" aria-describedby="button-addon2" readonly>
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-success" type="submit" id="button-addon2" disabled>Sprawdź!</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% else %}
-                    </td><td>
-                        {% endif %}</td>
-                        <td><form action="/questedit" method="POST"><button class="btn btn-outline-warning btn-sm" type="submit" name="quest_edit" value="{{ day_id }}"><i class="fas fa-edit"></i></button></form></td>
-                        <td>{%- if quest %}<form action="/tweaks" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="quest_del" value="{{ day_id }}"><i class="fas fa-trash-alt"></i></button></form>{% endif %}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </fieldset>
-        
+                <td>{{ username }}
+                {% if not admin %}
+                <div class="float-right"><button class="btn btn-warning d-inline" type="button" onclick="ShowModal('{{ id }}')">Zmień hasło</button>
+                <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline" type="submit" name="user_del" value="{{ id }}">Usuń</button></form>
+                </div>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</fieldset>
+
+<div class="modal fade" id="changepass_modal" tabindex="-1" role="dialog" aria-labelledby="changepass_modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changepass_modalLabel">Podaj nowe hasło</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_input" value="change_pass_input" checked="checked">
+                    <label class="form-check-label" for="change_pass_input">Podaj hasło</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_gen" value="change_pass_gen">
+                    <label class="form-check-label" for="change_pass_gen">Wygeneruj losowe hasło</label>
+                </div>
+                <label class="my-1 mr-2" for="change_pass">Hasło</label>
+                <input class="form-control my-1 mr-sm-2" name="change_pass" id="change_pass">
+            </div>
+            <div class="modal-footer">
+                <input type="hidden" id="user_id" name="user_id" value="">
+                    <div class="input-group mb-3">
+                        <button type="submit" class="btn btn-warning my-1">Ustaw nowe hasło</button>
+                    </div>
+                
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+    {% endblock %}
+
+    {% block scripts %}
+        {{ super() }}
+        <script type="text/javascript">
+            $('input[type=radio]').click(function(){
+                if($(this).prop("id")==="pass_gen"){
+                    $("#new_pass").prop("disabled","remove");
+                } else {
+                    $("#new_pass").removeAttr("disabled");
+                }
+                if($(this).prop("id")==="change_pass_gen"){
+                    $("#change_pass").prop("disabled","remove");
+                } else {
+                    $("#change_pass").removeAttr("disabled");
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            function ShowModal(user_id) {
+                $('#user_id').prop('value', user_id);
+                $('#changepass_modal').modal('show');
+            }
+        </script>
     {% endblock %}
