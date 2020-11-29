@@ -12,7 +12,7 @@
             <td class="cell" style="background-image: url('/static/{{ app_env }}/disc_{{ row }}_{{ col }}.png');"></td>
             {%- else %}
             <td class="cell" style="background-image: url('/static/{{ app_env }}/unc__{{ row }}_{{ col }}.png');">
-                {%- if date_today < day_data[day_id]['day_no'] %}
+                {%- if date_today < date_today.replace(day=day_data[day_id]['day_no'],hour=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").hour,minute=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").minute,second=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").second) %}
                 <a href="#notyetpopup" class="notyet" data-toggle="modal" data-target="#notyetpopup">{{ day_data[day_id]['day_no'] }}</a></td>
                 {%- else %}
                 <a href="#discoverpopup{{ day_id }}" class="undiscovered" data-toggle="modal" data-target="#discoverpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
@@ -79,7 +79,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Jeszcze nie czas!
+                    <p>Jeszcze nie czas!</p>
+                    <p><small>Jeżeli masz podejrzenie, że jednak już czas, być może zadanie będzie dostępne o określonej godzinie. :) Spróbuj co jakiś czas odświeżyć stronę!</small></p>
                 </div>
             </div>
         </div>

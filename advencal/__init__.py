@@ -6,7 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from advencal.db import get_db
 
-from datetime import date
+from datetime import datetime
 
 import string
 import random
@@ -82,12 +82,12 @@ def create_app():
             if int(days_discovered[0]) == 18:
                 win = True
             
-            date_offset = 0
+            date_offset = datetime.now().day
             if session.get('admin') and session.get('time_shift'):
-                date_offset = int(session['time_shift']) - date.today().day
+                date_offset = int(session['time_shift'])
 
-            date_today = date.today().day + date_offset
-            
+            date_today = datetime.now().replace(day=date_offset)
+
             def dict_factory(cursor, row):
                 d = {}
                 for idx, col in enumerate(cursor.description):
@@ -104,7 +104,8 @@ def create_app():
                 day_data[day['id']] = {
                     'day_no': day['day_no'],
                     'quest': day['quest'],
-                    'quest_answer': day['quest_answer']
+                    'quest_answer': day['quest_answer'],
+                    'hour': day['hour']
                 }
 
             db.row_factory = lambda cursor, row: row[0]
@@ -123,7 +124,7 @@ def create_app():
         if not session.get('admin'):
             return redirect(url_for('index'))
 
-        date_today = date.today().day
+        date_today = datetime.today().day
 
         if request.method == 'POST':
             
@@ -169,7 +170,7 @@ def create_app():
                 'SELECT id, username FROM user'
             ).fetchall()
             days = db.execute(
-                'SELECT id, day_no, quest, quest_answer FROM day ORDER BY day_no'
+                'SELECT id, day_no, quest, quest_answer, hour FROM day ORDER BY day_no'
             ).fetchall()
             discos = db.execute(
                 'SELECT day_id, user_id FROM discovered_days'
@@ -273,11 +274,12 @@ def create_app():
             quest_data = db.execute(
                 'SELECT * FROM day WHERE id = ?', (day_id, )
             ).fetchone()
-            return render_template('questedit.html', quest=quest_data['quest'], quest_answer=quest_data['quest_answer'], day_id=day_id)
+            return render_template('questedit.html', quest=str(quest_data['quest'] or ''), quest_answer=str(quest_data['quest_answer'] or ''), hour=quest_data['hour'], day_id=day_id)
 
-        if 'day_id' in request.form and request.form['quest'] != "None":
+        if 'day_id' in request.form:
+
             db.execute(
-                'UPDATE day SET quest = ?, quest_answer = ? WHERE id = ?', (request.form['quest'], request.form['quest_answer'], request.form['day_id'], )
+                'UPDATE day SET quest = ?, quest_answer = ?, hour = ? WHERE id = ?', (request.form['quest'] or None, request.form['quest_answer'] or None, request.form['hour'], request.form['day_id'], )
             )
             db.commit()
         

@@ -13,7 +13,8 @@ CREATE TABLE day (
   id INTEGER PRIMARY KEY,
   day_no INTEGER NOT NULL,
   quest TEXT,
-  quest_answer TEXT
+  quest_answer TEXT,
+  hour TIME NOT NULL DEFAULT "00:00:00"
 );
 
 CREATE TABLE discovered_days (
