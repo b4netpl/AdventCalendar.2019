@@ -115,6 +115,16 @@ def create_app():
 
             return render_template('calendar.html', win=win, date_today=date_today, day_data=day_data, discovered=discovered, app_env=app.env)
 
+    @app.route('/help')
+    # pylint: disable=unused-variable
+    def help():
+
+        if session.get('user_id') is None:
+            return redirect(url_for('login'))
+        admin = session.get('admin')
+        
+        return render_template('help.html', admin=admin)
+
     @app.route('/tweaks', methods=('GET', 'POST'))
     # pylint: disable=unused-variable
     def tweaks():
