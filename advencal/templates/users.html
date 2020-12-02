@@ -35,8 +35,9 @@
             <tr>
                 <td>{{ username }}
                 {% if not admin %}
-                <div class="float-right"><button class="btn btn-warning d-inline" type="button" onclick="ShowModal('{{ id }}')">Zmień hasło</button>
-                <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline" type="submit" name="user_del" value="{{ id }}">Usuń</button></form>
+                <div class="float-right">
+                    <button class="btn btn-warning d-inline" type="button" onclick="ShowModal('{{ id }}')">Zmień hasło</button>
+                    <button class="btn btn-danger d-inline" data-record-id="{{ id }}" data-record-title="{{ username }}" data-toggle="modal" data-target="#confirm-delete">Usuń</button>
                 </div>
                 {% endif %}
                 </td>
@@ -80,6 +81,27 @@
     </div>
 </div>
 
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="myModalLabel">Czy aby na pewno?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <p>Czy na pewno chcesz usunąć użytkownika <b class="title"></b> ?</p>
+          <p>To operacja z gatunku nieodwracalnych.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+          <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline btn-ok" type="submit" name="user_del" value="">Tak</button></form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% if credentials %}
 <div class="modal fade" id="credentials_modal" tabindex="-1" role="dialog" aria-labelledby="credentials_modalLabel">
     <div class="modal-dialog modal-lg" role="document">
@@ -93,7 +115,7 @@
             <div class="modal-body">
                 <h3>Nowe hasło: <code id="copyText">{{ credentials['pass'] }}</code></h3>
                 <button id="copyButton" class="btn btn-success my-1">Skopiuj do schowka</button>
-                <p><strong>Uwaga!</strong> To jest ostatni dobry moment, żeby skopiować hasło użytkownika! (Np. po to, żeby mu je wysłać.) Po zamknięciu tego okna odczytanie hasła nie będzie możliwe! (Ale naturalnie będzie można je ustawić od nowa przez <span class="btn btn-warning p-0">Zmień hasło</span> poniżej.)</p>
+                <p><strong>Uwaga!</strong> To jest ostatni dobry moment, żeby skopiować hasło użytkownika! (Np. po to, żeby mu je wysłać.) Po zamknięciu tego okna odczytanie hasła nie będzie możliwe! (Ale naturalnie będzie można je ustawić od nowa przez <span class="btn btn-warning btn-sm">Zmień hasło</span> poniżej.)</p>
                 <p>A tutaj jeszcze gotowiec do skopiowania np. do maila:</p>
                 <textarea class="form-control" rows="3">Login: {{ credentials['login'] }} 
 Hasło: {{ credentials['pass'] }} 
@@ -108,6 +130,7 @@ Pomocny URL: https://adwent.jutrzenka.mlerp.pl</textarea>
 
     {% block scripts %}
         {{ super() }}
+
         <script type="text/javascript">
             $('input[type=radio]').click(function(){
                 if($(this).prop("id")==="pass_gen"){
@@ -122,39 +145,62 @@ Pomocny URL: https://adwent.jutrzenka.mlerp.pl</textarea>
                 }
             });
         </script>
+
         <script type="text/javascript">
             function ShowModal(user_id) {
                 $('#user_id').prop('value', user_id);
                 $('#changepass_modal').modal('show');
             }
         </script>
+
         <script type="text/javascript">
             $(window).on('load',function(){
                 $('#credentials_modal').modal('show');
             });
         </script>
+
         <script type="text/javascript">
             $(document).ready(function(){
-    $(document).on('click', '#copyButton', function(){
-        copytext($("#copyText").html(), this);  
-    })
-});
-
-function copytext(text, context) {
-    var textField = document.createElement('textarea');
-    textField.innerText = text;
-
-    if (context) {
-        context.parentNode.insertBefore(textField, context);
-    } else {
-        document.body.appendChild(textField);
-    }
-
-    textField.select();
-    document.execCommand('copy');
-    // Let `.remove()` also work with older IEs
-    textField.parentNode.removeChild(textField);
-    // console.log('should have copied ' + text);
-}
+                $(document).on('click', '#copyButton', function(){
+                    copytext($("#copyText").html(), this);  
+                })
+            });
+            
+            function copytext(text, context) {
+                var textField = document.createElement('textarea');
+                textField.innerText = text;
+                
+                if (context) {
+                    context.parentNode.insertBefore(textField, context);
+                } else {
+                    document.body.appendChild(textField);
+                }
+                
+                textField.select();
+                document.execCommand('copy');
+                // Let `.remove()` also work with older IEs
+                textField.parentNode.removeChild(textField);
+                // console.log('should have copied ' + text);
+            }
         </script>
+
+        <script type="text/javascript">
+            $('#confirm-delete').on('click', '.btn-ok', function(e) {
+                
+                var $modalDiv = $(e.delegateTarget);
+                var id = $(this).data('recordId');
+                
+                $modalDiv.addClass('loading');
+                setTimeout(function() {
+                    $modalDiv.modal('hide').removeClass('loading');
+                }, 1000);
+            });
+            
+            $('#confirm-delete').on('show.bs.modal', function(e) {
+                var data = $(e.relatedTarget).data();
+                $('.title', this).text(data.recordTitle);
+                $('.btn-ok', this).prop('value', data.recordId);
+            });
+        </script>
+        
     {% endblock %}
