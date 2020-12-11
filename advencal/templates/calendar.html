@@ -13,7 +13,25 @@
             {%- else %}
             <td class="cell" style="background-image: url('/static/{{ app_env }}/unc__{{ row }}_{{ col }}.png');">
                 {%- if date_today < date_today.replace(day=day_data[day_id]['day_no'],hour=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").hour,minute=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").minute,second=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").second) %}
-                <a href="#notyetpopup" class="notyet" data-toggle="modal" data-target="#notyetpopup">{{ day_data[day_id]['day_no'] }}</a></td>
+                <a href="#notyetpopup{{ day_id }}" class="notyet" data-toggle="modal" data-target="#notyetpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
+                <div class="modal fade" id="notyetpopup{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="notyetpopup{{ day_id }}Label" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="notyetpopup{{ day_id }}Label">Czuwaj!</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Jeszcze nie czas!</p>
+                                {%- set daysdiff = (date_today.replace(day=day_data[day_id]['day_no']) - date_today).days -%}
+                                {%- set daysstring = {0: "dzisiaj", 1: "jutro", 2:"pojutrze"}[daysdiff] | default("za " + daysdiff|string + " dni") -%}
+                                <p><small>To zadanie będzie można rozwiązać już {{ daysstring }} o godzinie {{ day_data[day_id]['hour']|truncate(5, True, '', 0) }}!</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {%- else %}
                 <a href="#discoverpopup{{ day_id }}" class="undiscovered" data-toggle="modal" data-target="#discoverpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
                 {%- if day_data[day_id]['quest'] %}
@@ -69,20 +87,4 @@
         </tbody>
     </table>
     
-    <div class="modal fade" id="notyetpopup" tabindex="-1" role="dialog" aria-labelledby="notyetpopupLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="notyetpopupLabel">Czuwaj!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Jeszcze nie czas!</p>
-                    <p><small>Jeżeli masz podejrzenie, że jednak już czas, być może zadanie będzie dostępne o określonej godzinie. :) Spróbuj co jakiś czas odświeżyć stronę!</small></p>
-                </div>
-            </div>
-        </div>
-    </div>
     {% endblock %}
