@@ -9,9 +9,9 @@
             {%- for col in range(3) %}
             {%- set day_id = row * 3 + col + 1 %}
             {%- if day_id in discovered %}
-            <td class="cell" style="background-image: url('/static/{{ app_env }}/disc_{{ row }}_{{ col }}.png');"></td>
+            <td class="cell" style="background-image: url('/static/calendar/disc_{{ row }}_{{ col }}.png');"></td>
             {%- else %}
-            <td class="cell" style="background-image: url('/static/{{ app_env }}/unc__{{ row }}_{{ col }}.png');">
+            <td class="cell" style="background-image: url('/static/calendar/unc__{{ row }}_{{ col }}.png');">
                 {%- if date_today < date_today.replace(day=day_data[day_id]['day_no'],hour=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").hour,minute=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").minute,second=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").second) %}
                 <a href="#notyetpopup{{ day_id }}" class="notyet" data-toggle="modal" data-target="#notyetpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
                 <div class="modal fade" id="notyetpopup{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="notyetpopup{{ day_id }}Label" aria-hidden="true">

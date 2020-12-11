@@ -113,7 +113,7 @@ def create_app():
                 'SELECT day_id FROM discovered_days WHERE user_id = ?', (str(session.get('user_id')), )
             ).fetchall()
 
-            return render_template('calendar.html', win=win, date_today=date_today, day_data=day_data, discovered=discovered, app_env=app.env)
+            return render_template('calendar.html', win=win, date_today=date_today, day_data=day_data, discovered=discovered)
 
     @app.route('/help')
     # pylint: disable=unused-variable
