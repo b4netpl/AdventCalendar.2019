@@ -49,13 +49,10 @@
     
     {% if win %}
     <div class="row">
-      <div class="jumbotron mx-auto bg-light text-center">
-        <img class="mx-auto" src="/static/quests/wygrana.png">
-        <hr class="my-3">
-        <form action="{{ url_for('static', filename='quests/klucz.pdf') }}">
-          <button class="btn btn-warning font-weight-bold" type="submit">Link do czegoś</button>
-          <button class="btn btn-warning font-weight-bold" type="button" onclick="printJS('/static/quests/klucz.pdf')">Drukowanie czegoś do wydrukowania</button>
-        </form>
+      <div class="jumbotron mx-auto bg-gradient-primary text-dark text-center col-6">
+        <p><h1>Gratulacje!</h1></p>
+        <p><h4>Rozwiązałaś wszystkie zagadki, wykazałaś się wiedzą i wytrwałością. Możesz być z siebie naprawdę dumna!</h4></p>
+        <p><h4>Spotkajmy się już dziś na wigilii drużyny.<br>Do zobaczenia!</h4></p>
       </div>
     </div>
     {% endif %}
