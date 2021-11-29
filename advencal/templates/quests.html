@@ -82,14 +82,43 @@
             <tr>
                 <td style="width: 50%"><img class="img-fluid" src="/static/quests/{{ item }}" style="max-height: 400px"></td>
                 <td style="width: 100%" class="align-middle">&lt;img class="img-fluid" src="/static/quests/{{ item }}"&gt;</td>
-                <td class="align-middle"><form action="" method="POST"><button class="btn btn-outline-info btn-sm" type="submit" name="graffile_copylink" value="{{ item }}"><i class="fas fa-link"></i></button></form></td>
-                <td class="align-middle"><form action="" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="graffile_del" value="{{ item }}"><i class="fas fa-trash-alt"></i></button></form></td>   
+                <td class="align-middle"><button class="btn btn-outline-info btn-sm" name="graffile_copylink" value="&lt;img class=&quot;img-fluid&quot; src=&quot;/static/quests/{{ item }}&quot;&gt;" onclick="CopyLink(this.value)"><i class="fas fa-link"></i></button></td>
+                <td class="align-middle"><button class="btn btn-outline-danger btn-sm" data-record-id="{{ item }}" name="graffile_del" data-toggle="modal" data-target="#confirm-delete"><i class="fas fa-trash-alt"></i></button></td>
             </tr>
             {%- endfor %}
         </tbody>
     </table>
 </fieldset>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+    <script type="text/javascript">
+        function CopyLink(val) {
+            navigator.clipboard.writeText(val);
+            alert("Skopiowano do schowka link:\n" + val);
+        }
+    </script>
+
+    <script type="text/javascript">
+    $('#confirm-delete').on('click', '.btn-ok', function(e) {
         
+        var $modalDiv = $(e.delegateTarget);
+        var id = $(this).data('recordId');
         
+        $modalDiv.addClass('loading');
+        setTimeout(function() {
+            $modalDiv.modal('hide').removeClass('loading');
+        }, 1000);
+    });
+    
+    $('#confirm-delete').on('show.bs.modal', function(e) {
+        var data = $(e.relatedTarget).data();
+        $('.title', this).text(data.recordTitle);
+        $('.btn-ok', this).prop('value', data.recordId);
+    });
+    </script>
 
 {% endblock %}
