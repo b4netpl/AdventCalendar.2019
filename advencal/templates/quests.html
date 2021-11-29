@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<fieldset class="form-group border rounded p-2">
+    <legend class="w-auto">Edytuj questy</legend>
+    <table class="table table-hover">
+        <thead>
+            <th scope="col">Dzień miesiąca</th>
+            <th scope="col">Quest</th>
+            <th scope="col">Godzina startu</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            {% for day_id, day_no, quest, quest_answer, hour in days %}
+            <tr>
+                <th scope="row">{{ day_no }}</th>
+                <td style="width: 100%">{%- if quest %}
+                    {{ quest|striptags|truncate(65) }}</td>{% endif -%}
+                    <td>{{ hour }}</td>
+     {%- if quest %}<td><button class="btn btn-outline-success btn-sm" type="button" onclick="window.location.href='#preview{{ day_id }}';" data-toggle="modal" data-target="#preview{{ day_id }}"><i class="fas fa-eye"></i></button>
+                        <div class="modal fade" id="preview{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="preview{{ day_id }}Label" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="preview{{ day_id }}Label">Zadanie!</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ quest|safe }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day_id }}">
+                                            <div class="input-group mb-3">
+                                                <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ quest_answer }}" aria-label="{{ quest_answer }}" aria-describedby="button-addon2" readonly>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-success" type="submit" id="button-addon2" disabled>Sprawdź!</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                    </td><td>
+                        {% endif %}</td>
+                        <td><form action="/questedit" method="POST"><button class="btn btn-outline-warning btn-sm" type="submit" name="quest_edit" value="{{ day_id }}"><i class="fas fa-edit"></i></button></form></td>
+                        <td>{%- if quest %}<form action="/questsed" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="quest_del" value="{{ day_id }}"><i class="fas fa-trash-alt"></i></button></form>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</fieldset>
+
+<fieldset class="form-group border rounded p-2">
+    <legend class="w-auto">Biblioteka obrazków</legend>
+    <!--TODO: miejsce na przycisk Dodaj nowy obrazek-->
+    <form action ="/questsed" method = "POST" enctype = "multipart/form-data">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+            <input type="file" class="btn btn-outline-secondary" name="upload_graffile">
+            </div>
+            <div class="input-group-append">
+            <input type=submit value=Załaduj class="btn btn-outline-success"> 
+            </div>
+        </div>
+    </form> 
+    <table class="table table-hover">
+        <thead>
+            <th scope="col">Grafika</th>
+            <th scope="col">Link</th>
+            <th scope="col"></th> <!--TODO: miejsce na przycisk kopiowania linka niestety javascript-->
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            {%- for item in graffiles %}
+            <tr>
+                <td style="width: 50%"><img class="img-fluid" src="/static/quests/{{ item }}" style="max-height: 400px"></td>
+                <td style="width: 100%" class="align-middle">&lt;img class="img-fluid" src="/static/quests/{{ item }}"&gt;</td>
+                <td class="align-middle"><form action="" method="POST"><button class="btn btn-outline-info btn-sm" type="submit" name="graffile_copylink" value="{{ item }}"><i class="fas fa-link"></i></button></form></td>
+                <td class="align-middle"><form action="" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="graffile_del" value="{{ item }}"><i class="fas fa-trash-alt"></i></button></form></td>   
+            </tr>
+            {%- endfor %}
+        </tbody>
+    </table>
+</fieldset>
+        
+        
+
+{% endblock %}

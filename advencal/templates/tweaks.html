@@ -2,6 +2,36 @@
 
 {% block content %}
 
+<fieldset class="form-group border rounded p-2">
+    <legend class="w-auto">Postępy użytkowników</legend>
+    <table class="table">
+        {% for user_id, username in users %}
+        <tr>
+            <th scope="col">{{ username }}</th>
+            {% for day_id, day_no, quest, quest_answer, hour in days %}
+            <td style="width: 4%; text-align: center; background-color: rgb(132, 190, 135); {%- if quest %}border: 4px solid green; {%- endif %}
+            {%- for disco_day, disco_user in discos %}
+            {%- if disco_day == day_id and disco_user == user_id %}background-color: yellow; color: green;{% endif %}
+            {%- endfor %}">
+            {{ day_no }}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+</fieldset>
+
+
+<form class="form-inline" method="post">
+    <fieldset class="form-group border rounded p-2">
+        <legend class="w-auto">Przesuń kalendarz w czasie</legend>
+        <label class="my-1 mr-2" for="time_shift">Dla którego dnia miesiąca wygenerować kalendarz?</label>
+        <input class="form-control my-1 mr-sm-2" name="time_shift" id="time_shift" value="{{ date_today }}">
+        <button type="submit" class="btn btn-success my-1">Ustaw</button>
+    </fieldset>
+</form>
+
+
 <form method="post">
     <fieldset class="form-group border rounded p-2">
         <legend class="w-auto">Usuń odwiedziny</legend>
@@ -41,6 +71,7 @@
     </fieldset>
 </form>
 
+
 <form method="post">
     <fieldset class="form-group border rounded p-2">
         <legend class="w-auto">Dodaj odwiedziny i rozwiąż wszystkie zadania</legend>
@@ -66,86 +97,4 @@
     </fieldset>
 </form>
 
-<form class="form-inline" method="post">
-    <fieldset class="form-group border rounded p-2">
-        <legend class="w-auto">Przesuń kalendarz w czasie</legend>
-        <label class="my-1 mr-2" for="time_shift">Dla którego dnia miesiąca wygenerować kalendarz?</label>
-        <input class="form-control my-1 mr-sm-2" name="time_shift" id="time_shift" value="{{ date_today }}">
-        <button type="submit" class="btn btn-success my-1">Ustaw</button>
-    </fieldset>
-</form>
-
-<fieldset class="form-group border rounded p-2">
-    <legend class="w-auto">Edytuj questy</legend>
-    <table class="table table-hover">
-        <thead>
-            <th scope="col">Dzień miesiąca</th>
-            <th scope="col">Quest</th>
-            <th scope="col">Godzina startu</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </thead>
-        <tbody>
-            {% for day_id, day_no, quest, quest_answer, hour in days %}
-            <tr>
-                <th scope="row">{{ day_no }}</th>
-                <td style="width: 100%">{%- if quest %}
-                    {{ quest|striptags|truncate(65) }}</td>{% endif -%}
-                    <td>{{ hour }}</td>
-     {%- if quest %}<td><button class="btn btn-outline-success btn-sm" type="button" onclick="window.location.href='#preview{{ day_id }}';" data-toggle="modal" data-target="#preview{{ day_id }}"><i class="fas fa-eye"></i></button>
-                        <div class="modal fade" id="preview{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="preview{{ day_id }}Label" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="preview{{ day_id }}Label">Zadanie!</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        {{ quest|safe }}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day_id }}">
-                                            <div class="input-group mb-3">
-                                                <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ quest_answer }}" aria-label="{{ quest_answer }}" aria-describedby="button-addon2" readonly>
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-success" type="submit" id="button-addon2" disabled>Sprawdź!</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% else %}
-                    </td><td>
-                        {% endif %}</td>
-                        <td><form action="/questedit" method="POST"><button class="btn btn-outline-warning btn-sm" type="submit" name="quest_edit" value="{{ day_id }}"><i class="fas fa-edit"></i></button></form></td>
-                        <td>{%- if quest %}<form action="/tweaks" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="quest_del" value="{{ day_id }}"><i class="fas fa-trash-alt"></i></button></form>{% endif %}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </fieldset>
-        
-        <fieldset class="form-group border rounded p-2">
-            <legend class="w-auto">Postępy użytkowników</legend>
-            <table class="table">
-                {% for user_id, username in users %}
-                <tr>
-                    <th scope="col">{{ username }}</th>
-                    {% for day_id, day_no, quest, quest_answer, hour in days %}
-                    <td style="width: 4%; text-align: center; background-color: rgb(132, 190, 135); {%- if quest %}border: 4px solid green; {%- endif %}
-                    {%- for disco_day, disco_user in discos %}
-                    {%- if disco_day == day_id and disco_user == user_id %}background-color: yellow; color: green;{% endif %}
-                    {%- endfor %}">
-                    {{ day_no }}
-                </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </table>
-    </fieldset>
-    {% endblock %}
+{% endblock %}

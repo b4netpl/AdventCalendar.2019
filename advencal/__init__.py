@@ -1,6 +1,9 @@
-import os
+import os #, sys
+#print(repr(request.form), file=sys.stderr) #- do testowania, wysyła zawartość do terminala
 
 from flask import Flask, render_template, redirect, url_for, session, request, flash, g, Markup
+
+from werkzeug.utils import secure_filename
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -79,7 +82,7 @@ def create_app():
                 'select count(distinct day.id) from day inner join discovered_days on day.id=day_id where user_id = ?', (session['user_id'], )
             ).fetchone()
 
-            if int(days_discovered[0]) == 18:
+            if int(days_discovered[0]) == 24:
                 win = True
             
             date_offset = datetime.now().day
@@ -163,14 +166,6 @@ def create_app():
                     session['time_shift'] = request.form['time_shift']
                 else:
                     session.pop('time_shift', None)
-            
-            elif 'quest_del' in request.form:
-                db = get_db()
-                db.execute(
-                    'UPDATE day SET quest=NULL, quest_answer=NULL WHERE id = ?', (request.form['quest_del'], )
-                )
-                db.commit()
-                return redirect(url_for('tweaks'))
 
             return redirect(url_for('index'))
 
@@ -187,6 +182,45 @@ def create_app():
             ).fetchall()
             
             return render_template('tweaks.html', users=users, date_today=date_today, days=days, discos=discos)
+
+    @app.route('/questsed', methods=('GET', 'POST'))
+    # pylint: disable=unused-variable
+    def questsed():
+
+        if session.get('user_id') is None:
+            return redirect(url_for('login'))
+        if not session.get('admin'):
+            return redirect(url_for('index'))
+
+        date_today = datetime.today().day
+
+        if request.method == 'POST':
+            
+            if 'quest_del' in request.form:
+                db = get_db()
+                db.execute(
+                    'UPDATE day SET quest=NULL, quest_answer=NULL WHERE id = ?', (request.form['quest_del'], )
+                )
+                db.commit()
+                return redirect(url_for('questsed'))
+
+            elif 'upload_graffile' in request.files:
+                f = request.files['upload_graffile']
+                f.save(os.path.join('./advencal/static/quests/',secure_filename(f.filename)))
+                return redirect(url_for('questsed'))
+            
+            return redirect(url_for('index'))
+
+        if request.method == 'GET':
+            db = get_db()
+            users = db.execute(
+                'SELECT id, username FROM user'
+            ).fetchall()
+            days = db.execute(
+                'SELECT id, day_no, quest, quest_answer, hour FROM day ORDER BY day_no'
+            ).fetchall()
+            graffiles = os.listdir('./advencal/static/quests/')
+            return render_template('quests.html', users=users, date_today=date_today, days=days, graffiles=graffiles)
 
     @app.route('/users', methods=('GET', 'POST'))
     # pylint: disable=unused-variable
@@ -293,7 +327,7 @@ def create_app():
             )
             db.commit()
         
-        return redirect(url_for('tweaks'))
+        return redirect(url_for('questsed'))
 
 
     @app.route('/login', methods=('GET', 'POST'))

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Jutrzenkowy Kalendarz Adwentowy!</title>
+  <title>Kolejny Nowy Kalendarz Adwentowy!</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="https://kit.fontawesome.com/4d4eb29d18.js" crossorigin="anonymous"></script>
@@ -16,7 +16,7 @@
 <body>
   
   <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-4">
-    <a href="{{ url_for('index') }}" class="navbar-brand"><img src="/static/23.png" width="48" height="48" class="d-inline-block mr-3 mt-1">Jutrzenkowy Kalendarz Adwentowy 2020!</a>
+    <a href="{{ url_for('index') }}" class="navbar-brand"><img src="/static/mlerp.png" width="113" height="24" class="d-inline-block mr-3 mt-1">Kolejny Nowy Kalendarz Adwentowy 2021!</a>
     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -25,7 +25,8 @@
       <div class="navbar-nav ml-auto">
         <span class="navbar-text text-light">{{ g.user['username'] }}</span>
         {% if g.user['admin'] %}
-        <a href="{{ url_for('tweaks') }}" class="nav-item nav-link">Ustawienia</a>
+        <a href="{{ url_for('questsed') }}" class="nav-item nav-link">Questy</a>
+        <a href="{{ url_for('tweaks') }}" class="nav-item nav-link">Postępy</a>
         <a href="{{ url_for('users') }}" class="nav-item nav-link">Użytkownicy</a>
         {% if session['time_shift'] %}
         <span class="navbar-text text-light">Dzień: {{ session['time_shift'] }}</span>
@@ -52,7 +53,7 @@
       <div class="jumbotron mx-auto bg-gradient-primary text-dark text-center col-6">
         <p><h1>Gratulacje!</h1></p>
         <p><h4>Rozwiązałaś wszystkie zagadki, wykazałaś się wiedzą i wytrwałością. Możesz być z siebie naprawdę dumna!</h4></p>
-        <p><h4>Spotkajmy się już dziś na wigilii drużyny.<br>Do zobaczenia!</h4></p>
+        <p><h4>Cudownej Wigilii!<br>Do zobaczenia!</h4></p>
       </div>
     </div>
     {% endif %}
@@ -70,3 +71,4 @@
   {% endblock %}
 </body>
 </html>
+
