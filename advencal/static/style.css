@@ -1,6 +1,6 @@
 body {
-    min-width: 700px;
-}
+     min-width: 900px;
+ }
 
 .cell {
     width: 200px;
@@ -21,4 +21,3 @@ body {
   color: gray;
   color: rgba(0, 0, 0, 0.5);
 }
-
