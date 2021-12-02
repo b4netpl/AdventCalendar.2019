@@ -74,15 +74,36 @@
         <thead>
             <th scope="col">Grafika</th>
             <th scope="col">Link</th>
-            <th scope="col"></th> <!--TODO: miejsce na przycisk kopiowania linka niestety javascript-->
+            <th scope="col"></th> 
             <th scope="col"></th>
         </thead>
         <tbody>
             {%- for item in graffiles %}
             <tr>
-                <td style="width: 50%"><img class="img-fluid" src="/static/quests/{{ item }}" style="max-height: 400px"></td>
-                <td style="width: 100%" class="align-middle">&lt;img class="img-fluid" src="/static/quests/{{ item }}"&gt;</td>
-                <td class="align-middle"><button class="btn btn-outline-info btn-sm" name="graffile_copylink" value="&lt;img class=&quot;img-fluid&quot; src=&quot;/static/quests/{{ item }}&quot;&gt;" onclick="CopyLink(this.value)"><i class="fas fa-link"></i></button></td>
+                <td style="width: 50%">
+
+                {% if item.endswith('.jpg') or item.endswith('.png'):  %}
+                    <img class="img-fluid" src="/static/quests/{{ item }}" style="max-height: 400px">
+                {% elif item.endswith('.xlsx'): %}
+                    <img class="img-fluid" src="/static/excel.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
+                {% elif item.endswith('.docx'): %}
+                    <img class="img-fluid" src="/static/word.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
+                {% elif item.endswith('.pdf'): %}
+                    <img class="img-fluid" src="/static/pdf.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
+                {% else: %}
+                    <img class="img-fluid" src="/static/miss.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
+                {% endif %}
+                </td>
+                    
+                {% if item.endswith('.jpg') or item.endswith('.png'):  %}
+                    {% set zmienna_link = '<img class="img-fluid" src="/static/quests/' ~ item ~ '">' %}
+                {% else: %}
+                    {% set zmienna_link = '<p><a href="/static/quests/' ~ item ~ '" class="btn btn-success font-weight-bold" role="button">Pobierz plik</a></p>' %}
+                {% endif %}    
+                    
+                
+                <td style="width: 100%" class="align-middle">{{ zmienna_link }}</td>
+                <td class="align-middle"><button class="btn btn-outline-info btn-sm" name="graffile_copylink" value="{{ zmienna_link }}" onclick="CopyLink(this.value)"><i class="fas fa-link"></i></button></td>
                 <td class="align-middle"><button class="btn btn-outline-danger btn-sm" data-record-id="{{ item }}" name="graffile_del" data-toggle="modal" data-target="#confirm-delete"><i class="fas fa-trash-alt"></i></button></td>
             </tr>
             {%- endfor %}
