@@ -26,11 +26,11 @@
         <span class="navbar-text text-light">{{ g.user['username'] }}</span>
         {% if g.user['admin'] %}
         <a href="{{ url_for('questsed') }}" class="nav-item nav-link">Questy</a>
-        <a href="{{ url_for('tweaks') }}" class="nav-item nav-link">Postępy</a>
-        <a href="{{ url_for('users') }}" class="nav-item nav-link">Użytkownicy</a>
         {% if session['time_shift'] %}
         <span class="navbar-text text-light">Dzień: {{ session['time_shift'] }}</span>
         {% endif %}
+        <a href="{{ url_for('tweaks') }}" class="nav-item nav-link">Postępy</a>
+        <a href="{{ url_for('users') }}" class="nav-item nav-link">Użytkownicy</a>
         {% endif %}
         <a href="{{ url_for('changepass') }}" class="nav-item nav-link">Zmień hasło</a>
         <a href="{{ url_for('help') }}" class="nav-item nav-link">Pomoc</a>
