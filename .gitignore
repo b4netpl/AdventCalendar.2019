@@ -11,6 +11,7 @@ advencal/static/production
 advencal/static/js
 advencal/static/scss
 advencal/static/.sass-cache
+advencal/statis/icon*
 
 advencal/initial.sql
 

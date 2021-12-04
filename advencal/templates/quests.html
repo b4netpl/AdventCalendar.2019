@@ -59,7 +59,6 @@
 
 <fieldset class="form-group border rounded p-2">
     <legend class="w-auto">Biblioteka obrazków</legend>
-    <!--TODO: miejsce na przycisk Dodaj nowy obrazek-->
     <form action ="/questsed" method = "POST" enctype = "multipart/form-data">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -85,13 +84,15 @@
                 {% if item.endswith('.jpg') or item.endswith('.png'):  %}
                     <img class="img-fluid" src="/static/quests/{{ item }}" style="max-height: 400px">
                 {% elif item.endswith('.xlsx'): %}
-                    <img class="img-fluid" src="/static/excel.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
+                    <img class="img-fluid" src="/static/icon_excel.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
                 {% elif item.endswith('.docx'): %}
-                    <img class="img-fluid" src="/static/word.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
+                    <img class="img-fluid" src="/static/icon_word.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
+                {% elif item.endswith('.pptx'): %}
+                    <img class="img-fluid" src="/static/icon_powerpoint.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
                 {% elif item.endswith('.pdf'): %}
-                    <img class="img-fluid" src="/static/pdf.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
+                    <img class="img-fluid" src="/static/icon_pdf.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
                 {% else: %}
-                    <img class="img-fluid" src="/static/miss.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
+                    <img class="img-fluid" src="/static/icon_miss.jpg" style="max-height: 100px"><span class="align-middle">{{ item }}</span>
                 {% endif %}
                 </td>
                     
