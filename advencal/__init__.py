@@ -68,6 +68,7 @@ def create_app():
                         db.execute(
                             'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (?, ?)', (request.form['day_id'], str(session['user_id']), )
                         )
+                        flash('Brawo! Kolejny fragment kalendarza odsłonięty! :)', 'info')
                     # wrong answer
                     else:
                         flash('To nie jest prawidłowa odpowiedź... Spróbuj jeszcze raz!', 'warning')
