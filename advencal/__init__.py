@@ -209,6 +209,14 @@ def create_app():
                 f = request.files['upload_graffile']
                 f.save(os.path.join('./advencal/static/quests/',secure_filename(f.filename)))
                 return redirect(url_for('questsed'))
+
+            elif 'graffile_del' in request.form:
+                if os.path.exists(os.path.join('./advencal/static/quests/', secure_filename(request.form['graffile_del']))):
+                    os.remove(os.path.join('./advencal/static/quests/', secure_filename(request.form['graffile_del'])))
+                    flash(Markup('Plik <strong>' + request.form['graffile_del'] + '</strong> został usunięty'), 'success')
+                else:
+                    flash(Markup('Plik <strong>' + request.form['graffile_del'] + '</strong> nieznalezion!'), 'error')
+                return redirect(url_for('questsed'))
             
             return redirect(url_for('index'))
 
