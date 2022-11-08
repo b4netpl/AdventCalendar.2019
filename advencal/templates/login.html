@@ -7,47 +7,39 @@
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <script src="https://kit.fontawesome.com/4d4eb29d18.js" crossorigin="anonymous"></script>
   <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png?v=2">
   <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png?v=2">
   <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png?v=2">
   <link rel="icon" href="/static/favicon.ico?v=2" />
   <link rel="manifest" href="/static/site.webmanifest?v=2">
 </head>
-<body>
-  <main class="container-fluid">
+<body class="text-center">
+  <main class="col-sm-4 col-sm m-auto p-3">
+
     {% for category, message in get_flashed_messages(with_categories=true) %}
-    <div class="alert alert-{{ category }}  alert-dismissible fade show" role="alert">{{ message }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+    <div class="alert alert-{{ category }}  alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    {% endfor %}    
-    <div class="col-sm-4 col-sm offset-4 mx-auto rounded border pt-4 mt-4">
-      <div class="text-center">
-        <img class="mb-4 mx-auto" src="/static/mlerp.png" width="299" height="64">
+    {% endfor %}
+
+    <!--<div class="col-sm-4 col-sm offset-4 mx-auto rounded border pt-4 mt-4 d-grid gap-4">-->
+    <img class="mb-4" alt="" src="/static/mlerp.png" width="299" height="64">
+    <form method="post">
+
+      <div class="form-floating">
+        <input name="username" id="username" class="form-control" placeholder="Login" required autofocus style="margin-bottom: -1px; border-bottom-right-radius: 0; border-bottom-left-radius: 0;">
+        <label for="username">Login</label>
       </div>
-      <form method="post" class="form-group">
-        <label for="username" class="sr-only">Login</label>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text bg-primary text-white" id="basic-addon1"><i class="fas fa-user"></i></span>
-          </div>
-          <input name="username" id="username" class="form-control" placeholder="Login" required autofocus>
-        </div>
-        <label for="password" class="sr-only">Hasło</label>
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text bg-primary text-white" id="basic-addon1"><i class="fas fa-key"></i></span>
-          </div>
-          <input type="password" name="password" id="password" class="form-control" placeholder="Hasło" required>
-        </div>
-        <input type="submit" value="Zaloguj" class="btn btn-primary btn-block mb-3">
-      </form>
-    </div>
-    <div class="col-sm-6 col-sm offset-3 mx-auto mt-4 text-center">
-      <span class="text-muted">&copy; 2021 B4Team</span>
-    </div>
+
+      <div class="form-floating">
+        <input type="password" name="password" id="password" class="form-control" placeholder="Hasło" required style="border-top-left-radius: 0; border-top-right-radius: 0;">
+        <label for="password">Hasło</label>
+      </div>
+
+      <input type="submit" value="Zaloguj" class="btn btn-primary btn-lg w-100 mt-4 mb-4">
+    </form>
+    <span class="text-muted">&copy; 2021 B4Team</span>
   </main>
   <!-- JavaScript Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
