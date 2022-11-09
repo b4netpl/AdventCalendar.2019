@@ -13,15 +13,13 @@
             {%- else %}
             <td class="cell" style="background-image: url('/static/calendar/unc_{{ row }}_{{ col }}.png');">
                 {%- if date_today < date_today.replace(day=day_data[day_id]['day_no'],hour=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").hour,minute=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").minute,second=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").second) %}
-                <a href="#notyetpopup{{ day_id }}" class="notyet" data-toggle="modal" data-target="#notyetpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
+                <a href="#notyetpopup{{ day_id }}" class="notyet" data-bs-toggle="modal" data-bs-target="#notyetpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
                 <div class="modal fade" id="notyetpopup{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="notyetpopup{{ day_id }}Label" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="notyetpopup{{ day_id }}Label">Cześć!</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 <p>Jeszcze nie czas!</p>
@@ -33,16 +31,14 @@
                     </div>
                 </div>
                 {%- else %}
-                <a href="#discoverpopup{{ day_id }}" class="undiscovered" data-toggle="modal" data-target="#discoverpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
+                <a href="#discoverpopup{{ day_id }}" class="undiscovered" data-bs-toggle="modal" data-bs-target="#discoverpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
                 {%- if day_data[day_id]['quest'] %}
                 <div class="modal fade" id="discoverpopup{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="discoverpopup{{ day_id }}Label" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="discoverpopup{{ day_id }}Label">Zadanie!</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
                                 {{ day_data[day_id]['quest']|safe }}
@@ -66,9 +62,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="discoverpopup{{ day_id }}Label">Tym razem się udało!</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-footer">
                                 <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day_id }}">
