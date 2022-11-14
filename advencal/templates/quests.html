@@ -60,12 +60,9 @@
     <!--TODO: miejsce na przycisk Dodaj nowy obrazek-->
     <form action ="/questsed" method = "POST" enctype = "multipart/form-data">
         <div class="input-group mb-3">
-            <div class="input-group-prepend">
-            <input type="file" class="btn btn-outline-secondary" name="upload_graffile">
-            </div>
-            <div class="input-group-append">
-            <input type=submit value=Załaduj class="btn btn-outline-success"> 
-            </div>
+            <input type="file" class="form-control" id="upload_graffile" name="upload_graffile" aria-describedby="upload_graffile" aria-label="Załaduj">
+            <button class="btn btn-outline-success" type="submit" id="upload_graffile">Załaduj</button>
+
         </div>
     </form> 
     <table class="table table-hover">
