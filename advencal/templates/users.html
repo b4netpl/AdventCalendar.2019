@@ -11,11 +11,11 @@
         <label class="my-1 mr-2" for="new_user">Login</label>
         <input class="form-control my-1 mr-sm-2" name="new_user" id="new_user">
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="pass_source" id="pass_input" value="pass_input" checked="checked" onclick="enable_pass()">
+            <input class="form-check-input" type="radio" name="pass_source" id="pass_input" value="pass_input" checked="checked" onclick="enable_pass('new_pass')">
             <label class="form-check-label" for="pass_input">Podaj hasło</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="pass_source" id="pass_gen" value="pass_gen" onclick="disable_pass()">
+            <input class="form-check-input" type="radio" name="pass_source" id="pass_gen" value="pass_gen" onclick="disable_pass('new_pass')">
             <label class="form-check-label" for="pass_gen">Wygeneruj losowe hasło</label>
         </div>
         <label class="my-1 mr-2" for="new_pass">Hasło</label>
@@ -64,11 +64,11 @@
             </div>
             <div class="modal-body">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_input" value="change_pass_input" checked="checked">
+                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_input" value="change_pass_input" checked="checked" onclick="enable_pass('change_pass')">
                     <label class="form-check-label" for="change_pass_input">Podaj hasło</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_gen" value="change_pass_gen">
+                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_gen" value="change_pass_gen" onclick="disable_pass('change_pass')">
                     <label class="form-check-label" for="change_pass_gen">Wygeneruj losowe hasło</label>
                 </div>
                 <label class="my-1 mr-2" for="change_pass">Hasło</label>
@@ -137,13 +137,13 @@ Pomocny URL: https://adwent.jutrzenka.mlerp.pl</textarea>
           // generate password radio button is clicked.
           // Rewritten in pure js as there is no jQuery in
           // Bootstrap 5.
-          function disable_pass(){
-            var elem = document.getElementById("new_pass");
+          function disable_pass(elementId){
+            var elem = document.getElementById(elementId);
             elem.setAttribute("disabled", "");
           }
 
-          function enable_pass(){
-            var elem = document.getElementById("new_pass");
+          function enable_pass(elementId){
+            var elem = document.getElementById(elementId);
             elem.removeAttribute("disabled");
           }
         </script>
