@@ -11,11 +11,11 @@
         <label class="my-1 mr-2" for="new_user">Login</label>
         <input class="form-control my-1 mr-sm-2" name="new_user" id="new_user">
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="pass_source" id="pass_input" value="pass_input" checked="checked">
+            <input class="form-check-input" type="radio" name="pass_source" id="pass_input" value="pass_input" checked="checked" onclick="enable_pass()">
             <label class="form-check-label" for="pass_input">Podaj hasło</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="pass_source" id="pass_gen" value="pass_gen">
+            <input class="form-check-input" type="radio" name="pass_source" id="pass_gen" value="pass_gen" onclick="disable_pass()">
             <label class="form-check-label" for="pass_gen">Wygeneruj losowe hasło</label>
         </div>
         <label class="my-1 mr-2" for="new_pass">Hasło</label>
@@ -139,18 +139,17 @@ Pomocny URL: https://adwent.jutrzenka.mlerp.pl</textarea>
         {{ super() }}
 
         <script type="text/javascript">
-            $('input[type=radio]').click(function(){
-                if($(this).prop("id")==="pass_gen"){
-                    $("#new_pass").prop("disabled","remove");
-                } else {
-                    $("#new_pass").removeAttr("disabled");
-                }
-                if($(this).prop("id")==="change_pass_gen"){
-                    $("#change_pass").prop("disabled","remove");
-                } else {
-                    $("#change_pass").removeAttr("disabled");
-                }
-            });
+          function disable_pass(){
+            console.log("disabled");
+            var elem = document.getElementById("new_pass");
+            elem.setAttribute("disabled", "");
+          }
+
+          function enable_pass(){
+            console.log("enabled");
+            var elem = document.getElementById("new_pass");
+            elem.removeAttribute("disabled");
+          }
         </script>
 
         <script type="text/javascript">
