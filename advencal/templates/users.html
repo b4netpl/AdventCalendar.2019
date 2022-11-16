@@ -29,17 +29,24 @@
     <table class="table table-hover">
         <thead>
             <th scope="col">Nazwa użytkownika</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </thead>
         <tbody>
             {% for id, username, admin in users %}
             <tr>
-                <td>{{ username }}
-                {% if not admin %}
-                <div class="float-right">
-                    <button class="btn btn-warning d-inline" type="button" onclick="ShowModal('{{ id }}')">Zmień hasło</button>
-                    <button class="btn btn-danger d-inline" data-record-id="{{ id }}" data-record-title="{{ username }}" data-toggle="modal" data-target="#confirm-delete">Usuń</button>
-                </div>
-                {% endif %}
+                <td style="width: 100%">
+                    {{ username }}
+                </td>
+                <td>
+                    {% if not admin %}
+                    <button class="btn btn-warning text-nowrap" type="button" onclick="ShowModal('{{ id }}')">Zmień hasło</button>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not admin %}
+                        <button class="btn btn-danger" data-record-id="{{ id }}" data-record-title="{{ username }}" data-bs-toggle="modal" data-bs-target="#confirm-delete">Usuń</button>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
