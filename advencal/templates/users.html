@@ -40,12 +40,12 @@
                 </td>
                 <td>
                     {% if not admin %}
-                    <button class="btn btn-warning text-nowrap" type="button" onclick="ShowModal('{{ id }}')">Zmień hasło</button>
+                    <button class="btn btn-warning btn-sm text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#changepass_modal" data-bs-userid="{{ id }}">Zmień hasło</button>
                     {% endif %}
                 </td>
                 <td>
                     {% if not admin %}
-                        <button class="btn btn-danger" data-record-id="{{ id }}" data-record-title="{{ username }}" data-bs-toggle="modal" data-bs-target="#confirm-delete">Usuń</button>
+                        <button class="btn btn-danger btn-sm" data-bs-userid="{{ id }}" data-bs-username="{{ username }}" data-bs-toggle="modal" data-bs-target="#confirm_delete">Usuń</button>
                     {% endif %}
                 </td>
             </tr>
@@ -86,7 +86,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -94,12 +94,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Czy na pewno chcesz usunąć użytkownika <b class="title"></b> ?</p>
+          <p>Czy na pewno chcesz usunąć użytkownika <b class="username"></b> ?</p>
           <p>To operacja z gatunku nieodwracalnych.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nie</button>
-          <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline btn-ok" type="submit" name="user_del" value="">Tak</button></form>
+          <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline btn-ok" type="submit" id="user_del" name="user_del" value="">Tak</button></form>
         </div>
       </div>
     </div>
@@ -174,22 +174,30 @@ Pomocny URL: https://adwent.jutrzenka.mlerp.pl</textarea>
         </script>
 
         <script type="text/javascript">
-            $('#confirm-delete').on('click', '.btn-ok', function(e) {
-                
-                var $modalDiv = $(e.delegateTarget);
-                var id = $(this).data('recordId');
-                
-                $modalDiv.addClass('loading');
-                setTimeout(function() {
-                    $modalDiv.modal('hide').removeClass('loading');
-                }, 1000);
-            });
-            
-            $('#confirm-delete').on('show.bs.modal', function(e) {
-                var data = $(e.relatedTarget).data();
-                $('.title', this).text(data.recordTitle);
-                $('.btn-ok', this).prop('value', data.recordId);
-            });
+          // Populate change password modal with values from button
+          // that triggered the modal. 
+          const changePassModal = document.getElementById('changepass_modal')
+          changePassModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget
+            const userId = button.getAttribute('data-bs-userid')
+            const modalUserIdInput = changePassModal.querySelector('#user_id')
+            modalUserIdInput.value = userId
+          })
         </script>
-        
+
+        <script type="text/javascript">
+          // Populate delete user modal with values from button
+          // that triggered the modal. 
+          const userDelModal = document.getElementById('confirm_delete')
+          userDelModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget
+            const userId = button.getAttribute('data-bs-userid')
+            const userName = button.getAttribute('data-bs-username')
+            const modalUserIdInput = userDelModal.querySelector('#user_del')
+            const modalUserNameText = userDelModal.querySelector('.username')
+            modalUserIdInput.value = userId
+            modalUserNameText.textContent = userName
+          })
+        </script>
+
     {% endblock %}
