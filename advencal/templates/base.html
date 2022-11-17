@@ -73,11 +73,14 @@
     {% endfor %}
     
     {% if win %}
-    <div class="row">
-      <div class="jumbotron mx-auto bg-gradient-primary text-dark text-center col-6">
-        <p><h1>Gratulacje!</h1></p>
-        <p><h4>Rozwiązałaś wszystkie zagadki, wykazałaś się wiedzą i wytrwałością. Możesz być z siebie naprawdę dumna!</h4></p>
-        <p><h4>Cudownej Wigilii!<br>Do zobaczenia!</h4></p>
+    <div class="row p-5 gap-5">
+      <!--<div class="jumbotron mx-auto bg-gradient-primary text-dark text-center col-6">-->
+      <div class="p-5 mb-4 bg-light border rounded-3">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold">Gratulacje</h1>
+          <p class="col-md-8 fs-4">Rozwiązałaś wszystkie zagadki, wykazałaś się wiedzą i wytrwałością. Możesz być z siebie naprawdę dumna!</p>
+          <p class="col-md-8 fs-4">Cudownej Wigilii!<br>Do zobaczenia!</p>
+        </div>
       </div>
     </div>
     {% endif %}
