@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<fieldset class="form-group border rounded p-2">
-    <legend class="w-auto">Postępy użytkowników</legend>
+<fieldset class="form-group border rounded-3 p-3">
+    <legend class="float-none w-auto px-3">Postępy użytkowników</legend>
     <table class="table">
         {% for user_id, username in users %}
         <tr>
@@ -23,8 +23,8 @@
 
 
 <form class="form-inline" method="post">
-    <fieldset class="form-group border rounded p-2">
-        <legend class="w-auto">Przesuń kalendarz w czasie</legend>
+    <fieldset class="form-group border rounded-3 p-3">
+        <legend class="float-none w-auto px-3">Przesuń kalendarz w czasie</legend>
         <label class="my-1 mr-2" for="time_shift">Dla którego dnia miesiąca wygenerować kalendarz?</label>
         <input class="form-control my-1 mr-sm-2" name="time_shift" id="time_shift" value="{{ date_today }}">
         <button type="submit" class="btn btn-success my-1">Ustaw</button>
@@ -33,9 +33,9 @@
 
 
 <form method="post">
-    <fieldset class="form-group border rounded p-2">
-        <legend class="w-auto">Usuń odwiedziny</legend>
-        <div class="row">
+    <fieldset class="form-group border rounded-3 p-3">
+        <legend class="float-none w-auto px-3">Usuń odwiedziny</legend>
+        <div class="row p-3">
             <div class="col">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="del_discos" id="del_all" value="del_all" checked="checked">
@@ -62,10 +62,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2 offset-5 mx-auto">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-danger btn-block">Usuń</button>
-                </div>
+            <div class="d-grid col-4 mx-auto">
+                <button type="submit" class="btn btn-danger btn-block">Usuń</button>
             </div>
         </div>
     </fieldset>
@@ -73,9 +71,9 @@
 
 
 <form method="post">
-    <fieldset class="form-group border rounded p-2">
-        <legend class="w-auto">Dodaj odwiedziny i rozwiąż wszystkie zadania</legend>
-        <div class="row">
+    <fieldset class="form-group border rounded-3 p-3">
+        <legend class="float-none w-auto px-3">Dodaj odwiedziny i rozwiąż wszystkie zadania</legend>
+        <div class="row p-3">
             <div class="col">
                 <div class="form-group">
                     <label for="solve_users">dla użytkowników:</label>
@@ -88,10 +86,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-2 offset-5 mx-auto">
-                <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-block">Rozwiąż</button>
-                </div>
+            <div class="d-grid col-4 mx-auto">
+                <button type="submit" class="btn btn-success btn-block">Rozwiąż</button>
             </div>
         </div>
     </fieldset>

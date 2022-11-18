@@ -246,7 +246,7 @@ def create_app():
 
                 new_user = request.form['new_user']
                 if new_user in map(itemgetter('username'), users):
-                    flash(Modal('Użytkownik <strong>' + new_user + '</strong> już istnieje'), 'warning')
+                    flash(Markup('Użytkownik <strong>' + new_user + '</strong> już istnieje'), 'warning')
                     return render_template('users.html', users=users)
                 
                 if request.form['pass_source'] == 'pass_input':

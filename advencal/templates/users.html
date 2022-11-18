@@ -6,16 +6,16 @@
 
 
 <form class="form-inline" method="post">
-    <fieldset class="form-group border rounded p-2">
-        <legend class="w-auto">Dodaj użytkownika</legend>
+    <fieldset class="form-group border rounded-3 p-3">
+        <legend class="float-none w-auto px-3">Dodaj użytkownika</legend>
         <label class="my-1 mr-2" for="new_user">Login</label>
         <input class="form-control my-1 mr-sm-2" name="new_user" id="new_user">
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="pass_source" id="pass_input" value="pass_input" checked="checked">
+            <input class="form-check-input" type="radio" name="pass_source" id="pass_input" value="pass_input" checked="checked" onclick="enable_pass('new_pass')">
             <label class="form-check-label" for="pass_input">Podaj hasło</label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="pass_source" id="pass_gen" value="pass_gen">
+            <input class="form-check-input" type="radio" name="pass_source" id="pass_gen" value="pass_gen" onclick="disable_pass('new_pass')">
             <label class="form-check-label" for="pass_gen">Wygeneruj losowe hasło</label>
         </div>
         <label class="my-1 mr-2" for="new_pass">Hasło</label>
@@ -24,22 +24,29 @@
     </fieldset>
 </form>
 
-<fieldset class="form-group border rounded p-2">
-    <legend class="w-auto">Zarządzaj użytkownikami</legend>
+<fieldset class="form-group border rounded-3 p-3">
+    <legend class="float-none w-auto px-3">Zarządzaj użytkownikami</legend>
     <table class="table table-hover">
         <thead>
             <th scope="col">Nazwa użytkownika</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </thead>
         <tbody>
             {% for id, username, admin in users %}
             <tr>
-                <td>{{ username }}
-                {% if not admin %}
-                <div class="float-right">
-                    <button class="btn btn-warning d-inline" type="button" onclick="ShowModal('{{ id }}')">Zmień hasło</button>
-                    <button class="btn btn-danger d-inline" data-record-id="{{ id }}" data-record-title="{{ username }}" data-toggle="modal" data-target="#confirm-delete">Usuń</button>
-                </div>
-                {% endif %}
+                <td style="width: 100%">
+                    {{ username }}
+                </td>
+                <td>
+                    {% if not admin %}
+                    <button class="btn btn-warning btn-sm text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#changepass_modal" data-bs-userid="{{ id }}">Zmień hasło</button>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not admin %}
+                        <button class="btn btn-danger btn-sm" data-bs-userid="{{ id }}" data-bs-username="{{ username }}" data-bs-toggle="modal" data-bs-target="#confirm_delete">Usuń</button>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -53,17 +60,15 @@
             <form method="post">
             <div class="modal-header">
                 <h5 class="modal-title" id="changepass_modalLabel">Podaj nowe hasło</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_input" value="change_pass_input" checked="checked">
+                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_input" value="change_pass_input" checked="checked" onclick="enable_pass('change_pass')">
                     <label class="form-check-label" for="change_pass_input">Podaj hasło</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_gen" value="change_pass_gen">
+                    <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_gen" value="change_pass_gen" onclick="disable_pass('change_pass')">
                     <label class="form-check-label" for="change_pass_gen">Wygeneruj losowe hasło</label>
                 </div>
                 <label class="my-1 mr-2" for="change_pass">Hasło</label>
@@ -81,22 +86,20 @@
     </div>
 </div>
 
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="myModalLabel">Czy aby na pewno?</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Czy na pewno chcesz usunąć użytkownika <b class="title"></b> ?</p>
+          <p>Czy na pewno chcesz usunąć użytkownika <b class="username"></b> ?</p>
           <p>To operacja z gatunku nieodwracalnych.</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
-          <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline btn-ok" type="submit" name="user_del" value="">Tak</button></form>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nie</button>
+          <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline btn-ok" type="submit" id="user_del" name="user_del" value="">Tak</button></form>
         </div>
       </div>
     </div>
@@ -108,13 +111,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="credentials_modalLabel">Ważne!</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <h3>Nowe hasło: <code id="copyText">{{ credentials['pass'] }}</code></h3>
-                <button id="copyButton" class="btn btn-success my-1">Skopiuj do schowka</button>
+                <button id="copyButton" class="btn btn-success my-1" onclick="copyToClipboard('{{ credentials['pass'] }}')">Skopiuj do schowka</button>
                 <p><strong>Uwaga!</strong> To jest ostatni dobry moment, żeby skopiować hasło użytkownika! (Np. po to, żeby mu je wysłać.) Po zamknięciu tego okna odczytanie hasła nie będzie możliwe! (Ale naturalnie będzie można je ustawić od nowa przez <span class="btn btn-warning btn-sm">Zmień hasło</span> poniżej.)</p>
                 <p>A tutaj jeszcze gotowiec do skopiowania np. do maila:</p>
                 <textarea class="form-control" rows="3">Login: {{ credentials['login'] }} 
@@ -132,75 +133,71 @@ Pomocny URL: https://adwent.jutrzenka.mlerp.pl</textarea>
         {{ super() }}
 
         <script type="text/javascript">
-            $('input[type=radio]').click(function(){
-                if($(this).prop("id")==="pass_gen"){
-                    $("#new_pass").prop("disabled","remove");
-                } else {
-                    $("#new_pass").removeAttr("disabled");
-                }
-                if($(this).prop("id")==="change_pass_gen"){
-                    $("#change_pass").prop("disabled","remove");
-                } else {
-                    $("#change_pass").removeAttr("disabled");
-                }
-            });
+          // Functions to disable/enable password input when 
+          // generate password radio button is clicked.
+          // Rewritten in pure js as there is no jQuery in
+          // Bootstrap 5.
+          function disable_pass(elementId){
+            var elem = document.getElementById(elementId);
+            elem.setAttribute("disabled", "");
+          }
+
+          function enable_pass(elementId){
+            var elem = document.getElementById(elementId);
+            elem.removeAttribute("disabled");
+          }
         </script>
 
         <script type="text/javascript">
-            function ShowModal(user_id) {
-                $('#user_id').prop('value', user_id);
-                $('#changepass_modal').modal('show');
+          // Load modal with credentials if generated password
+          // was used. 
+          // Rewritten in pure js as there is no jQuery in
+          // Bootstrap 5.
+          window.onload = (event) => {
+            var elem = new bootstrap.Modal(document.getElementById('credentials_modal'), {});
+            if(elem){
+              elem.show();
             }
+          };
         </script>
 
         <script type="text/javascript">
-            $(window).on('load',function(){
-                $('#credentials_modal').modal('show');
+          // Copy to clipboard rewritten in pure js and using
+          // new clipboard API.
+          function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+              /* clipboard successfully set */
+              }, () => {
+              /* clipboard write failed */
             });
+          }
         </script>
 
         <script type="text/javascript">
-            $(document).ready(function(){
-                $(document).on('click', '#copyButton', function(){
-                    copytext($("#copyText").html(), this);  
-                })
-            });
-            
-            function copytext(text, context) {
-                var textField = document.createElement('textarea');
-                textField.innerText = text;
-                
-                if (context) {
-                    context.parentNode.insertBefore(textField, context);
-                } else {
-                    document.body.appendChild(textField);
-                }
-                
-                textField.select();
-                document.execCommand('copy');
-                // Let `.remove()` also work with older IEs
-                textField.parentNode.removeChild(textField);
-                // console.log('should have copied ' + text);
-            }
+          // Populate change password modal with values from button
+          // that triggered the modal. 
+          const changePassModal = document.getElementById('changepass_modal')
+          changePassModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget
+            const userId = button.getAttribute('data-bs-userid')
+            const modalUserIdInput = changePassModal.querySelector('#user_id')
+            modalUserIdInput.value = userId
+          })
         </script>
 
         <script type="text/javascript">
-            $('#confirm-delete').on('click', '.btn-ok', function(e) {
-                
-                var $modalDiv = $(e.delegateTarget);
-                var id = $(this).data('recordId');
-                
-                $modalDiv.addClass('loading');
-                setTimeout(function() {
-                    $modalDiv.modal('hide').removeClass('loading');
-                }, 1000);
-            });
-            
-            $('#confirm-delete').on('show.bs.modal', function(e) {
-                var data = $(e.relatedTarget).data();
-                $('.title', this).text(data.recordTitle);
-                $('.btn-ok', this).prop('value', data.recordId);
-            });
+          // Populate delete user modal with values from button
+          // that triggered the modal. 
+          const userDelModal = document.getElementById('confirm_delete')
+          userDelModal.addEventListener('show.bs.modal', event => {
+            const button = event.relatedTarget
+            const userId = button.getAttribute('data-bs-userid')
+            const userName = button.getAttribute('data-bs-username')
+            const modalUserIdInput = userDelModal.querySelector('#user_del')
+            const modalUserNameText = userDelModal.querySelector('.username')
+            modalUserIdInput.value = userId
+            modalUserNameText.textContent = userName
+          })
         </script>
-        
+
     {% endblock %}

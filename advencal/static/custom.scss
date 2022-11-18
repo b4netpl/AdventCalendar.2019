@@ -1,6 +1,6 @@
 $enable-gradients: true;
-$theme-colors: (
-  "primary": #28a745
-);
 
-@import "./scss/bootstrap.scss";
+$min-contrast-ratio: 3;
+$primary: #28a745;
+
+@import "./scss/bootstrap";
