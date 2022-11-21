@@ -9,4 +9,4 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from advencal import basic, admin, models  # noqa: F401,E402
+from advencal import basic, admin, models, init_db_cli  # noqa: F401,E402
