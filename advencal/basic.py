@@ -1,8 +1,8 @@
-from advencal import app
-from flask import session, g, redirect, url_for, request, flash, render_template
-from werkzeug.security import check_password_hash, generate_password_hash
+from advencal import app, db
+from flask import session, g
+from flask import redirect, url_for, request, flash, render_template
 from datetime import datetime
-from advencal.db import get_db  # TODO remove when moved to SQLAlchemy
+from advencal.models import User, Day, DiscoveredDays
 
 
 @app.before_request

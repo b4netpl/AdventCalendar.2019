@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash
 from datetime import datetime
 from operator import itemgetter
-from advencal.db import get_db  # TODO remove when moved to SQLAlchemy
+#from advencal.db import get_db  # TODO remove when moved to SQLAlchemy
 
 
 @app.route('/tweaks', methods=('GET', 'POST'))
