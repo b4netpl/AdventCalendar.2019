@@ -12,9 +12,7 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (str(user_id), )
-        ).fetchone()
+        g.user = User.get_user(user_id)
 
 
 @app.route('/', methods=('GET', 'POST'))
@@ -24,34 +22,37 @@ def index():
         return redirect(url_for('login'))
     else:
         win = False
-        db = get_db()
+
         if request.method == 'POST':
 
             # if quest check answer
-            day_data = db.execute(
-                    'SELECT * FROM day WHERE id = ?',
-                    (request.form['day_id'], )
-                    ).fetchone()
-            if day_data['quest'] is not None:
-                if request.form['answer'].lower() == day_data['quest_answer'].lower():
-                    db.execute(
-                        'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (?, ?)', (request.form['day_id'], str(session['user_id']), )
-                    )
+            day_data = Day.get_day(request.form['day_id'])
+            if day_data.quest is not None:
+                if request.form['answer'].lower() == \
+                        day_data.quest_answer.lower():
+
+                    visit = DiscoveredDays(
+                            day_id=request.form['day_id'],
+                            user_id=str(session['user_id'])
+                            )
+                    db.session.add(visit)
+                    db.session.commit()
                 # wrong answer
                 else:
-                    flash('To nie jest prawidłowa odpowiedź... Spróbuj jeszcze raz!', 'warning')
+                    flash(
+                            'To nie jest prawidłowa odpowiedź... '
+                            'Spróbuj jeszcze raz!',
+                            'warning'
+                            )
             else:
-                db.execute(
-                    'INSERT OR IGNORE INTO discovered_days (day_id, user_id) VALUES (?, ?)', (request.form['day_id'], str(session['user_id']), )
-                )
+                visit = DiscoveredDays(
+                        day_id=request.form['day_id'],
+                        user_id=str(session['user_id'])
+                        )
+                db.session.add(visit)
+                db.session.commit()
 
-            db.commit()
-
-        days_discovered = db.execute(
-            'select count(distinct day.id) from day inner join discovered_days on day.id=day_id where user_id = ?', (session['user_id'], )
-        ).fetchone()
-
-        if int(days_discovered[0]) == 24:
+        if len(g.user.days) == 24:
             win = True
 
         date_offset = datetime.now().day
@@ -60,31 +61,18 @@ def index():
 
         date_today = datetime.now().replace(day=date_offset)
 
-        def dict_factory(cursor, row):
-            d = {}
-            for idx, col in enumerate(cursor.description):
-                d[col[0]] = row[idx]
-            return d
-
-        db.row_factory = dict_factory
-        days = db.execute(
-            'SELECT * FROM day'
-        ).fetchall()
+        days = Day.query.all()
 
         day_data = {}
         for day in days:
-            day_data[day['id']] = {
-                'day_no': day['day_no'],
-                'quest': day['quest'],
-                'quest_answer': day['quest_answer'],
-                'hour': day['hour']
+            day_data[day.id] = {
+                'day_no': day.day_no,
+                'quest': day.quest,
+                'quest_answer': day.quest_answer,
+                'hour': day.hour
             }
 
-        db.row_factory = lambda cursor, row: row[0]
-        discovered = db.execute(
-                'SELECT day_id FROM discovered_days WHERE user_id = ?',
-                (str(session.get('user_id')), )
-                ).fetchall()
+        discovered = list(map(lambda day: day.day_id, g.user.days))
 
         return render_template(
                 'calendar.html',
@@ -110,21 +98,18 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+        user = User.query.filter_by(username=username).first()
 
         if user is None:
             error = 'Niepoprawny login'
-        elif not check_password_hash(user['password'], password):
+        elif not user.check_password(password):
             error = 'Niepoprawne hasło'
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
-            session['admin'] = user['admin']
+            session['user_id'] = user.id
+            session['admin'] = user.admin
             return redirect(url_for('index'))
 
         flash(error, 'warning')
@@ -150,13 +135,10 @@ def changepass():
         new_pass = request.form['new_pass']
         new_pass_again = request.form['new_pass_again']
 
-        db = get_db()
         error = False
-        user = db.execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
-
-        if not check_password_hash(user['password'], old_pass):
+        user = User.get_user(user_id)
+        
+        if not user.check_password(old_pass):
             flash('Niepoprawne hasło', 'danger')
             error = True
 
@@ -165,11 +147,8 @@ def changepass():
             error = True
 
         if error is False:
-            db.execute(
-                'UPDATE user SET password = ? WHERE id = ?',
-                (generate_password_hash(new_pass), user_id, )
-            )
-            db.commit()
+            user.set_password(new_pass)
+            db.session.commit()
 
             flash('Hasło zmienione poprawnie', 'success')
             return redirect(url_for('index'))
