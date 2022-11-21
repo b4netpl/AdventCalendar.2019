@@ -137,7 +137,7 @@ def changepass():
 
         error = False
         user = User.get_user(user_id)
-        
+
         if not user.check_password(old_pass):
             flash('Niepoprawne hasło', 'danger')
             error = True
