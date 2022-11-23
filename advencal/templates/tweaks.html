@@ -5,15 +5,15 @@
 <fieldset class="form-group border rounded-3 p-3">
     <legend class="float-none w-auto px-3">Postępy użytkowników</legend>
     <table class="table">
-        {% for user_id, username in users %}
+        {% for user in users %}
         <tr>
-            <th scope="col">{{ username }}</th>
-            {% for day_id, day_no, quest, quest_answer, hour in days %}
-            <td style="width: 4%; text-align: center; background-color: rgb(132, 190, 135); {%- if quest %}border: 4px solid green; {%- endif %}
-            {%- for disco_day, disco_user in discos %}
-            {%- if disco_day == day_id and disco_user == user_id %}background-color: yellow; color: green;{% endif %}
+            <th scope="col">{{ user.username }}</th>
+            {% for day in days %}
+            <td style="width: 4%; text-align: center; background-color: rgb(132, 190, 135); {%- if day.quest %}border: 4px solid green; {%- endif %}
+            {%- for disco in discos %}
+            {%- if disco.day_id == day.id and disco.user_id == user.id %}background-color: yellow; color: green;{% endif %}
             {%- endfor %}">
-            {{ day_no }}
+            {{ day.day_no }}
         </td>
         {% endfor %}
     </tr>
@@ -54,8 +54,8 @@
                 <div class="form-group">
                     <label for="del_users">dla użytkowników:</label>
                     <select class="form-control" name="del_users" id="del_users" size="5" multiple>
-                        {%- for id, username in users %}
-                        <option value="{{ id }}">{{ username }}</option>
+                        {%- for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
                         {%- endfor %}
                     </select>
                 </div>
@@ -78,8 +78,8 @@
                 <div class="form-group">
                     <label for="solve_users">dla użytkowników:</label>
                     <select class="form-control" name="solve_users" id="solve_users" size="5" multiple>
-                        {%- for id, username in users %}
-                        <option value="{{ id }}">{{ username }}</option>
+                        {%- for user in users %}
+                        <option value="{{ user.id }}">{{ user.username }}</option>
                         {%- endfor %}
                     </select>
                 </div>

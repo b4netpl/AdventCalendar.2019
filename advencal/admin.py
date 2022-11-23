@@ -2,13 +2,12 @@ import os
 import random
 import string
 
-from advencal import app
-from flask import session, redirect, request, url_for, render_template, flash, Markup
+from advencal import app, db
+from flask import session, redirect, request, url_for, render_template, flash
+from flask import Markup
 from werkzeug.utils import secure_filename
-from werkzeug.security import generate_password_hash
-from datetime import datetime
-from operator import itemgetter
-#from advencal.db import get_db  # TODO remove when moved to SQLAlchemy
+from datetime import datetime, time
+from advencal.models import User, Day, DiscoveredDays
 
 
 @app.route('/tweaks', methods=('GET', 'POST'))
@@ -24,35 +23,43 @@ def tweaks():
     if request.method == 'POST':
 
         if 'del_discos' in request.form:
-            conditions = [
-                    'user_id in ('
-                    + ','.join(request.form.getlist('del_users'))
-                    + ')'
-                    ]
+            visits_to_delete = DiscoveredDays.query.filter(
+                    DiscoveredDays.user_id.in_(
+                            request.form.getlist('del_users')
+                            )
+                    )
             if request.form['del_discos'] == 'del_taf':
-                conditions.append(
-                        'day_id not in (select id from day where day_no < '
-                        + str(date_today)
-                        + ')'
+                today_and_future = Day.query.filter(
+                        Day.day_no < date_today
+                        ).with_entities(Day.id)
+                visits_to_delete = visits_to_delete.filter(
+                        DiscoveredDays.day_id.not_in(today_and_future)
                         )
             if request.form.get('del_except_quests'):
-                conditions.append(
-                        'day_id not in (select id from day where quest is not null)'
+                quest_days = Day.query.filter(
+                        Day.quest != ''
+                        ).with_entities(Day.id)
+                visits_to_delete = visits_to_delete.filter(
+                        DiscoveredDays.day_id.not_in(quest_days)
                         )
-            db = get_db()
-            # TODO count rows to delete
-            db.execute(
-                    'DELETE FROM discovered_days WHERE '
-                    + ' AND '.join(conditions)
-                    )
-            db.commit()
+            for visit in visits_to_delete.all():
+                db.session.delete(visit)
+            db.session.commit()
 
         elif 'solve_users' in request.form:
-            db = get_db()
-            db.execute(
-                'INSERT OR IGNORE INTO discovered_days (day_id, user_id) WITH users(user_id) AS (SELECT * FROM (VALUES (' + '),('.join(request.form.getlist('solve_users')) + '))) SELECT id, user_id FROM day, users'
-            )
-            db.commit()
+            visits_to_add = []
+            for user_id in request.form.getlist('solve_users'):
+                visits = DiscoveredDays.query.filter_by(
+                        user_id=user_id
+                        ).with_entities(DiscoveredDays.day_id)
+                unvisited = Day.query.filter(Day.id.not_in(visits)).all()
+                for visit in unvisited:
+                    visit_to_append = DiscoveredDays(
+                            user_id=user_id, day_id=visit.id
+                            )
+                    visits_to_add.append(visit_to_append)
+            db.session.add_all(visits_to_add)
+            db.session.commit()
 
         elif 'time_shift' in request.form:
             if date_today != int(request.form['time_shift']):
@@ -63,16 +70,9 @@ def tweaks():
         return redirect(url_for('index'))
 
     if request.method == 'GET':
-        db = get_db()
-        users = db.execute(
-            'SELECT id, username FROM user'
-        ).fetchall()
-        days = db.execute(
-            'SELECT id, day_no, quest, quest_answer, hour FROM day ORDER BY day_no'
-        ).fetchall()
-        discos = db.execute(
-            'SELECT day_id, user_id FROM discovered_days'
-        ).fetchall()
+        users = User.query.all()
+        days = Day.query.order_by(Day.day_no).all()
+        discos = DiscoveredDays.query.all()
 
         return render_template(
                 'tweaks.html',
@@ -96,11 +96,10 @@ def questsed():
     if request.method == 'POST':
 
         if 'quest_del' in request.form:
-            db = get_db()
-            db.execute(
-                'UPDATE day SET quest=NULL, quest_answer=NULL WHERE id = ?', (request.form['quest_del'], )
-            )
-            db.commit()
+            quest = Day.get_day(request.form['quest_del'])
+            quest.quest = None
+            quest.quest_answer = None
+            db.session.commit()
             return redirect(url_for('questsed'))
 
         elif 'upload_graffile' in request.files:
@@ -114,13 +113,8 @@ def questsed():
         return redirect(url_for('index'))
 
     if request.method == 'GET':
-        db = get_db()
-        users = db.execute(
-            'SELECT id, username FROM user'
-        ).fetchall()
-        days = db.execute(
-            'SELECT id, day_no, quest, quest_answer, hour FROM day ORDER BY day_no'
-        ).fetchall()
+        users = User.query.all()
+        days = Day.query.order_by(Day.day_no).all()
         graffiles = os.listdir('./advencal/static/quests/')
         return render_template(
                 'quests.html',
@@ -139,21 +133,14 @@ def users():
     if not session.get('admin'):
         return redirect(url_for('index'))
 
-    db = get_db()
-    users = db.execute(
-        'SELECT id, username, admin FROM user'
-    ).fetchall()
-
-    usersmap = {}
-    for user in users:
-        usersmap[user['id']] = user['username']
+    users = User.query.all()
 
     if request.method == 'POST':
 
         if 'new_user' in request.form:
 
             new_user = request.form['new_user']
-            if new_user in map(itemgetter('username'), users):
+            if User.check_username(new_user):
                 flash(Markup(
                         'Użytkownik <strong>'
                         + new_user
@@ -170,19 +157,16 @@ def users():
                         20
                         ))
 
-            db.execute(
-                'INSERT INTO user (username, password) VALUES (?, ?)',
-                (new_user, generate_password_hash(new_pass), )
-                )
-            db.commit()
+            user = User(username=new_user, admin=False)
+            user.set_password(new_pass)
+            db.session.add(user)
+            db.session.commit()
             credentials = {
                 "login": new_user,
                 "pass": new_pass
             }
 
-            users = db.execute(
-                'SELECT id, username, admin FROM user'
-            ).fetchall()
+            users = User.query.all()
 
             return render_template(
                     'users.html',
@@ -200,17 +184,12 @@ def users():
                         20
                         ))
 
-            db.execute(
-                'UPDATE user SET password = ? WHERE id = ?',
-                (
-                    generate_password_hash(new_pass),
-                    request.form['user_id']
-                )
-            )
-            db.commit()
+            user = User.get_user(request.form['user_id'])
+            user.set_password(new_pass)
+            db.session.commit()
 
             credentials = {
-                "login": usersmap[int(request.form['user_id'])],
+                "login": user.username,
                 "pass": new_pass
             }
             return render_template(
@@ -220,19 +199,20 @@ def users():
                     )
 
         if 'user_del' in request.form:
-            db.execute(
-                'DELETE FROM user WHERE id = ?',
-                (request.form['user_del'], )
-            )
-            db.commit()
+
+            user = User.get_user(request.form['user_del'])
+            username_del = user.username
+            db.session.delete(user)
+            db.session.commit()
+
             flash(Markup(
                     'Użytkownik <strong>'
-                    + usersmap[int(request.form['user_del'])]
+                    + username_del
                     + '</strong> został usunięty'
                     ), 'success')
-            users = db.execute(
-                'SELECT id, username, admin FROM user'
-            ).fetchall()
+
+            users = User.query.all()
+
             return render_template('users.html', users=users)
 
     if request.method == 'GET':
@@ -249,26 +229,22 @@ def questedit():
     if not session.get('admin'):
         return redirect(url_for('index'))
 
-    db = get_db()
-
     if 'quest_edit' in request.form:
-        day_id = request.form['quest_edit']
-        quest_data = db.execute(
-            'SELECT * FROM day WHERE id = ?', (day_id, )
-        ).fetchone()
+        quest_data = Day.get_day(int(request.form['quest_edit']))
         return render_template(
                 'questedit.html',
-                quest=str(quest_data['quest'] or ''),
-                quest_answer=str(quest_data['quest_answer'] or ''),
-                hour=quest_data['hour'],
-                day_id=day_id
+                quest=str(quest_data.quest or ''),
+                quest_answer=str(quest_data.quest_answer or ''),
+                hour=quest_data.hour,
+                day_id=quest_data.id
                 )
 
     if 'day_id' in request.form:
 
-        db.execute(
-            'UPDATE day SET quest = ?, quest_answer = ?, hour = ? WHERE id = ?', (request.form['quest'] or None, request.form['quest_answer'] or None, request.form['hour'], request.form['day_id'], )
-        )
-        db.commit()
+        day = Day.get_day(request.form['day_id'])
+        day.quest = request.form['quest'] or None
+        day.quest_answer = request.form['quest_answer'] or None
+        day.hour = time.fromisoformat(request.form['hour'])
+        db.session.commit()
 
     return redirect(url_for('questsed'))

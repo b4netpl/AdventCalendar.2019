@@ -33,19 +33,19 @@
             <th scope="col"></th>
         </thead>
         <tbody>
-            {% for id, username, admin in users %}
+            {% for user in users %}
             <tr>
                 <td style="width: 100%">
-                    {{ username }}
+                    {{ user.username }}
                 </td>
                 <td>
-                    {% if not admin %}
-                    <button class="btn btn-warning btn-sm text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#changepass_modal" data-bs-userid="{{ id }}">Zmień hasło</button>
+                    {% if not user.admin %}
+                    <button class="btn btn-warning btn-sm text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#changepass_modal" data-bs-userid="{{ user.id }}">Zmień hasło</button>
                     {% endif %}
                 </td>
                 <td>
-                    {% if not admin %}
-                        <button class="btn btn-danger btn-sm" data-bs-userid="{{ id }}" data-bs-username="{{ username }}" data-bs-toggle="modal" data-bs-target="#confirm_delete">Usuń</button>
+                    {% if not user.admin %}
+                        <button class="btn btn-danger btn-sm" data-bs-userid="{{ user.id }}" data-bs-username="{{ user.username }}" data-bs-toggle="modal" data-bs-target="#confirm_delete">Usuń</button>
                     {% endif %}
                 </td>
             </tr>

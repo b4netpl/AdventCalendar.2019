@@ -14,27 +14,27 @@
             <th scope="col"></th>
         </thead>
         <tbody>
-            {% for day_id, day_no, quest, quest_answer, hour in days %}
+            {% for day in days %}
             <tr>
-                <th scope="row">{{ day_no }}</th>
-                <td style="width: 100%">{%- if quest %}
-                    {{ quest|striptags|truncate(65) }}</td>{% endif -%}
-                    <td>{{ hour }}</td>
-     {%- if quest %}<td><button class="btn btn-outline-success btn-sm" type="button" onclick="window.location.href='#preview{{ day_id }}';" data-bs-toggle="modal" data-bs-target="#preview{{ day_id }}"><i class="bi bi-eye-fill"></i></button>
-                        <div class="modal fade" id="preview{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="preview{{ day_id }}Label" aria-hidden="true">
+                <th scope="row">{{ day.day_no }}</th>
+                <td style="width: 100%">{%- if day.quest %}
+                    {{ day.quest|striptags|truncate(65) }}</td>{% endif -%}
+                    <td>{{ day.hour }}</td>
+     {%- if day.quest %}<td><button class="btn btn-outline-success btn-sm" type="button" onclick="window.location.href='#preview{{ day.id }}';" data-bs-toggle="modal" data-bs-target="#preview{{ day.id }}"><i class="bi bi-eye-fill"></i></button>
+                        <div class="modal fade" id="preview{{ day.id }}" tabindex="-1" role="dialog" aria-labelledby="preview{{ day.id }}Label" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="preview{{ day_id }}Label">Zadanie!</h5>
+                                        <h5 class="modal-title" id="preview{{ day.id }}Label">Zadanie!</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        {{ quest|safe }}
+                                        {{ day.quest|safe }}
                                     </div>
                                     <div class="modal-footer">
-                                        <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day_id }}">
+                                        <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day.id }}">
                                             <div class="input-group mb-3">
-                                                <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ quest_answer }}" aria-label="{{ quest_answer }}" aria-describedby="button-addon2" readonly>
+                                                <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ day.quest_answer }}" aria-label="{{ day.quest_answer }}" aria-describedby="button-addon2" readonly>
                                                 <div class="input-group-append">
                                                     <button class="btn btn-success" type="submit" id="button-addon2" disabled>Sprawdź!</button>
                                                 </div>
@@ -47,8 +47,8 @@
                         {% else %}
                     </td><td>
                         {% endif %}</td>
-                        <td><form action="/questedit" method="POST"><button class="btn btn-outline-warning btn-sm" type="submit" name="quest_edit" value="{{ day_id }}"><i class="bi bi-pencil-fill"></i></button></form></td>
-                        <td>{%- if quest %}<form action="/questsed" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="quest_del" value="{{ day_id }}"><i class="bi bi-trash-fill"></i></button></form>{% endif %}</td>
+                        <td><form action="/questedit" method="POST"><button class="btn btn-outline-warning btn-sm" type="submit" name="quest_edit" value="{{ day.id }}"><i class="bi bi-pencil-fill"></i></button></form></td>
+                        <td>{%- if day.quest %}<form action="/questsed" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="quest_del" value="{{ day.id }}"><i class="bi bi-trash-fill"></i></button></form>{% endif %}</td>
             </tr>
             {% endfor %}
         </tbody>
