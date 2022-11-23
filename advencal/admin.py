@@ -44,7 +44,7 @@ def questsed():
         days = Day.query.order_by(Day.day_no).all()
         graffiles = os.listdir('./advencal/static/quests/')
         return render_template(
-                'quests.html',
+                'quests.html.j2',
                 users=users,
                 date_today=date_today,
                 days=days,
@@ -63,7 +63,7 @@ def questedit():
     if 'quest_edit' in request.form:
         quest_data = Day.get_day(int(request.form['quest_edit']))
         return render_template(
-                'questedit.html',
+                'questedit.html.j2',
                 quest=str(quest_data.quest or ''),
                 quest_answer=str(quest_data.quest_answer or ''),
                 hour=quest_data.hour,
@@ -146,7 +146,7 @@ def tweaks():
         discos = DiscoveredDays.query.all()
 
         return render_template(
-                'tweaks.html',
+                'tweaks.html.j2',
                 users=users,
                 date_today=date_today,
                 days=days,
@@ -175,7 +175,7 @@ def users():
                         + new_user
                         + '</strong> już istnieje'
                         ), 'warning')
-                return render_template('users.html', users=users)
+                return render_template('users.html.j2', users=users)
 
             if request.form['pass_source'] == 'pass_input':
                 new_pass = request.form['new_pass']
@@ -198,7 +198,7 @@ def users():
             users = User.query.all()
 
             return render_template(
-                    'users.html',
+                    'users.html.j2',
                     users=users,
                     credentials=credentials
                     )
@@ -222,7 +222,7 @@ def users():
                 "pass": new_pass
             }
             return render_template(
-                    'users.html',
+                    'users.html.j2',
                     users=users,
                     credentials=credentials
                     )
@@ -242,9 +242,9 @@ def users():
 
             users = User.query.all()
 
-            return render_template('users.html', users=users)
+            return render_template('users.html.j2', users=users)
 
     if request.method == 'GET':
         pass
 
-    return render_template('users.html', users=users)
+    return render_template('users.html.j2', users=users)

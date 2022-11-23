@@ -75,7 +75,7 @@ def index():
         discovered = list(map(lambda day: day.day_id, g.user.days))
 
         return render_template(
-                'calendar.html',
+                'calendar.html.j2',
                 win=win,
                 date_today=date_today,
                 day_data=day_data,
@@ -90,7 +90,7 @@ def help():
         return redirect(url_for('login'))
     admin = session.get('admin')
 
-    return render_template('help.html', admin=admin)
+    return render_template('help.html.j2', admin=admin)
 
 
 @app.route('/login', methods=('GET', 'POST'))
@@ -99,7 +99,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         error = None
-        user = User.query.filter_by(username=username).scalar()
+        user = User.query.filter_by(username=username).first()
 
         if user is None:
             error = 'Niepoprawny login'
@@ -114,7 +114,7 @@ def login():
 
         flash(error, 'warning')
 
-    return render_template('login.html')
+    return render_template('login.html.j2')
 
 
 @app.route('/logout')
@@ -155,4 +155,4 @@ def changepass():
 
         flash('Hasło nie zostało zmienione', 'warning')
 
-    return render_template('changepass.html')
+    return render_template('changepass.html.j2')
