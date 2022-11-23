@@ -28,6 +28,12 @@ class User(db.Model):
     def get_user(id):
         return User.query.get(int(id))
 
+    def check_username(username):
+        if (User.query.filter_by(username=username).scalar()):
+            return True
+        else:
+            return False
+
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
