@@ -10,6 +10,77 @@ from datetime import datetime, time
 from advencal.models import User, Day, DiscoveredDays
 
 
+@app.route('/questsed', methods=('GET', 'POST'))
+def questsed():
+
+    if session.get('user_id') is None:
+        return redirect(url_for('login'))
+    if not session.get('admin'):
+        return redirect(url_for('index'))
+
+    date_today = datetime.today().day
+
+    if request.method == 'POST':
+
+        if 'quest_del' in request.form:
+            quest = Day.get_day(request.form['quest_del'])
+            quest.quest = None
+            quest.quest_answer = None
+            db.session.commit()
+            return redirect(url_for('questsed'))
+
+        elif 'upload_graffile' in request.files:
+            f = request.files['upload_graffile']
+            f.save(os.path.join(
+                    './advencal/static/quests/',
+                    secure_filename(f.filename)
+                    ))
+            return redirect(url_for('questsed'))
+
+        return redirect(url_for('index'))
+
+    if request.method == 'GET':
+        users = User.query.all()
+        days = Day.query.order_by(Day.day_no).all()
+        graffiles = os.listdir('./advencal/static/quests/')
+        return render_template(
+                'quests.html',
+                users=users,
+                date_today=date_today,
+                days=days,
+                graffiles=graffiles
+                )
+
+
+@app.route('/questedit', methods=['POST'])
+def questedit():
+
+    if session.get('user_id') is None:
+        return redirect(url_for('login'))
+    if not session.get('admin'):
+        return redirect(url_for('index'))
+
+    if 'quest_edit' in request.form:
+        quest_data = Day.get_day(int(request.form['quest_edit']))
+        return render_template(
+                'questedit.html',
+                quest=str(quest_data.quest or ''),
+                quest_answer=str(quest_data.quest_answer or ''),
+                hour=quest_data.hour,
+                day_id=quest_data.id
+                )
+
+    if 'day_id' in request.form:
+
+        day = Day.get_day(request.form['day_id'])
+        day.quest = request.form['quest'] or None
+        day.quest_answer = request.form['quest_answer'] or None
+        day.hour = time.fromisoformat(request.form['hour'])
+        db.session.commit()
+
+    return redirect(url_for('questsed'))
+
+
 @app.route('/tweaks', methods=('GET', 'POST'))
 def tweaks():
 
@@ -80,48 +151,6 @@ def tweaks():
                 date_today=date_today,
                 days=days,
                 discos=discos
-                )
-
-
-@app.route('/questsed', methods=('GET', 'POST'))
-def questsed():
-
-    if session.get('user_id') is None:
-        return redirect(url_for('login'))
-    if not session.get('admin'):
-        return redirect(url_for('index'))
-
-    date_today = datetime.today().day
-
-    if request.method == 'POST':
-
-        if 'quest_del' in request.form:
-            quest = Day.get_day(request.form['quest_del'])
-            quest.quest = None
-            quest.quest_answer = None
-            db.session.commit()
-            return redirect(url_for('questsed'))
-
-        elif 'upload_graffile' in request.files:
-            f = request.files['upload_graffile']
-            f.save(os.path.join(
-                    './advencal/static/quests/',
-                    secure_filename(f.filename)
-                    ))
-            return redirect(url_for('questsed'))
-
-        return redirect(url_for('index'))
-
-    if request.method == 'GET':
-        users = User.query.all()
-        days = Day.query.order_by(Day.day_no).all()
-        graffiles = os.listdir('./advencal/static/quests/')
-        return render_template(
-                'quests.html',
-                users=users,
-                date_today=date_today,
-                days=days,
-                graffiles=graffiles
                 )
 
 
@@ -219,32 +248,3 @@ def users():
         pass
 
     return render_template('users.html', users=users)
-
-
-@app.route('/questedit', methods=['POST'])
-def questedit():
-
-    if session.get('user_id') is None:
-        return redirect(url_for('login'))
-    if not session.get('admin'):
-        return redirect(url_for('index'))
-
-    if 'quest_edit' in request.form:
-        quest_data = Day.get_day(int(request.form['quest_edit']))
-        return render_template(
-                'questedit.html',
-                quest=str(quest_data.quest or ''),
-                quest_answer=str(quest_data.quest_answer or ''),
-                hour=quest_data.hour,
-                day_id=quest_data.id
-                )
-
-    if 'day_id' in request.form:
-
-        day = Day.get_day(request.form['day_id'])
-        day.quest = request.form['quest'] or None
-        day.quest_answer = request.form['quest_answer'] or None
-        day.hour = time.fromisoformat(request.form['hour'])
-        db.session.commit()
-
-    return redirect(url_for('questsed'))
