@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html.j2" %}
 
 {% block content %}
 
@@ -12,7 +12,7 @@
             <td class="cell" style="background-image: url('/static/calendar/disc_{{ row }}_{{ col }}.png');"></td>
             {%- else %}
             <td class="cell" style="background-image: url('/static/calendar/unc_{{ row }}_{{ col }}.png');">
-                {%- if date_today < date_today.replace(day=day_data[day_id]['day_no'],hour=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").hour,minute=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").minute,second=date_today.strptime(day_data[day_id]['hour'], "%H:%M:%S").second) %}
+                {%- if date_today < date_today.replace(day=day_data[day_id]['day_no'],hour=day_data[day_id]['hour'].hour,minute=day_data[day_id]['hour'].minute,second=day_data[day_id]['hour'].second) %}
                 <a href="#notyetpopup{{ day_id }}" class="notyet" data-bs-toggle="modal" data-bs-target="#notyetpopup{{ day_id }}">{{ day_data[day_id]['day_no'] }}</a></td>
                 <div class="modal fade" id="notyetpopup{{ day_id }}" tabindex="-1" role="dialog" aria-labelledby="notyetpopup{{ day_id }}Label" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -25,7 +25,7 @@
                                 <p>Jeszcze nie czas!</p>
                                 {%- set daysdiff = (date_today.replace(day=day_data[day_id]['day_no']) - date_today).days -%}
                                 {%- set daysstring = {0: "dzisiaj", 1: "jutro", 2:"pojutrze"}[daysdiff] | default("za " + daysdiff|string + " dni") -%}
-                                <p><small>To zadanie będzie można rozwiązać już {{ daysstring }} o godzinie {{ day_data[day_id]['hour']|truncate(5, True, '', 0) }}!</small></p>
+                                <p><small>To zadanie będzie można rozwiązać już {{ daysstring }} o godzinie {{ day_data[day_id]['hour'].isoformat(timespec='minutes') }}!</small></p>
                             </div>
                         </div>
                     </div>
