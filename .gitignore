@@ -3,16 +3,10 @@ venv/
 *.pyc
 __pycache__/
 
-instance/
-
 advencal/static/calendar
 advencal/static/quests
 advencal/static/production
-advencal/static/js
 advencal/static/scss
-advencal/static/.sass-cache
-
-advencal/initial.sql
 
 app.db
 
