@@ -37,6 +37,13 @@ def questsed():
                     ))
             return redirect(url_for('questsed'))
 
+        elif 'asset_del' in request.form:
+            os.remove(os.path.join(
+                    './advencal/static/quests/',
+                    secure_filename(request.form['asset_del'])
+                    ))
+            return redirect(url_for('questsed'))
+
         return redirect(url_for('index'))
 
     if request.method == 'GET':
