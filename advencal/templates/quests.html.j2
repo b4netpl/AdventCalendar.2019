@@ -57,11 +57,10 @@
 
 <fieldset class="form-group border rounded-3 p-3">
     <legend class="float-none w-auto px-3">Biblioteka obrazków</legend>
-    <!--TODO: miejsce na przycisk Dodaj nowy obrazek-->
     <form action ="/questsed" method = "POST" enctype = "multipart/form-data">
         <div class="input-group mb-3">
-            <input type="file" class="form-control" id="upload_graffile" name="upload_graffile" aria-describedby="upload_graffile" aria-label="Załaduj">
-            <button class="btn btn-outline-success" type="submit" id="upload_graffile">Załaduj</button>
+            <input type="file" class="form-control" id="upload_asset" name="upload_asset" aria-describedby="upload_asset" aria-label="Załaduj">
+            <button class="btn btn-outline-success" type="submit" id="upload_asset">Załaduj</button>
 
         </div>
     </form> 
@@ -69,16 +68,16 @@
         <thead>
             <th scope="col">Grafika</th>
             <th scope="col">Link</th>
-            <th scope="col"></th> <!--TODO: miejsce na przycisk kopiowania linka niestety javascript-->
+            <th scope="col"></th>
             <th scope="col"></th>
         </thead>
         <tbody>
-            {%- for item in graffiles %}
+            {%- for item in assets %}
             <tr>
                 <td style="width: 50%"><img class="img-fluid" src="/static/quests/{{ item }}" style="max-height: 400px"></td>
                 <td style="width: 100%" class="align-middle">&lt;img class="img-fluid" src="/static/quests/{{ item }}"&gt;</td>
-                <td class="align-middle"><form action="" method="POST"><button class="btn btn-outline-info btn-sm" type="submit" name="graffile_copylink" value="{{ item }}"><i class="bi bi-link-45deg"></i></button></form></td>
-                <td class="align-middle"><form action="" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="graffile_del" value="{{ item }}"><i class="bi bi-trash-fill"></i></button></form></td>   
+                <td class="align-middle"><button class="btn btn-outline-info btn-sm" onclick="copyToClipboard('%3Cimg%20class=%22img-fluid%22%20src=%22/static/quests/{{ item }}%22%3E', true)"><i class="bi bi-link-45deg"></i></button></td>
+                <td class="align-middle"><form action="" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="asset_del" value="{{ item }}"><i class="bi bi-trash-fill"></i></button></form></td>   
             </tr>
             {%- endfor %}
         </tbody>
