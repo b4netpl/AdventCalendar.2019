@@ -103,11 +103,9 @@
       text = decodeURI(text)
     }
     navigator.clipboard.writeText(text).then(() => {
-      console.log('ok')
-      console.log(text)
+      /* clipboard successfully set */
       }, () => {
-      console.log('dupa')
-      console.log(text)
+      /* clipboard write failed */
     });
   }
   </script>
