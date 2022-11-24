@@ -29,8 +29,8 @@ def questsed():
             db.session.commit()
             return redirect(url_for('questsed'))
 
-        elif 'upload_graffile' in request.files:
-            f = request.files['upload_graffile']
+        elif 'upload_asset' in request.files:
+            f = request.files['upload_asset']
             f.save(os.path.join(
                     './advencal/static/quests/',
                     secure_filename(f.filename)
@@ -42,13 +42,13 @@ def questsed():
     if request.method == 'GET':
         users = User.query.all()
         days = Day.query.order_by(Day.day_no).all()
-        graffiles = os.listdir('./advencal/static/quests/')
+        assets = os.listdir('./advencal/static/quests/')
         return render_template(
                 'quests.html.j2',
                 users=users,
                 date_today=date_today,
                 days=days,
-                graffiles=graffiles
+                assets=assets
                 )
 
 
