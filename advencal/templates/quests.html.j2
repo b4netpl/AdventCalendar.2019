@@ -77,7 +77,7 @@
             <tr>
                 <td style="width: 50%"><img class="img-fluid" src="/static/quests/{{ item }}" style="max-height: 400px"></td>
                 <td style="width: 100%" class="align-middle">&lt;img class="img-fluid" src="/static/quests/{{ item }}"&gt;</td>
-                <td class="align-middle"><form action="" method="POST"><button class="btn btn-outline-info btn-sm" type="submit" name="graffile_copylink" value="{{ item }}"><i class="bi bi-link-45deg"></i></button></form></td>
+                <td class="align-middle"><button class="btn btn-outline-info btn-sm" onclick="copyToClipboard('%3Cimg%20class=%22img-fluid%22%20src=%22/static/quests/{{ item }}%22%3E', true)"><i class="bi bi-link-45deg"></i></button></td>
                 <td class="align-middle"><form action="" method="POST"><button class="btn btn-outline-danger btn-sm" type="submit" name="graffile_del" value="{{ item }}"><i class="bi bi-trash-fill"></i></button></form></td>   
             </tr>
             {%- endfor %}
