@@ -4,251 +4,44 @@
 
 <h1>Pomoc</h1>
 <p>Witamy w kalendarzu adwentowym na kolejny rok! :)</p>
-<div class="accordion" id="helpAccordion">
-    <div class="card">
-        <div class="card-header" id="heading1">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
-                Jak działa kalendarz?
-            </button>
-            </h2>
-        </div>
-        <div id="collapse1" class="collapse" aria-labelledby="heading1" data-parent="#helpAccordion">
-            <div class="card-body">
-                Kalendarz składa się z 24 pól, które będziesz odkrywać codziennie po jednym, aby na koniec zobaczyć finałowe zdjęcie i... niespodziankę! Jeśli w zabawie bierze udział więcej niż jedna osoba, każda uczestniczka zabawy dostaje swój własny login i hasło i rozwiązuje kalendarz samodzielnie.
-            </div>
-        </div>
+
+<div class="accordion" id="accordionHelpUser">
+  {% for helpitem in userhelp %}
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="heading{{ helpitem.id }}">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ helpitem.id }}" aria-expanded="false" aria-controls="collapse{{ helpitem.id }}">
+        <strong>{{ helpitem.title }}</strong>
+      </button>
+    </h2>
+    <div id="collapse{{ helpitem.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ helpitem.id }}" data-bs-parent="#accordionHelpUser">
+      <div class="accordion-body">
+        {{ helpitem.body }}
+      </div>
     </div>
-    <div class="card">
-        <div class="card-header" id="heading2">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                Co się stanie po kliknięciu na pole z numerkiem?
-            </button>
-            </h2>
-        </div>
-        <div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#helpAccordion">
-            <div class="card-body">
-                Jeśli dzień grudnia jest zgodny z numerkiem, po kliknięciu pojawi się zadanie.
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="heading3">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
-                Na czym polega rozwiązywanie zadań?
-            </button>
-            </h2>
-        </div>
-        <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#helpAccordion">
-            <div class="card-body">
-                Po kliknięciu w pole z numerkiem danego dnia pojawi się okienko z pytaniem lub zagadką. Na dole okienka zawsze jest pole na wpisanie odpowiedzi i przycisk "Sprawdź". Jeśli odpowiedź będzie prawidłowa, okienko danego dnia się "otworzy", czyli odkryje się fragment innego obrazka ukrytego pod nim. Po odkryciu całego kalendarza pokaże się niespodzianka!
-                <p>Ważne jest, aby w odpowiedzi nie było błędów, literówek itd., bo komputery odczytują tylko prawidłowe rozwiązania.</p>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="heading4">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                Kiedy odblokowują się kolejne zadania?
-            </button>
-            </h2>
-        </div>
-        <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#helpAccordion">
-            <div class="card-body">
-                Zadania indywidualne odblokowują się o konkretnej godzinie ustalonej przez autorów gry, domyślnie o północy każdego dnia. Jeśli kliknie się wcześniej, pojawi się komunikat, że jeszcze nie czas.
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="heading5">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
-                Co jeśli nie zdążę rozwiązać zadania w danym dniu?
-            </button>
-            </h2>
-        </div>
-        <div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#helpAccordion">
-            <div class="card-body">
-                Nie ma problemu. Zadania z dni poprzednich pozostają aktywne aż do finału, a w razie potrzeby i dłużej. Wystarczy kliknąć w pole z numerkiem.
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="heading7">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse7" aria-expanded="false" aria-controls="collapse7">
-                Czy mogę zmienić swoje hasło do kalendarza?
-            </button>
-            </h2>
-        </div>
-        <div id="collapse7" class="collapse" aria-labelledby="heading7" data-parent="#helpAccordion">
-            <div class="card-body">
-                Tak, na górnym kolorowym pasku jest menu rozwijane, które pozwala zmienić hasło użytkownika.
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="heading8">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse8" aria-expanded="false" aria-controls="collapse8">
-                Co jeśli nie umiem rozwiązać zadania?
-            </button>
-            </h2>
-        </div>
-        <div id="collapse8" class="collapse" aria-labelledby="heading8" data-parent="#helpAccordion">
-            <div class="card-body">
-                <p>Kombinuj, googlaj, szukaj pomocy wśród rodziny i znajomych, a w ostateczności zawsze możesz spytać autorów gry.</p>
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="heading9">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse9" aria-expanded="false" aria-controls="collapse9">
-                Kto może mi pomóc w razie problemów?
-            </button>
-            </h2>
-        </div>
-        <div id="collapse9" class="collapse" aria-labelledby="heading9" data-parent="#helpAccordion">
-            <div class="card-body">
-                <p>Opiekunami zabawy są w tym roku Basia i Bartek.</p>
-                <p>W razie problemów technicznych prosimy o maila na adres administratorów bb@b4.net.pl.</p>
-            </div>
-        </div>
-    </div>
+  </div>
+  {% endfor %}
 </div>
 
 {% if admin %}
-<p>&nbsp;</p>
+<p></p>
 <h1>Dla administratorów</h1>
-<p>&nbsp;</p>
-<div class="accordion" id="adminAccordion">
-    <div class="card">
-        <div class="card-header" id="adminhead1">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#adminclps1" aria-expanded="false" aria-controls="adminclps1">
-                Jak dodać nowego użytkownika?
-            </button>
-            </h2>
-        </div>
-        <div id="adminclps1" class="collapse" aria-labelledby="adminhead1" data-parent="#adminAccordion">
-            <div class="card-body">
-                <p>Z kolorowego paska z nagłówkami na górze strony wybierasz menu Użytkownicy. Pojawi się strona z ramką Dodaj użytkownika. W polu „Login" wpisujesz dowolny login bez spacji (np. imię). Tym loginem użytkownik będzie się logował do kalendarza.
-                <p>Jeśli zaznaczysz opcję „Podaj hasło", to musisz je wpisać w pole tekstowe „Hasło".
-                <p>Jeśli zaznaczysz opcję „Wygeneruj losowe hasło", to system sam utworzy hasło.
-                <p>Po kliknięciu w zielony przycisk „Dodaj użytkownika" konto zostanie założone. Wyświetli się komunikat potwierdzający. Najlepiej skopiować myszką treść z ramki na dole tego komunikatu i wysłać mailem użytkownikowi (będzie tam login, hasło i adres strony). Można też skopiować samo hasło zielonym przyciskiem "Skopiuj do schowka".
-            </div>
-        </div>
+<p></p>
+
+<div class="accordion" id="accordionHelpAdmin">
+  {% for helpitem in adminhelp %}
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="heading{{ helpitem.id }}">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ helpitem.id }}" aria-expanded="false" aria-controls="collapse{{ helpitem.id }}">
+        <strong>{{ helpitem.title }}</strong>
+      </button>
+    </h2>
+    <div id="collapse{{ helpitem.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ helpitem.id }}" data-bs-parent="#accordionHelpAdmin">
+      <div class="accordion-body">
+        {{ helpitem.body }}
+      </div>
     </div>
-    <div class="card">
-        <div class="card-header" id="adminhead2">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#adminclps2" aria-expanded="false" aria-controls="adminclps2">
-                Jak usunąć użytkownika?
-            </button>
-            </h2>
-        </div>
-        <div id="adminclps2" class="collapse" aria-labelledby="adminhead2" data-parent="#adminAccordion">
-            <div class="card-body">
-                Z pkolorowego paska z nagłówkami na górze strony wybierasz menu Użytkownicy. Na dole strony w ramce "Zarządzaj użytkownikami" jest lista wszystkich założonych użytkowników. Wystarczy kliknąć "Usuń" przy wybranym użytkowniku. Uwaga! Ostrożnie - tej operacji nie da się cofnąć! (Przy użytkownikach z prawami administratora nie ma takiej opcji, prosimy o kontakt na adres bb@b4.net.pl).
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="adminhead3">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#adminclps3" aria-expanded="false" aria-controls="adminclps3">
-                Jak zmienić hasło użytkownika?
-            </button>
-            </h2>
-        </div>
-        <div id="adminclps3" class="collapse" aria-labelledby="adminhead3" data-parent="#adminAccordion">
-            <div class="card-body">
-                <p>Z kolorowego paska z nagłówkami na górze strony wybierasz menu Użytkownicy. Na dole strony w ramce "Zarządzaj użytkownikami" jest lista wszystkich założonych użytkowników. Wystarczy kliknąć w przycisk "Zmień hasło" przy wybranym użytkowniku.
-                <p>Jeśli zaznaczysz opcję „Podaj hasło", to musisz je wpisać w pole tekstowe „Hasło".
-                <p>Jeśli zaznaczysz opcję „Wygeneruj losowe hasło", to system sam utworzy hasło.
-                <p>Po kliknięciu w żółty przycisk „Ustaw nowe hasło" hasło zostanie zmienione. Wyświetli się komunikat potwierdzający. Najlepiej skopiować myszką treść z ramki na dole tego komunikatu i wysłać mailem użytkownikowi (będzie tam login, hasło i adres strony). Można też skopiować samo hasło zielonym przyciskiem "Skopiuj do schowka".
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="adminhead4">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#adminclps4" aria-expanded="false" aria-controls="adminclps4">
-                Co znajduje się w Ustawieniach?
-            </button>
-            </h2>
-        </div>
-        <div id="adminclps4" class="collapse" aria-labelledby="adminhead4" data-parent="#adminAccordion">
-            <div class="card-body">
-                <p>W ustawieniach jest kilka ramek funkcjonalnych (na razie trochę nie po kolei):
-                <p>Usuń odwiedziny - pozwala dla wybranego użytkownika wyzerować bazę z rozwiązanymi zadaniami
-                <p>Dodaj odwiedziny i rozwiąż wszystkie zadania - pozwala dla wybranego użytkownika oznaczyć wszystkie zadania jako ukończone (przydatne w celu testowania finału)
-                <p>Przesuń kalendarz - ustawia sztucznie dowolny dzień miesiąca dla aktualnego użytkownika pozwalając testować zachowanie kalendarza na określone daty
-                <p>Edytuj questy - główny moduł podglądu, tworzenia, edytowania i usuwania zadań
-                <p>Postępy użytkowników - pokazuje wszystkich użytkowników i ich zadania: na zielono niewykonane, na żółto wykonane
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="adminhead5">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#adminclps5" aria-expanded="false" aria-controls="adminclps5">
-                Jak działa funkcja Usuń odwiedziny w Ustawieniach?
-            </button>
-            </h2>
-        </div>
-        <div id="adminclps5" class="collapse" aria-labelledby="adminhead5" data-parent="#adminAccordion">
-            <div class="card-body">
-                Trzeba wybrać swój login na liście rozwijanej i kliknąć czerwony przycisk Usuń (najlepiej z opcją „wszystkie"). Wtedy resetujemy kalendarz do stanu zerowego, tj. żadne zagadki nie są rozwiązane. Ostrożnie z tą opcją dla innych użytkowników, niż my sami, bo skasuje ich postępy!
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="adminhead6">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#adminclps6" aria-expanded="false" aria-controls="adminclps6">
-                Jak działa funkcja Dodaj odwiedziny i rozwiąż wszystkie zadania w Ustawieniach?
-            </button>
-            </h2>
-        </div>
-        <div id="adminclps6" class="collapse" aria-labelledby="adminhead6" data-parent="#adminAccordion">
-            <div class="card-body">
-                Trzeba wybrać swój login na liście rozwijanej i kliknąć zielony przycisk Rozwiąż. Wtedy systemowo kalendarz ustawi wszystkie zagadki jako rozwiązane, aby można było podejrzeć jak wygląda finał. Ostrożnie z tą opcją dla innych użytkowników, niż my sami, bo pokaże im finał i zablokuje kalendarz przed dalszą zabawą!
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="adminhead7">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#adminclps7" aria-expanded="false" aria-controls="adminclps7">
-                Jak działa funkcja Przesuń kalendarz w czasie w Ustawieniach?
-            </button>
-            </h2>
-        </div>
-        <div id="adminclps7" class="collapse" aria-labelledby="adminhead7" data-parent="#adminAccordion">
-            <div class="card-body">
-                Standardowo kalendarz nie pozwala oglądać zagadek z przyszłości (np. w dniu 10. grudnia nie pokaże zagadki z numerem 11, 12 i kolejnych). Aby testować zagadki na przyszłość, trzeba kliknąć przesuwanie kalendarza. Przesunięcie na datę późniejszą niż finał pozwoli testować cały kalendarz i wszystkie zagadki.<br>Przesuwanie działa tylko dla osoby zalogowanej i resetuje się po wylogowaniu lub kolejnego dnia. Nie wpływa na innych użytkowników, więc można bezpiecznie w to klikać.
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="adminhead8">
-            <h2 class="mb-0">
-            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#adminclps8" aria-expanded="false" aria-controls="adminclps8">
-                Jak działa panel Edytuj questy w Ustawieniach?
-            </button>
-            </h2>
-        </div>
-        <div id="adminclps8" class="collapse" aria-labelledby="adminhead8" data-parent="#adminAccordion">
-            <div class="card-body">
-                Jest to główny panel tworzenia questów. Można je podejrzeć (zielona ikonka z oczkiem, chociaż lepiej z poziomu kalendarza), edytować (żółta ikonka z ołówkiem) i usuwać (prosimy ostrożnie). Edycja wykorzystuje formularz z treścią oraz odpowiedź. W treści można stosować znaczniki HTML (do poćwiczenia np. <a href="https://liveweave.com" target="_blank">tutaj</a>, do HTMLa jest lewe górne okienko). Dodawanie zdjęć na razie wymaga wysłania ich do administratora strony (formularz dodawania zostanie przygotowany w przyszłości).
-            </div>
-        </div>
-    </div>
+  </div>
+  {% endfor %}
 </div>
 {% endif %}
 {% endblock %}

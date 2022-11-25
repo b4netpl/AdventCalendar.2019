@@ -89,9 +89,17 @@ def help():
 
     if session.get('user_id') is None:
         return redirect(url_for('login'))
-    admin = session.get('admin')
 
-    return render_template('help.html.j2', admin=admin)
+    admin = session.get('admin')
+    userhelp = Help.query.filter_by(admin=False).order_by(Help.order).all()
+    adminhelp = Help.query.filter_by(admin=True).order_by(Help.order).all()
+
+    return render_template(
+            'help.html.j2',
+            admin=admin,
+            userhelp=userhelp,
+            adminhelp=adminhelp
+            )
 
 
 @app.route('/login', methods=('GET', 'POST'))
