@@ -2,7 +2,8 @@ from advencal import app, db
 from flask import session, g
 from flask import redirect, url_for, request, flash, render_template
 from datetime import datetime
-from advencal.models import User, Day, DiscoveredDays
+from advencal.models import User, Day, DiscoveredDays, Help
+from advencal.helpers import commit
 
 
 @app.before_request
@@ -36,7 +37,7 @@ def index():
                             user_id=str(session['user_id'])
                             )
                     db.session.add(visit)
-                    db.session.commit()
+                    commit(db.session)
                 # wrong answer
                 else:
                     flash(
@@ -50,7 +51,7 @@ def index():
                         user_id=str(session['user_id'])
                         )
                 db.session.add(visit)
-                db.session.commit()
+                commit(db.session)
 
         if len(g.user.days) == 24:
             win = True
@@ -148,7 +149,7 @@ def changepass():
 
         if error is False:
             user.set_password(new_pass)
-            db.session.commit()
+            commit(db.session)
 
             flash('Hasło zmienione poprawnie', 'success')
             return redirect(url_for('index'))

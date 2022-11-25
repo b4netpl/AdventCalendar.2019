@@ -8,6 +8,7 @@ from flask import Markup
 from werkzeug.utils import secure_filename
 from datetime import datetime, time
 from advencal.models import User, Day, DiscoveredDays
+from advencal.helpers import commit
 
 
 @app.route('/questsed', methods=('GET', 'POST'))
@@ -26,7 +27,7 @@ def questsed():
             quest = Day.get_day(request.form['quest_del'])
             quest.quest = None
             quest.quest_answer = None
-            db.session.commit()
+            commit(db.session)
             return redirect(url_for('questsed'))
 
         elif 'upload_asset' in request.files:
@@ -83,7 +84,7 @@ def questedit():
         day.quest = request.form['quest'] or None
         day.quest_answer = request.form['quest_answer'] or None
         day.hour = time.fromisoformat(request.form['hour'])
-        db.session.commit()
+        commit(db.session)
 
     return redirect(url_for('questsed'))
 
@@ -122,7 +123,7 @@ def tweaks():
                         )
             for visit in visits_to_delete.all():
                 db.session.delete(visit)
-            db.session.commit()
+            commit(db.session)
 
         elif 'solve_users' in request.form:
             visits_to_add = []
@@ -137,7 +138,7 @@ def tweaks():
                             )
                     visits_to_add.append(visit_to_append)
             db.session.add_all(visits_to_add)
-            db.session.commit()
+            commit(db.session)
 
         elif 'time_shift' in request.form:
             if date_today != int(request.form['time_shift']):
@@ -196,7 +197,7 @@ def users():
             user = User(username=new_user, admin=False)
             user.set_password(new_pass)
             db.session.add(user)
-            db.session.commit()
+            commit(db.session)
             credentials = {
                 "login": new_user,
                 "pass": new_pass
@@ -222,7 +223,7 @@ def users():
 
             user = User.get_user(request.form['user_id'])
             user.set_password(new_pass)
-            db.session.commit()
+            commit(db.session)
 
             credentials = {
                 "login": user.username,
@@ -239,7 +240,7 @@ def users():
             user = User.get_user(request.form['user_del'])
             username_del = user.username
             db.session.delete(user)
-            db.session.commit()
+            commit(db.session)
 
             flash(Markup(
                     'Użytkownik <strong>'
