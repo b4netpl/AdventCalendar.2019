@@ -54,3 +54,14 @@ class Day(db.Model):
 
     def get_day(id):
         return Day.query.get(int(id))
+
+
+class Help(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    order = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.Text)
+    body = db.Column(db.Text)
+    admin = db.Column(db.Boolean, nullable=False, default=False)
+
+    def __repr__(self):
+        return '<Help {}>'.format(self.title)
