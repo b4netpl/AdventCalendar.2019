@@ -1,4 +1,6 @@
 import click
+import json
+import os
 
 from flask.cli import AppGroup
 from datetime import time
@@ -92,47 +94,33 @@ def help_data(language):
 
     if language == 'pl':
 
-        Help.query.delete()
-        commit(db.session)
+        try:
+            with open(
+                        os.path.join('./advencal/help/', 'help.pl.json'),
+                        'r'
+                        ) as f:
+                help_items = json.load(f)
+        except OSError:
+            click.echo('Error opening file. Data not changed.')
+        else:
+            Help.query.delete()
+            commit(db.session)
 
-        db.session.add(Help(
-                order=1,
-                title='Jak działa kalendarz?',
-                body='Kalendarz składa się z 24 pól, które będziesz odkrywać codziennie po jednym, aby na koniec zobaczyć finałowe zdjęcie i... niespodziankę! Jeśli w zabawie bierze udział więcej niż jedna osoba, każda uczestniczka zabawy dostaje swój własny login i hasło i rozwiązuje kalendarz samodzielnie.',
-                admin=False
-        ))
-        db.session.add(Help(
-                order=2,
-                title='Co się stanie po kliknięciu na pole z numerkiem?',
-                body='Jeśli dzień grudnia jest zgodny z numerkiem, po kliknięciu pojawi się zadanie.',
-                admin=False
-        ))
+            for item in help_items:
+                db.session.add(Help(
+                        order=item['order'],
+                        title=item['title'],
+                        body=item['body'],
+                        admin=item['admin']
+                        ))
 
-        # admin help
-        db.session.add(Help(
-                order=1,
-                title='Jak dodać nowego użytkownika?',
-                body='<p>Z kolorowego paska z nagłówkami na górze strony wybierasz menu Użytkownicy. Pojawi się strona z ramką Dodaj użytkownika. W polu „Login" wpisujesz dowolny login bez spacji (np. imię). Tym loginem użytkownik będzie się logował do kalendarza.'
-                '<p>Jeśli zaznaczysz opcję „Podaj hasło", to musisz je wpisać w pole tekstowe „Hasło".'
-                '<p>Jeśli zaznaczysz opcję „Wygeneruj losowe hasło", to system sam utworzy hasło.'
-                '<p>Po kliknięciu w zielony przycisk „Dodaj użytkownika" konto zostanie założone. Wyświetli się komunikat potwierdzający. Najlepiej skopiować myszką treść z ramki na dole tego komunikatu i wysłać mailem użytkownikowi (będzie tam login, hasło i adres strony). Można też skopiować samo hasło zielonym przyciskiem "Skopiuj do schowka".',
-                admin=True
-        ))
-
-        db.session.add(Help(
-                order=2,
-                title='Jak usunąć użytkownika?',
-                body='Z kolorowego paska z nagłówkami na górze strony wybierasz menu Użytkownicy. Na dole strony w ramce "Zarządzaj użytkownikami" jest lista wszystkich założonych użytkowników. Wystarczy kliknąć "Usuń" przy wybranym użytkowniku. Uwaga! Ostrożnie - tej operacji nie da się cofnąć! (Przy użytkownikach z prawami administratora nie ma takiej opcji, prosimy o kontakt na adres bb@b4.net.pl).',
-                admin=True
-        ))
-
-        commit(db.session)
+            commit(db.session)
 
     else:
         click.echo(
                 'Language '
                 + language
-                + ' not found! No data were changed.'
+                + ' not found! Data not changed.'
                 )
 
 
