@@ -7,7 +7,7 @@ from flask import session, redirect, request, url_for, render_template, flash
 from flask import Markup
 from werkzeug.utils import secure_filename
 from datetime import datetime, time
-from advencal.models import User, Day, DiscoveredDays
+from advencal.models import User, Day, DiscoveredDays, Help
 from advencal.helpers import commit
 
 
@@ -256,3 +256,24 @@ def users():
         pass
 
     return render_template('users.html.j2', users=users)
+
+
+@app.route('/edithelp', methods=['POST'])
+def edithelp():
+
+    if session.get('user_id') is None:
+        return redirect(url_for('login'))
+    if not session.get('admin'):
+        return redirect(url_for('index'))
+
+    if 'edit_help' in request.form:
+        admin = session.get('admin')
+        userhelp = Help.query.filter_by(admin=False).order_by(Help.order).all()
+        adminhelp = Help.query.filter_by(admin=True).order_by(Help.order).all()
+
+        return render_template(
+                'edithelp.html.j2',
+                admin=admin,
+                userhelp=userhelp,
+                adminhelp=adminhelp
+                )

@@ -10,7 +10,7 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="heading{{ helpitem.id }}">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ helpitem.id }}" aria-expanded="false" aria-controls="collapse{{ helpitem.id }}">
-        <strong>{{ helpitem.title }}</strong>
+        <input class="form-control" name="title" id="title" value="{{ helpitem.title }}">
       </button>
     </h2>
     <div id="collapse{{ helpitem.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ helpitem.id }}" data-bs-parent="#accordionHelpUser">
