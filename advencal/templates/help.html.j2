@@ -2,18 +2,17 @@
 
 {% block content %}
 
-<h1>Pomoc</h1>
-<p>Witamy w kalendarzu adwentowym na kolejny rok! :)</p>
+{% macro helpaccordion(helpcontents, accordionid) -%}
 
-<div class="accordion" id="accordionHelpUser">
-  {% for helpitem in userhelp %}
+<div class="accordion" id="{{ accordionid }}">
+  {% for helpitem in helpcontents %}
   <div class="accordion-item">
     <h2 class="accordion-header" id="heading{{ helpitem.id }}">
       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ helpitem.id }}" aria-expanded="false" aria-controls="collapse{{ helpitem.id }}">
         <strong>{{ helpitem.title }}</strong>
       </button>
     </h2>
-    <div id="collapse{{ helpitem.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ helpitem.id }}" data-bs-parent="#accordionHelpUser">
+    <div id="collapse{{ helpitem.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ helpitem.id }}" data-bs-parent="#{{ accordionid }}">
       <div class="accordion-body">
         {{ helpitem.body }}
       </div>
@@ -21,31 +20,24 @@
   </div>
   {% endfor %}
 </div>
+
+{% endmacro %}
+
+<h1>Pomoc</h1>
+<p>Witamy w kalendarzu adwentowym na kolejny rok! :)</p>
+
+{{ helpaccordion(userhelp, 'accordionHelpUser') }}
 
 {% if admin %}
 <p></p>
 <h1>Dla administratorów</h1>
 <p></p>
 
-<div class="accordion" id="accordionHelpAdmin">
-  {% for helpitem in adminhelp %}
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="heading{{ helpitem.id }}">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ helpitem.id }}" aria-expanded="false" aria-controls="collapse{{ helpitem.id }}">
-        <strong>{{ helpitem.title }}</strong>
-      </button>
-    </h2>
-    <div id="collapse{{ helpitem.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ helpitem.id }}" data-bs-parent="#accordionHelpAdmin">
-      <div class="accordion-body">
-        {{ helpitem.body }}
-      </div>
-    </div>
-  </div>
-  {% endfor %}
-</div>
+{{ helpaccordion(adminhelp, 'accordionHelpAdmin') }}
+
 <form action="/edithelp" method="post">
 <div class="d-grid col-4 mx-auto my-4">
-  <button type="submit" class="btn btn-warning btn-block" name="edit_help" value="edit_help">Edytuj</button>
+  <button type="submit" class="btn btn-warning" name="edit_help" value="edit_help">Edytuj</button>
 </div>
 </form>
 {% endif %}
