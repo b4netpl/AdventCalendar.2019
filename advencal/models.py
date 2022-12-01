@@ -1,4 +1,5 @@
 from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy import func
 from advencal import db
 
 
@@ -65,3 +66,8 @@ class Help(db.Model):
 
     def __repr__(self):
         return '<Help {}>'.format(self.title)
+
+    def get_max_order(admin):
+        return db.session.query(
+                func.max(Help.order)
+                ).filter_by(admin=admin).scalar()
