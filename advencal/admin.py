@@ -258,7 +258,7 @@ def users():
     return render_template('users.html.j2', users=users)
 
 
-@app.route('/edithelp', methods=['POST'])
+@app.route('/edithelp', methods=('GET', 'POST'))
 def edithelp():
 
     if session.get('user_id') is None:

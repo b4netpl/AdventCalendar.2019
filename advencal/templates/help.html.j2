@@ -35,10 +35,9 @@
 
 {{ helpaccordion(adminhelp, 'accordionHelpAdmin') }}
 
-<form action="/edithelp" method="post">
 <div class="d-grid col-4 mx-auto my-4">
-  <button type="submit" class="btn btn-warning" name="edit_help" value="edit_help">Edytuj</button>
+  <a class="btn btn-warning" href="/edithelp" role="button">Edytuj</a>
 </div>
-</form>
+
 {% endif %}
 {% endblock %}
