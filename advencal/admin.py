@@ -266,14 +266,33 @@ def edithelp():
     if not session.get('admin'):
         return redirect(url_for('index'))
 
-    if 'edit_help' in request.form:
-        admin = session.get('admin')
-        userhelp = Help.query.filter_by(admin=False).order_by(Help.order).all()
-        adminhelp = Help.query.filter_by(admin=True).order_by(Help.order).all()
+    if request.method == 'POST':
 
-        return render_template(
-                'edithelp.html.j2',
-                admin=admin,
-                userhelp=userhelp,
-                adminhelp=adminhelp
+        if 'helpitemtitle' in request.form:
+
+            if request.form.get('helpitemadmin'):
+                helpitemadmin = True
+            else:
+                helpitemadmin = False
+
+        lastitem = Help.get_max_order(admin=helpitemadmin)
+        newhelpitem = Help(
+                order=lastitem + 1,
+                title=request.form['helpitemtitle'],
+                body=request.form['helpitembody'],
+                admin=helpitemadmin
                 )
+
+        db.session.add(newhelpitem)
+        commit(db.session)
+
+    admin = session.get('admin')
+    userhelp = Help.query.filter_by(admin=False).order_by(Help.order).all()
+    adminhelp = Help.query.filter_by(admin=True).order_by(Help.order).all()
+
+    return render_template(
+            'edithelp.html.j2',
+            admin=admin,
+            userhelp=userhelp,
+            adminhelp=adminhelp
+            )

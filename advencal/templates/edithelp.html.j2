@@ -30,6 +30,11 @@
 
 {%- endmacro %}
 
+<div class="d-grid my-3 gap-3 d-md-flex col-12 justify-content-md-end">
+  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addhelpitem_modal">Dodaj nową pozycję</button>
+  <button type="button" class="btn btn-warning">Zapisz kolejność</button>
+</div>
+
 <h1>Pomoc</h1>
 <p>Witamy w kalendarzu adwentowym na kolejny rok! :)</p>
 
@@ -42,12 +47,33 @@
 
 {{ helpaccordion(adminhelp, "accordionHelpAdmin") }}
 
-<div class="d-grid my-3 gap-3 d-md-flex col-12 justify-content-md-end">
-  <button type="button" class="btn btn-warning">Dodaj nową pozycję</button>
-  <button type="button" class="btn btn-success">Zapisz kolejność</button>
+{% endif %}
+
+<div class="modal fade" id="addhelpitem_modal" tabindex="-1" role="dialog" aria-labelledby="addhelpitem_modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addhelpitem_modalLabel">Dodaj nową pozycję do Pomocy</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input class="form-control my-3" name="helpitemtitle" id="helpitemtitle" value="" placeholder="Tytuł">
+          <textarea class="form-control my-3" name="helpitembody" id="helpitembody" rows="5" placeholder="Treść"></textarea>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="helpitemadmin" id="helpitemadmin" value="helpitemadmin">
+            <label class="form-check-label" for="helpitemadmin">Dla administratorów</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+          <button class="btn btn-warning d-inline btn-ok" type="submit">Dodaj</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
-{% endif %}
 {% endblock %}
 
 {% block scripts %}
