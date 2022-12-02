@@ -67,6 +67,9 @@ class Help(db.Model):
     def __repr__(self):
         return '<Help {}>'.format(self.title)
 
+    def get_helpitem(id):
+        return Help.query.get(int(id))
+
     def get_max_order(admin):
         return db.session.query(
                 func.max(Help.order)
