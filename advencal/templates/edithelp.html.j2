@@ -104,4 +104,34 @@
 
   </script>
 
+  <script type="text/javascript">
+  
+    function sendPostWithSortableOrder(){
+      var userHelpOrder = Sortable.get(accordionHelpUser).toArray();
+      var adminHelpOrder = Sortable.get(accordionHelpAdmin).toArray();
+
+      var form = document.createElement('form');
+      form.method = 'post';
+      form.action = '';
+
+      var field1 = document.createElement('input');
+      field1.type = 'hidden';
+      field1.name = 'userhelp_order';
+      field1.value = userHelpOrder;
+      form.appendChild(field1);
+
+      var field2 = document.createElement('input');
+      field2.type = 'hidden';
+      field2.name = 'adminhelp_order';
+      field2.value = adminHelpOrder;
+      form.appendChild(field2);
+
+      document.body.appendChild(form);
+
+      form.submit();
+
+    }
+
+  </script>
+
 {% endblock %}
