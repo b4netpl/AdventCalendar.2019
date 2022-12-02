@@ -88,14 +88,7 @@
       Sortable.create(sortableName, {
         handle: '.draghandle',
         animation: 150,
-        group: "localStorageHelp",
-        store: {
-          get: function(sortable) { },
-          set: function(sortable) {
-            var order = sortable.toArray();
-            sessionStorage.setItem(sortableName, order);
-          }
-        }
+        group: "localStorageHelp"
       });
     }
 
