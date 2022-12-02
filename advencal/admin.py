@@ -275,16 +275,29 @@ def edithelp():
             else:
                 helpitemadmin = False
 
-        lastitem = Help.get_max_order(admin=helpitemadmin)
-        newhelpitem = Help(
-                order=lastitem + 1,
-                title=request.form['helpitemtitle'],
-                body=request.form['helpitembody'],
-                admin=helpitemadmin
-                )
+            lastitem = Help.get_max_order(admin=helpitemadmin)
+            newhelpitem = Help(
+                    order=lastitem + 1,
+                    title=request.form['helpitemtitle'],
+                    body=request.form['helpitembody'],
+                    admin=helpitemadmin
+                    )
 
-        db.session.add(newhelpitem)
-        commit(db.session)
+            db.session.add(newhelpitem)
+            commit(db.session)
+
+        elif 'userhelp_order' in request.form:
+
+            def reorder_helpitems(form_field, admin):
+                userhelp_order = request.form[form_field].split(',')
+                for i, o in enumerate(userhelp_order):
+                    helpitem = Help.get_helpitem(o)
+                    helpitem.order = i
+                    helpitem.admin = admin
+
+            reorder_helpitems('userhelp_order', False)
+            reorder_helpitems('adminhelp_order', True)
+            commit(db.session)
 
     admin = session.get('admin')
     userhelp = Help.query.filter_by(admin=False).order_by(Help.order).all()
