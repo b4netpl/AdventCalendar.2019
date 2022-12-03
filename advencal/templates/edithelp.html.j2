@@ -1,0 +1,176 @@
+{% extends "base.html.j2" %}
+
+{% block content %}
+
+{% macro helpaccordion(helpcontents, accordionid) -%}
+
+<div class="accordion list-group" id="{{ accordionid }}">
+  {% for helpitem in helpcontents %}
+  <div class="accordion-item list-group-item" data-id="{{ helpitem.id }}">
+    <form method="post">
+      <input type="hidden" id="helpitem_id" name="helpitem_id" value="{{ helpitem.id }}">
+      <h2 class="accordion-header" id="heading{{ helpitem.id }}">
+        <div class="input-group">
+          <input class="form-control" name="title" id="title" value="{{ helpitem.title|e }}">
+          <span class="input-group-text draghandle"><i class="bi bi-arrow-down-up"></i></span>
+          <button class="btn btn-outline-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ helpitem.id }}" aria-expanded="false" aria-controls="collapse{{ helpitem.id }}"><i class="bi bi-pencil-fill"></i></button>
+        </div>
+      </h2>
+      <div id="collapse{{ helpitem.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ helpitem.id }}" data-bs-parent="#{{ accordionid }}">
+        <div class="accordion-body">
+          <textarea class="form-control" name="body" id="body" rows="5">{{ helpitem.body|e }}</textarea>
+          <div class="d-grid my-3 gap-3 d-md-flex col-12 justify-content-md-end">
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preview_help" data-bs-dataid="{{ helpitem.id }}">Podgląd</button>
+            <button type="submit" name="save_helpitem" class="btn btn-success">Zapisz</button>
+            <button type="submit" name="del_helpitem" class="btn btn-danger">Usuń</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  {% endfor %}
+</div>
+
+{%- endmacro %}
+
+<div class="d-grid my-3 gap-3 d-md-flex col-12 justify-content-md-end">
+  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addhelpitem_modal">Dodaj nową pozycję</button>
+  <button type="button" class="btn btn-warning" onclick="sendPostWithSortableOrder()">Zapisz kolejność</button>
+</div>
+
+<h1>Pomoc</h1>
+<p>Witamy w kalendarzu adwentowym na kolejny rok! :)</p>
+
+{{ helpaccordion(userhelp, "accordionHelpUser") }}
+
+{% if admin %}
+<p></p>
+<h1>Dla administratorów</h1>
+<p></p>
+
+{{ helpaccordion(adminhelp, "accordionHelpAdmin") }}
+
+{% endif %}
+
+<div class="modal fade" id="addhelpitem_modal" tabindex="-1" role="dialog" aria-labelledby="addhelpitem_modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form method="post">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addhelpitem_modalLabel">Dodaj nową pozycję do Pomocy</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input class="form-control my-3" name="helpitemtitle" id="helpitemtitle" value="" placeholder="Tytuł">
+          <textarea class="form-control my-3" name="helpitembody" id="helpitembody" rows="5" placeholder="Treść"></textarea>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="helpitemadmin" id="helpitemadmin" value="helpitemadmin">
+            <label class="form-check-label" for="helpitemadmin">Dla administratorów</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+          <button class="btn btn-warning d-inline btn-ok" type="submit">Dodaj</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="preview_help" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="myModalLabel">Podgląd</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="accordion" id="accordionPreview">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingPreview">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePreview" aria-expanded="false" aria-controls="collapsePreview">
+                <strong class="titlePreview"></strong>
+              </button>
+            </h2>
+            <div id="collapsePreview" class="accordion-collapse collapse" aria-labelledby="headingPreview" data-bs-parent="#accordionPreview">
+              <div class="accordion-body bodyPreview"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+
+  <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+  <script type="text/javascript">
+
+    function createSortable(sortableName){
+      Sortable.create(sortableName, {
+        handle: '.draghandle',
+        animation: 150,
+        group: "localStorageHelp"
+      });
+    }
+
+    createSortable(accordionHelpUser);
+    createSortable(accordionHelpAdmin);
+
+  </script>
+
+  <script type="text/javascript">
+  
+    function sendPostWithSortableOrder(){
+      var userHelpOrder = Sortable.get(accordionHelpUser).toArray();
+      var adminHelpOrder = Sortable.get(accordionHelpAdmin).toArray();
+
+      var form = document.createElement('form');
+      form.method = 'post';
+      form.action = '';
+
+      var field1 = document.createElement('input');
+      field1.type = 'hidden';
+      field1.name = 'userhelp_order';
+      field1.value = userHelpOrder;
+      form.appendChild(field1);
+
+      var field2 = document.createElement('input');
+      field2.type = 'hidden';
+      field2.name = 'adminhelp_order';
+      field2.value = adminHelpOrder;
+      form.appendChild(field2);
+
+      document.body.appendChild(form);
+
+      form.submit();
+
+    }
+
+  </script>
+
+  <script type="text/javascript">
+    // Populate Help item prewiev modal with values from form.
+    const previewHelpModal = document.getElementById('preview_help')
+    previewHelpModal.addEventListener('show.bs.modal', event => {
+      const button = event.relatedTarget
+      const helpItemDataId = button.getAttribute('data-bs-dataid')
+      const helpTitle = document.body.querySelector('.accordion-item[data-id="' + helpItemDataId + '"]').querySelector('#title').value
+      const helpBody = document.body.querySelector('.accordion-item[data-id="' + helpItemDataId + '"]').querySelector('#body').value
+      const modalHelpTitle = previewHelpModal.querySelector('.titlePreview')
+      const modalHelpBody = previewHelpModal.querySelector('.bodyPreview')
+      modalHelpTitle.innerHTML = helpTitle
+      modalHelpBody.innerHTML = helpBody
+    })
+  </script>
+
+{% endblock %}

@@ -7,7 +7,8 @@ from flask import session, redirect, request, url_for, render_template, flash
 from flask import Markup
 from werkzeug.utils import secure_filename
 from datetime import datetime, time
-from advencal.models import User, Day, DiscoveredDays
+from advencal.models import User, Day, DiscoveredDays, Help
+from advencal.helpers import commit
 
 
 @app.route('/questsed', methods=('GET', 'POST'))
@@ -26,7 +27,7 @@ def questsed():
             quest = Day.get_day(request.form['quest_del'])
             quest.quest = None
             quest.quest_answer = None
-            db.session.commit()
+            commit(db.session)
             return redirect(url_for('questsed'))
 
         elif 'upload_asset' in request.files:
@@ -83,7 +84,7 @@ def questedit():
         day.quest = request.form['quest'] or None
         day.quest_answer = request.form['quest_answer'] or None
         day.hour = time.fromisoformat(request.form['hour'])
-        db.session.commit()
+        commit(db.session)
 
     return redirect(url_for('questsed'))
 
@@ -122,7 +123,7 @@ def tweaks():
                         )
             for visit in visits_to_delete.all():
                 db.session.delete(visit)
-            db.session.commit()
+            commit(db.session)
 
         elif 'solve_users' in request.form:
             visits_to_add = []
@@ -137,7 +138,7 @@ def tweaks():
                             )
                     visits_to_add.append(visit_to_append)
             db.session.add_all(visits_to_add)
-            db.session.commit()
+            commit(db.session)
 
         elif 'time_shift' in request.form:
             if date_today != int(request.form['time_shift']):
@@ -196,7 +197,7 @@ def users():
             user = User(username=new_user, admin=False)
             user.set_password(new_pass)
             db.session.add(user)
-            db.session.commit()
+            commit(db.session)
             credentials = {
                 "login": new_user,
                 "pass": new_pass
@@ -222,7 +223,7 @@ def users():
 
             user = User.get_user(request.form['user_id'])
             user.set_password(new_pass)
-            db.session.commit()
+            commit(db.session)
 
             credentials = {
                 "login": user.username,
@@ -239,7 +240,7 @@ def users():
             user = User.get_user(request.form['user_del'])
             username_del = user.username
             db.session.delete(user)
-            db.session.commit()
+            commit(db.session)
 
             flash(Markup(
                     'Użytkownik <strong>'
@@ -255,3 +256,69 @@ def users():
         pass
 
     return render_template('users.html.j2', users=users)
+
+
+@app.route('/edithelp', methods=('GET', 'POST'))
+def edithelp():
+
+    if session.get('user_id') is None:
+        return redirect(url_for('login'))
+    if not session.get('admin'):
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+
+        if 'helpitemtitle' in request.form:
+
+            if request.form.get('helpitemadmin'):
+                helpitemadmin = True
+            else:
+                helpitemadmin = False
+
+            lastitem = Help.get_max_order(admin=helpitemadmin)
+            newhelpitem = Help(
+                    order=lastitem + 1,
+                    title=request.form['helpitemtitle'],
+                    body=request.form['helpitembody'],
+                    admin=helpitemadmin
+                    )
+
+            db.session.add(newhelpitem)
+            commit(db.session)
+
+        elif 'userhelp_order' in request.form:
+
+            def reorder_helpitems(form_field, admin):
+                userhelp_order = request.form[form_field].split(',')
+                for i, o in enumerate(userhelp_order, start=1):
+                    helpitem = Help.get_helpitem(o)
+                    helpitem.order = i
+                    helpitem.admin = admin
+
+            reorder_helpitems('userhelp_order', False)
+            reorder_helpitems('adminhelp_order', True)
+            commit(db.session)
+
+        elif 'del_helpitem' in request.form:
+
+            helpitem = Help.get_helpitem(request.form['helpitem_id'])
+            db.session.delete(helpitem)
+            commit(db.session)
+
+        elif 'save_helpitem' in request.form:
+
+            helpitem = Help.get_helpitem(request.form['helpitem_id'])
+            helpitem.title = request.form['title']
+            helpitem.body = request.form['body']
+            commit(db.session)
+
+    admin = session.get('admin')
+    userhelp = Help.query.filter_by(admin=False).order_by(Help.order).all()
+    adminhelp = Help.query.filter_by(admin=True).order_by(Help.order).all()
+
+    return render_template(
+            'edithelp.html.j2',
+            admin=admin,
+            userhelp=userhelp,
+            adminhelp=adminhelp
+            )

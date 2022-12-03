@@ -20,7 +20,7 @@
                 <td style="width: 100%">{%- if day.quest %}
                     {{ day.quest|striptags|truncate(65) }}</td>{% endif -%}
                     <td>{{ day.hour }}</td>
-     {%- if day.quest %}<td><button class="btn btn-outline-success btn-sm" type="button" onclick="window.location.href='#preview{{ day.id }}';" data-bs-toggle="modal" data-bs-target="#preview{{ day.id }}"><i class="bi bi-eye-fill"></i></button>
+     {%- if day.quest %}<td><button class="btn btn-outline-info btn-sm" type="button" onclick="window.location.href='#preview{{ day.id }}';" data-bs-toggle="modal" data-bs-target="#preview{{ day.id }}"><i class="bi bi-eye-fill"></i></button>
                         <div class="modal fade" id="preview{{ day.id }}" tabindex="-1" role="dialog" aria-labelledby="preview{{ day.id }}Label" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">

@@ -1,0 +1,98 @@
+[
+    {
+        "order": 1,
+        "title": "Jak działa kalendarz?",
+        "body": "Kalendarz składa się z 24 pól, które będziesz odkrywać codziennie po jednym, aby na koniec zobaczyć finałowe zdjęcie i... niespodziankę! Jeśli w zabawie bierze udział więcej niż jedna osoba, każda uczestniczka zabawy dostaje swój własny login i hasło i rozwiązuje kalendarz samodzielnie.",
+        "admin": false
+    },
+    {
+        "order": 2,
+        "title": "Co się stanie po kliknięciu na pole z numerkiem?",
+        "body": "Jeśli dzień grudnia jest zgodny z numerkiem, po kliknięciu pojawi się zadanie.",
+        "admin": false
+    },
+    {
+        "order": 3,
+        "title": "Na czym polega rozwiązywanie zadań?",
+        "body": "Po kliknięciu w pole z numerkiem danego dnia pojawi się okienko z pytaniem lub zagadką. Na dole okienka zawsze jest pole na wpisanie odpowiedzi i przycisk \"Sprawdź\". Jeśli odpowiedź będzie prawidłowa, okienko danego dnia się \"otworzy\", czyli odkryje się fragment innego obrazka ukrytego pod nim. Po odkryciu całego kalendarza pokaże się niespodzianka!\n<p>Ważne jest, aby w odpowiedzi nie było błędów, literówek itd., bo komputery odczytują tylko prawidłowe rozwiązania.</p>",
+        "admin": false
+    },
+    {
+        "order": 4,
+        "title": "Kiedy odblokowują się kolejne zadania?",
+        "body": "Zadania indywidualne odblokowują się o konkretnej godzinie ustalonej przez autorów gry, domyślnie o północy każdego dnia. Jeśli kliknie się wcześniej, pojawi się komunikat, że jeszcze nie czas.",
+        "admin": false
+    },
+    {
+        "order": 5,
+        "title": "Co jeśli nie zdążę rozwiązać zadania w danym dniu?",
+        "body": "Nie ma problemu. Zadania z dni poprzednich pozostają aktywne aż do finału, a w razie potrzeby i dłużej. Wystarczy kliknąć w pole z numerkiem.",
+        "admin": false
+    },
+    {
+        "order": 6,
+        "title": "Czy mogę zmienić swoje hasło do kalendarza?",
+        "body": "Tak, na górnym kolorowym pasku jest menu rozwijane, które pozwala zmienić hasło użytkownika.",
+        "admin": false
+    },
+    {
+        "order": 7,
+        "title": "Co jeśli nie umiem rozwiązać zadania?",
+        "body": "<p>Kombinuj, googlaj, szukaj pomocy wśród rodziny i znajomych, a w ostateczności zawsze możesz spytać autorów gry.</p>",
+        "admin": false
+    },
+    {
+        "order": 8,
+        "title": "Kto może mi pomóc w razie problemów?",
+        "body": "<p>Opiekunami zabawy są w tym roku Basia i Bartek.</p>\n<p>W razie problemów technicznych prosimy o maila na adres administratorów bb@b4.net.pl.</p>",
+        "admin": false
+    },
+    {
+        "order": 1,
+        "title": "Jak dodać nowego użytkownika?",
+        "body": "<p>Z kolorowego paska z nagłówkami na górze strony wybierasz menu Użytkownicy. Pojawi się strona z ramką Dodaj użytkownika. W polu \"Login\" wpisujesz dowolny login bez spacji (np. imię). Tym loginem użytkownik będzie się logował do kalendarza.\n<p>Jeśli zaznaczysz opcję \"Podaj hasło\", to musisz je wpisać w pole tekstowe \"Hasło\".\n<p>Jeśli zaznaczysz opcję \"Wygeneruj losowe hasło\", to system sam utworzy hasło.\n<p>Po kliknięciu w zielony przycisk \"Dodaj użytkownika\" konto zostanie założone. Wyświetli się komunikat potwierdzający. Najlepiej skopiować myszką treść z ramki na dole tego komunikatu i wysłać mailem użytkownikowi (będzie tam login, hasło i adres strony). Można też skopiować samo hasło zielonym przyciskiem \"Skopiuj do schowka\".",
+        "admin": true
+    },
+    {
+        "order": 2,
+        "title": "Jak usunąć użytkownika?",
+        "body": "Z kolorowego paska z nagłówkami na górze strony wybierasz menu Użytkownicy. Na dole strony w ramce \"Zarządzaj użytkownikami\" jest lista wszystkich założonych użytkowników. Wystarczy kliknąć \"Usuń\" przy wybranym użytkowniku. Uwaga! Ostrożnie - tej operacji nie da się cofnąć! (Przy użytkownikach z prawami administratora nie ma takiej opcji, prosimy o kontakt na adres bb@b4.net.pl).",
+        "admin": true
+    },
+    {
+        "order": 3,
+        "title": "Jak zmienić hasło użytkownika?",
+        "body": "<p>Z kolorowego paska z nagłówkami na górze strony wybierasz menu Użytkownicy. Na dole strony w ramce \"Zarządzaj użytkownikami\" jest lista wszystkich założonych użytkowników. Wystarczy kliknąć w przycisk \"Zmień hasło\" przy wybranym użytkowniku.\n<p>Jeśli zaznaczysz opcję \"Podaj hasło\", to musisz je wpisać w pole tekstowe \"Hasło\".\n<p>Jeśli zaznaczysz opcję \"Wygeneruj losowe hasło\", to system sam utworzy hasło.\n<p>Po kliknięciu w żółty przycisk \"Ustaw nowe hasło\" hasło zostanie zmienione. Wyświetli się komunikat potwierdzający. Najlepiej skopiować myszką treść z ramki na dole tego komunikatu i wysłać mailem użytkownikowi (będzie tam login, hasło i adres strony). Można też skopiować samo hasło zielonym przyciskiem \"Skopiuj do schowka\".",
+        "admin": true
+    },
+    {
+        "order": 4,
+        "title": "Co znajduje się w Ustawieniach?",
+        "body": "<p>W ustawieniach jest kilka ramek funkcjonalnych (na razie trochę nie po kolei):\n<p>Usuń odwiedziny - pozwala dla wybranego użytkownika wyzerować bazę z rozwiązanymi zadaniami\n<p>Dodaj odwiedziny i rozwiąż wszystkie zadania - pozwala dla wybranego użytkownika oznaczyć wszystkie zadania jako ukończone (przydatne w celu testowania finału)\n<p>Przesuń kalendarz - ustawia sztucznie dowolny dzień miesiąca dla aktualnego użytkownika pozwalając testować zachowanie kalendarza na określone daty\n<p>Edytuj questy - główny moduł podglądu, tworzenia, edytowania i usuwania zadań\n<p>Postępy użytkowników - pokazuje wszystkich użytkowników i ich zadania: na zielono niewykonane, na żółto wykonane",
+        "admin": true
+    },
+    {
+        "order": 5,
+        "title": "Jak działa funkcja Usuń odwiedziny w Ustawieniach?",
+        "body": "Trzeba wybrać swój login na liście rozwijanej i kliknąć czerwony przycisk Usuń (najlepiej z opcją \"wszystkie\"). Wtedy resetujemy kalendarz do stanu zerowego, tj. żadne zagadki nie są rozwiązane. Ostrożnie z tą opcją dla innych użytkowników, niż my sami, bo skasuje ich postępy!",
+        "admin": true
+    },
+    {
+        "order": 6,
+        "title": "Jak działa funkcja Dodaj odwiedziny i rozwiąż wszystkie zadania w Ustawieniach?",
+        "body": "Trzeba wybrać swój login na liście rozwijanej i kliknąć zielony przycisk Rozwiąż. Wtedy systemowo kalendarz ustawi wszystkie zagadki jako rozwiązane, aby można było podejrzeć jak wygląda finał. Ostrożnie z tą opcją dla innych użytkowników, niż my sami, bo pokaże im finał i zablokuje kalendarz przed dalszą zabawą!",
+        "admin": true
+    },
+    {
+        "order": 7,
+        "title": "Jak działa funkcja Przesuń kalendarz w czasie w Ustawieniach?",
+        "body": "Standardowo kalendarz nie pozwala oglądać zagadek z przyszłości (np. w dniu 10. grudnia nie pokaże zagadki z numerem 11, 12 i kolejnych). Aby testować zagadki na przyszłość, trzeba kliknąć przesuwanie kalendarza. Przesunięcie na datę późniejszą niż finał pozwoli testować cały kalendarz i wszystkie zagadki.<br>Przesuwanie działa tylko dla osoby zalogowanej i resetuje się po wylogowaniu lub kolejnego dnia. Nie wpływa na innych użytkowników, więc można bezpiecznie w to klikać.",
+        "admin": true
+    },
+    {
+        "order": 8,
+        "title": "Jak działa panel Edytuj questy w Ustawieniach?",
+        "body": "Jest to główny panel tworzenia questów. Można je podejrzeć (zielona ikonka z oczkiem, chociaż lepiej z poziomu kalendarza), edytować (żółta ikonka z ołówkiem) i usuwać (prosimy ostrożnie). Edycja wykorzystuje formularz z treścią oraz odpowiedź. W treści można stosować znaczniki HTML (do poćwiczenia np. <a href=\"https://liveweave.com\" target=\"_blank\">tutaj</a>, do HTMLa jest lewe górne okienko). Dodawanie zdjęć na razie wymaga wysłania ich do administratora strony (formularz dodawania zostanie przygotowany w przyszłości).",
+        "admin": true
+    }
+]

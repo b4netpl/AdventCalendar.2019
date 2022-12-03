@@ -1,4 +1,5 @@
 from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy import func
 from advencal import db
 
 
@@ -54,3 +55,22 @@ class Day(db.Model):
 
     def get_day(id):
         return Day.query.get(int(id))
+
+
+class Help(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    order = db.Column(db.Integer, nullable=False)
+    title = db.Column(db.Text)
+    body = db.Column(db.Text)
+    admin = db.Column(db.Boolean, nullable=False, default=False)
+
+    def __repr__(self):
+        return '<Help {}>'.format(self.title)
+
+    def get_helpitem(id):
+        return Help.query.get(int(id))
+
+    def get_max_order(admin):
+        return db.session.query(
+                func.max(Help.order)
+                ).filter_by(admin=admin).scalar()
