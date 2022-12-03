@@ -77,7 +77,7 @@ def empty_calendar():
     commit(db.session)
 
 
-@init_data.command("help-data")
+@init_data.command("help-load")
 @click.argument(
         'language',
         type=click.Choice(['pl', 'en'], case_sensitive=False)
@@ -85,43 +85,75 @@ def empty_calendar():
 @click.confirmation_option(
         prompt='Are you sure you want to replace contents of Help section?'
         )
-def help_data(language):
+def help_load(language):
     """
-    Add Help contents in <language>.
+    Load Help contents in <language> from file.
 
     This will erase current contents of Help section.
     """
 
-    if language == 'pl':
-
-        try:
-            with open(
-                        os.path.join('./advencal/help/', 'help.pl.json'),
-                        'r'
-                        ) as f:
-                help_items = json.load(f)
-        except OSError:
-            click.echo('Error opening file. Data not changed.')
-        else:
-            Help.query.delete()
-            commit(db.session)
-
-            for item in help_items:
-                db.session.add(Help(
-                        order=item['order'],
-                        title=item['title'],
-                        body=item['body'],
-                        admin=item['admin']
-                        ))
-
-            commit(db.session)
-
+    try:
+        with open(os.path.join(
+                    './advencal/help/',
+                    'help.' + language + '.json'
+                    ), 'r', encoding='utf8') as f:
+            help_items = json.load(f)
+    except OSError:
+        click.echo('Error opening file. Data not changed.')
     else:
-        click.echo(
-                'Language '
-                + language
-                + ' not found! Data not changed.'
-                )
+        Help.query.delete()
+        commit(db.session)
+
+        for item in help_items:
+            db.session.add(Help(
+                    order=item['order'],
+                    title=item['title'],
+                    body=item['body'],
+                    admin=item['admin']
+                    ))
+
+        commit(db.session)
+
+
+@init_data.command("help-save")
+@click.argument(
+        'language',
+        type=click.Choice(['pl', 'en'], case_sensitive=False)
+        )
+@click.confirmation_option(
+        prompt='Are you sure you want to replace Help data file?'
+        )
+def help_save(language):
+    """
+    Save Help contents in <language> to file.
+
+    This will erase current contents of Help file.
+    """
+
+    help_contents = Help.query.all()
+    commit(db.session)
+
+    help_json = []
+
+    for item in help_contents:
+        help_json.append(
+            {
+                'order': item.order,
+                'title': item.title,
+                'body': item.body,
+                'admin': item.admin
+            }
+        )
+
+    try:
+        with open(os.path.join(
+                    './advencal/help/',
+                    'help.' + language + '.json'
+                    ), 'w', encoding='utf8') as f:
+            json.dump(help_json, f, indent=4, ensure_ascii=False)
+            f.write('\n')  # to stop complains about no newline at the EOF
+    except OSError:
+        click.echo('Error writing to file. Data not written.')
 
 
 app.cli.add_command(init_data)

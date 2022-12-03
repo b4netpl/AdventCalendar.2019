@@ -95,5 +95,4 @@
         "body": "Jest to główny panel tworzenia questów. Można je podejrzeć (zielona ikonka z oczkiem, chociaż lepiej z poziomu kalendarza), edytować (żółta ikonka z ołówkiem) i usuwać (prosimy ostrożnie). Edycja wykorzystuje formularz z treścią oraz odpowiedź. W treści można stosować znaczniki HTML (do poćwiczenia np. <a href=\"https://liveweave.com\" target=\"_blank\">tutaj</a>, do HTMLa jest lewe górne okienko). Dodawanie zdjęć na razie wymaga wysłania ich do administratora strony (formularz dodawania zostanie przygotowany w przyszłości).",
         "admin": true
     }
-
 ]
