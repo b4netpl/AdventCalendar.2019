@@ -290,13 +290,26 @@ def edithelp():
 
             def reorder_helpitems(form_field, admin):
                 userhelp_order = request.form[form_field].split(',')
-                for i, o in enumerate(userhelp_order):
+                for i, o in enumerate(userhelp_order, start=1):
                     helpitem = Help.get_helpitem(o)
                     helpitem.order = i
                     helpitem.admin = admin
 
             reorder_helpitems('userhelp_order', False)
             reorder_helpitems('adminhelp_order', True)
+            commit(db.session)
+
+        elif 'del_helpitem' in request.form:
+
+            helpitem = Help.get_helpitem(request.form['helpitem_id'])
+            db.session.delete(helpitem)
+            commit(db.session)
+
+        elif 'save_helpitem' in request.form:
+
+            helpitem = Help.get_helpitem(request.form['helpitem_id'])
+            helpitem.title = request.form['title']
+            helpitem.body = request.form['body']
             commit(db.session)
 
     admin = session.get('admin')
