@@ -2,22 +2,33 @@ import os
 import random
 import string
 
-from advencal import app, db
-from flask import session, redirect, request, url_for, render_template, flash
-from flask import Markup
+from advencal import db
+from flask import session, redirect, request, url_for, render_template, \
+        flash, Markup, g
 from werkzeug.utils import secure_filename
 from datetime import datetime, time
 from advencal.models import User, Day, DiscoveredDays, Help
 from advencal.helpers import commit
+from advencal.admin import bp
 
 
-@app.route('/questsed', methods=('GET', 'POST'))
+@bp.before_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = User.get_user(user_id)
+
+
+@bp.route('/questsed', methods=('GET', 'POST'))
 def questsed():
 
     if session.get('user_id') is None:
-        return redirect(url_for('login'))
+        return redirect(url_for('basic.login'))
     if not session.get('admin'):
-        return redirect(url_for('index'))
+        return redirect(url_for('basic.index'))
 
     date_today = datetime.today().day
 
@@ -28,7 +39,7 @@ def questsed():
             quest.quest = None
             quest.quest_answer = None
             commit(db.session)
-            return redirect(url_for('questsed'))
+            return redirect(url_for('admin.questsed'))
 
         elif 'upload_asset' in request.files:
             f = request.files['upload_asset']
@@ -36,16 +47,16 @@ def questsed():
                     './advencal/static/quests/',
                     secure_filename(f.filename)
                     ))
-            return redirect(url_for('questsed'))
+            return redirect(url_for('admin.questsed'))
 
         elif 'asset_del' in request.form:
             os.remove(os.path.join(
                     './advencal/static/quests/',
                     secure_filename(request.form['asset_del'])
                     ))
-            return redirect(url_for('questsed'))
+            return redirect(url_for('admin.questsed'))
 
-        return redirect(url_for('index'))
+        return redirect(url_for('basic.index'))
 
     if request.method == 'GET':
         users = User.query.all()
@@ -60,13 +71,13 @@ def questsed():
                 )
 
 
-@app.route('/questedit', methods=['POST'])
+@bp.route('/questedit', methods=['POST'])
 def questedit():
 
     if session.get('user_id') is None:
-        return redirect(url_for('login'))
+        return redirect(url_for('basic.login'))
     if not session.get('admin'):
-        return redirect(url_for('index'))
+        return redirect(url_for('basic.index'))
 
     if 'quest_edit' in request.form:
         quest_data = Day.get_day(int(request.form['quest_edit']))
@@ -86,16 +97,16 @@ def questedit():
         day.hour = time.fromisoformat(request.form['hour'])
         commit(db.session)
 
-    return redirect(url_for('questsed'))
+    return redirect(url_for('admin.questsed'))
 
 
-@app.route('/tweaks', methods=('GET', 'POST'))
+@bp.route('/tweaks', methods=('GET', 'POST'))
 def tweaks():
 
     if session.get('user_id') is None:
-        return redirect(url_for('login'))
+        return redirect(url_for('basic.login'))
     if not session.get('admin'):
-        return redirect(url_for('index'))
+        return redirect(url_for('basic.index'))
 
     date_today = datetime.today().day
 
@@ -146,7 +157,7 @@ def tweaks():
             else:
                 session.pop('time_shift', None)
 
-        return redirect(url_for('index'))
+        return redirect(url_for('basic.index'))
 
     if request.method == 'GET':
         users = User.query.all()
@@ -162,13 +173,13 @@ def tweaks():
                 )
 
 
-@app.route('/users', methods=('GET', 'POST'))
+@bp.route('/users', methods=('GET', 'POST'))
 def users():
 
     if session.get('user_id') is None:
-        return redirect(url_for('login'))
+        return redirect(url_for('basic.login'))
     if not session.get('admin'):
-        return redirect(url_for('index'))
+        return redirect(url_for('basic.index'))
 
     users = User.query.all()
 
@@ -258,13 +269,13 @@ def users():
     return render_template('users.html.j2', users=users)
 
 
-@app.route('/edithelp', methods=('GET', 'POST'))
+@bp.route('/edithelp', methods=('GET', 'POST'))
 def edithelp():
 
     if session.get('user_id') is None:
-        return redirect(url_for('login'))
+        return redirect(url_for('basic.login'))
     if not session.get('admin'):
-        return redirect(url_for('index'))
+        return redirect(url_for('basic.index'))
 
     if request.method == 'POST':
 
