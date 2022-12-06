@@ -46,6 +46,7 @@ def register(app):
         DiscoveredDays.query.delete()
 
         commit(db.session)
+        db.session.close()
 
         default_hour = time(hour=0, minute=0, second=0)
 
@@ -102,6 +103,7 @@ def register(app):
         else:
             Help.query.delete()
             commit(db.session)
+            db.session.close()
 
             for item in help_items:
                 db.session.add(Help(
