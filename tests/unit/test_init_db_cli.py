@@ -91,7 +91,7 @@ def test_help_load_nofile(runner_client, init_database, monkeypatch):
     THEN error message is displayed
     """
     def invalid_path(*args, **kwargs):
-        return 'invalid/path'
+        return '/invalid/path'
     monkeypatch.setattr(os.path, 'join', invalid_path)
     assert 'Error opening file. Data not changed.' \
         in runner_client.invoke(args=[
@@ -118,3 +118,34 @@ def test_help_load(runner_client, init_database, mocker):
     runner_client.invoke(args=['init-data', 'help-load', 'pl', '--yes'])
     helpitem = Help.get_helpitem(1)
     assert helpitem.title == 'Tytuł z pliku'
+
+
+def test_help_save_nofile(runner_client, init_database, monkeypatch):
+    """
+    GIVEN flask cli app
+    WHEN help-save command is used and file is not writable
+    THEN error message is displayed
+    """
+    def invalid_path(*args, **kwargs):
+        return '/invalid/path'
+    monkeypatch.setattr(os.path, 'join', invalid_path)
+    assert 'Error writing to file. Data not written.' \
+        in runner_client.invoke(args=[
+                'init-data',
+                'help-save',
+                'pl',
+                '--yes'
+                ]).output
+
+
+def test_help_save(runner_client, init_database, mocker):
+    """
+    GIVEN flask cli app
+    WHEN help-save command is used
+    THEN Help table contents are saved to file and file ends with newline
+    """
+    m = mocker.patch('builtins.open', mocker.mock_open())
+    runner_client.invoke(args=['init-data', 'help-save', 'pl', '--yes'])
+
+    assert len(m().write.call_args_list) == 23
+    m().write.assert_any_call('\n')
