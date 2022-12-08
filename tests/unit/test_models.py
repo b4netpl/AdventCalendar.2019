@@ -79,7 +79,7 @@ def test_get_day(init_database):
     """
     assert isinstance(Day.get_day(1), Day)
     assert Day.get_day(1).id == 1
-    assert Day.get_day(1).day_no == 5
+    assert Day.get_day(1).day_no == 17
 
 
 def test_help_repr(new_helpitem):
