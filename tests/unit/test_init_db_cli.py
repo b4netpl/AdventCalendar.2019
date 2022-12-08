@@ -71,7 +71,7 @@ def test_empty_calendar_noaction(runner_client, init_database):
             'init-data',
             'empty-calendar'
             ], input='\n').output
-    assert Day.get_day(1).day_no == 5
+    assert Day.get_day(1).day_no == 17
 
 
 def test_empty_calendar(runner_client, init_database):
