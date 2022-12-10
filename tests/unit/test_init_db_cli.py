@@ -84,15 +84,12 @@ def test_empty_calendar(runner_client, init_database):
     assert Day.get_day(1).day_no == 17
 
 
-def test_help_load_nofile(runner_client, init_database, monkeypatch):
+def test_help_load_nofile(runner_client, init_database, fs):
     """
     GIVEN flask cli app
     WHEN help-load command is used and file is not loaded
     THEN error message is displayed
     """
-    def invalid_path(*args, **kwargs):
-        return '/invalid/path'
-    monkeypatch.setattr(os.path, 'join', invalid_path)
     assert 'Error opening file. Data not changed.' \
         in runner_client.invoke(args=[
                 'init-data',
@@ -102,7 +99,7 @@ def test_help_load_nofile(runner_client, init_database, monkeypatch):
                 ]).output
 
 
-def test_help_load(runner_client, init_database, mocker):
+def test_help_load(runner_client, init_database, fs):
     """
     GIVEN flask cli app
     WHEN help-load command is used
@@ -114,21 +111,18 @@ def test_help_load(runner_client, init_database, mocker):
             "body": "Treść z pliku",
             "admin": False
             }])
-    mocker.patch('builtins.open', mocker.mock_open(read_data=read_data))
+    fs.create_file('./advencal/help/help.pl.json', contents=read_data)
     runner_client.invoke(args=['init-data', 'help-load', 'pl', '--yes'])
     helpitem = Help.get_helpitem(1)
     assert helpitem.title == 'Tytuł z pliku'
 
 
-def test_help_save_nofile(runner_client, init_database, monkeypatch):
+def test_help_save_nofile(runner_client, init_database, fs):
     """
     GIVEN flask cli app
     WHEN help-save command is used and file is not writable
     THEN error message is displayed
     """
-    def invalid_path(*args, **kwargs):
-        return '/invalid/path'
-    monkeypatch.setattr(os.path, 'join', invalid_path)
     assert 'Error writing to file. Data not written.' \
         in runner_client.invoke(args=[
                 'init-data',
@@ -138,14 +132,15 @@ def test_help_save_nofile(runner_client, init_database, monkeypatch):
                 ]).output
 
 
-def test_help_save(runner_client, init_database, mocker):
+def test_help_save(runner_client, init_database, fs):
     """
     GIVEN flask cli app
     WHEN help-save command is used
     THEN Help table contents are saved to file and file ends with newline
     """
-    m = mocker.patch('builtins.open', mocker.mock_open())
+    fs.create_file('./advencal/help/help.pl.json')
     runner_client.invoke(args=['init-data', 'help-save', 'pl', '--yes'])
-
-    assert len(m().write.call_args_list) == 23
-    m().write.assert_any_call('\n')
+    with open('./advencal/help/help.pl.json') as f:
+        helpfile = f.read()
+        assert 'Tytuł 1' in helpfile
+        assert '\n' == helpfile[-1]

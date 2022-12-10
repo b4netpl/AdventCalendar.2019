@@ -15,15 +15,14 @@ Jinja2==3.1.2
 Mako==1.2.4
 MarkupSafe==2.1.1
 mccabe==0.7.0
-packaging==21.3
+packaging==22.0
 pluggy==1.0.0
 pycodestyle==2.9.1
+pyfakefs==5.0.0
 pyflakes==2.5.0
-pyparsing==3.0.9
 pytest==7.2.0
 pytest-cov==4.0.0
 pytest-dotenv==0.5.2
-pytest-mock==3.10.0
 python-dotenv==0.21.0
 SQLAlchemy==1.4.44
 tomli==2.0.1
