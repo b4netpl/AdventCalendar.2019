@@ -5,14 +5,14 @@ from advencal import create_app, db, init_db_cli
 from advencal.models import User, Day, Help
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def flask_app():
     flask_app = create_app('config.TestConfig')
 
     yield flask_app
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def client(flask_app):
 
     app_context = flask_app.test_request_context()
@@ -21,7 +21,7 @@ def client(flask_app):
     return flask_app.test_client()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def runner_client(flask_app):
 
     init_db_cli.register(flask_app)
@@ -33,7 +33,7 @@ def runner_client(flask_app):
     return flask_app.test_cli_runner()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def init_database(client):
     db.create_all()
 
@@ -149,21 +149,21 @@ def init_database(client):
     db.drop_all()
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def new_user():
     user = User(id=1, username='test', admin=False)
     user.set_password('user')
     return user
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def new_admin():
     user = User(id=2, username='testadmin', admin=True)
     user.set_password('admin')
     return user
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def new_day():
     default_hour = time(hour=0, minute=0, second=0)
     day = Day(
@@ -176,7 +176,7 @@ def new_day():
     return day
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def new_helpitem():
     helpitem = Help(
             id=1,

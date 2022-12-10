@@ -1,5 +1,4 @@
 import json
-import os.path
 
 from advencal.models import User, Day, Help
 
@@ -50,6 +49,14 @@ def test_create_user_double(runner_client, init_database, caplog):
     WHEN create-user command is used with existing username
     THEN error message is written to log
     """
+    runner_client.invoke(args=[
+            'init-data',
+            'create-user',
+            '--username',
+            'clitest',
+            '--password',
+            'pass'
+            ])
     runner_client.invoke(args=[
             'init-data',
             'create-user',
