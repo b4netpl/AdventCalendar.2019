@@ -39,7 +39,6 @@ def questsed():
             quest.quest = None
             quest.quest_answer = None
             commit(db.session)
-            return redirect(url_for('admin.questsed'))
 
         elif 'upload_asset' in request.files:
             f = request.files['upload_asset']
@@ -47,16 +46,14 @@ def questsed():
                     './advencal/static/quests/',
                     secure_filename(f.filename)
                     ))
-            return redirect(url_for('admin.questsed'))
 
         elif 'asset_del' in request.form:
             os.remove(os.path.join(
                     './advencal/static/quests/',
                     secure_filename(request.form['asset_del'])
                     ))
-            return redirect(url_for('admin.questsed'))
 
-        return redirect(url_for('basic.index'))
+        return redirect(url_for('admin.questsed'))
 
     if request.method == 'GET':
         users = User.query.all()
