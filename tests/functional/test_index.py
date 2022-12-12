@@ -23,20 +23,6 @@ def test_login(client):
     assert 'Zaloguj' in response.data.decode('utf-8')
 
 
-def test_index_timeshifted(client, init_database):
-    """
-    GIVEN a Flask app configured for testing
-    WHEN the '/' page is requested (GET) with timeshift
-    THEN quest for timeshifted day is visible
-    """
-    with client.session_transaction() as sess:
-        sess['user_id'] = 1
-        sess['admin'] = True
-        sess['time_shift'] = 17
-    response = client.get(url_for('basic.index'))
-    assert 'Ile to dwa razy dwa' in response.data.decode('utf-8')
-
-
 def test_index_quest_answer_wrong(client, init_database):
     """
     GIVEN a Flask app configured for testing
