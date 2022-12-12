@@ -278,17 +278,14 @@ def edithelp():
 
         if 'helpitemtitle' in request.form:
 
-            if request.form.get('helpitemadmin'):
-                helpitemadmin = True
-            else:
-                helpitemadmin = False
-
-            lastitem = Help.get_max_order(admin=helpitemadmin)
+            lastitem = Help.get_max_order(
+                    admin=bool(request.form.get('helpitemadmin'))
+                    )
             newhelpitem = Help(
                     order=lastitem + 1,
                     title=request.form['helpitemtitle'],
                     body=request.form['helpitembody'],
-                    admin=helpitemadmin
+                    admin=bool(request.form.get('helpitemadmin'))
                     )
 
             db.session.add(newhelpitem)
