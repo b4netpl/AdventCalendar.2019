@@ -317,13 +317,11 @@ def edithelp():
             helpitem.body = request.form['body']
             commit(db.session)
 
-    admin = session.get('admin')
     userhelp = Help.query.filter_by(admin=False).order_by(Help.order).all()
     adminhelp = Help.query.filter_by(admin=True).order_by(Help.order).all()
 
     return render_template(
             'edithelp.html.j2',
-            admin=admin,
             userhelp=userhelp,
             adminhelp=adminhelp
             )
