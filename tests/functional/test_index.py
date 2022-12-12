@@ -78,4 +78,17 @@ def test_index_no_quest_for_day(client, init_database):
         not in response.data.decode('utf-8')
 
 
-# TODO test when win
+def test_index_win(client, init_database):
+    """
+    GIVEN a Flask app configured for testing
+    WHEN the '/' page is requested (GET) with all quests solved
+    THEN index page with congratulations is displayed
+    """
+    with client.session_transaction() as sess:
+        sess['user_id'] = 2
+        sess['admin'] = True
+    response = client.post(url_for('admin.tweaks'), data={
+            'solve_users': [2]
+            }, follow_redirects=True)
+    assert '<h1 class="display-5 fw-bold">' \
+        in response.data.decode('utf-8')
