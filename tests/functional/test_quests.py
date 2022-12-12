@@ -4,7 +4,7 @@ import os
 from flask import url_for
 
 
-def test_quest_edit_not_loggedin(client, init_database):
+def test_quests_edit_not_loggedin(client, init_database):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/questsed' page is requested (GET) by anonymous client
@@ -15,7 +15,7 @@ def test_quest_edit_not_loggedin(client, init_database):
     assert 'Zaloguj' in response.data.decode('utf-8')
 
 
-def test_quest_edit_not_admin(client, init_database):
+def test_quests_edit_not_admin(client, init_database):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/questsed' page is requested (GET) by non-admin user
@@ -29,11 +29,11 @@ def test_quest_edit_not_admin(client, init_database):
     assert 'testuser' in response.data.decode('utf-8')
 
 
-def test_quest_edit_admin(client, init_database):
+def test_quests_edit_admin(client, init_database):
     """
     GIVEN a Flask app configured for testing
-    WHEN the '/questsed' page is requested (GET) by non-admin user
-    THEN index page is displayed
+    WHEN the '/questsed' page is requested (GET) by admin user
+    THEN quests edit page is displayed
     """
     with client.session_transaction() as sess:
         sess['user_id'] = 2
@@ -43,7 +43,7 @@ def test_quest_edit_admin(client, init_database):
     assert 'testadmin' in response.data.decode('utf-8')
 
 
-def test_quest_del_quest(client, init_database):
+def test_quests_del_quest(client, init_database):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/questsed' page is requested (POST) with quest_del param
@@ -59,7 +59,7 @@ def test_quest_del_quest(client, init_database):
     assert 'Ile to dwa razy dwa' not in response.data.decode('utf-8')
 
 
-def test_quest_upload_asset(client, init_database, fs):
+def test_quests_upload_asset(client, init_database, fs):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/questsed' page is requested (POST) with upload_asset param
@@ -85,7 +85,7 @@ def test_quest_upload_asset(client, init_database, fs):
     assert 'meh.jpg' in response.data.decode('utf-8')
 
 
-def test_quest_del_asset(client, init_database, fs):
+def test_quests_del_asset(client, init_database, fs):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/questsed' page is requested (POST) with asset_del param
@@ -107,3 +107,72 @@ def test_quest_del_asset(client, init_database, fs):
             })
     assert os.path.exists('./advencal/static/quests/meh.jpg') is False
     assert 'meh.jpg' not in response.data.decode('utf-8')
+
+
+def test_questedit_not_loggedin(client, init_database):
+    """
+    GIVEN a Flask app configured for testing
+    WHEN the '/questedit' page is requested (POST) by anonymous client
+    THEN login page is displayed
+    """
+    response = client.post(url_for('admin.questedit'), data={
+            'quest_edit': 1
+            }, follow_redirects=True)
+    assert 'Edytuj treść questa i odpowiedź' \
+        not in response.data.decode('utf-8')
+    assert 'Zaloguj' in response.data.decode('utf-8')
+
+
+def test_questedit_not_admin(client, init_database):
+    """
+    GIVEN a Flask app configured for testing
+    WHEN the '/questedit' page is requested (POST) by non-admin user
+    THEN index page is displayed
+    """
+    with client.session_transaction() as sess:
+        sess['user_id'] = 1
+        sess['admin'] = False
+    response = client.post(url_for('admin.questedit'), data={
+            'quest_edit': 1
+            }, follow_redirects=True)
+    assert 'Edytuj treść questa i odpowiedź' \
+        not in response.data.decode('utf-8')
+    assert 'testuser' in response.data.decode('utf-8')
+
+
+def test_questedit_admin(client, init_database):
+    """
+    GIVEN a Flask app configured for testing
+    WHEN the '/questedit' page is requested (POST) by admin user
+    THEN quest edit page is displayed
+    """
+    with client.session_transaction() as sess:
+        sess['user_id'] = 2
+        sess['admin'] = True
+    response = client.post(url_for('admin.questedit'), data={
+            'quest_edit': 1
+            }, follow_redirects=True)
+    assert 'Edytuj treść questa i odpowiedź' in response.data.decode('utf-8')
+    assert 'testadmin' in response.data.decode('utf-8')
+
+
+def test_questedit_edit(client, init_database):
+    """
+    GIVEN a Flask app configured for testing
+    WHEN the '/questedit' page is requested (POST) by admin user
+            with new quest data
+    THEN quest edit page is displayed with data changed
+    """
+    with client.session_transaction() as sess:
+        sess['user_id'] = 2
+        sess['admin'] = True
+    response = client.post(url_for('admin.questedit'), data={
+            'day_id': 2,
+            'quest': 'Ile to dwa dodać trzy?',
+            'quest_answer': 'pięć',
+            'hour': '12:34:56'
+            }, follow_redirects=True)
+    assert 'Edytuj questy' in response.data.decode('utf-8')
+    assert 'Ile to dwa dodać trzy?' in response.data.decode('utf-8')
+    assert 'pięć' in response.data.decode('utf-8')
+    assert '12:34:56' in response.data.decode('utf-8')
