@@ -4,9 +4,24 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 
-app = Flask(__name__)
-app.config.from_object(Config)
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+db = SQLAlchemy()
+migrate = Migrate()
 
-from advencal import basic, admin, models, init_db_cli  # noqa: F401,E402
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+
+    from advencal.basic import bp as basic_bp
+    app.register_blueprint(basic_bp)
+
+    from advencal.admin import bp as admin_bp
+    app.register_blueprint(admin_bp)
+
+    return app
+
+
+from advencal import models  # noqa: F401,E402

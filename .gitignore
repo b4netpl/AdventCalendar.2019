@@ -20,6 +20,7 @@ dist/
 build/
 *.egg-info/
 
+.env
 .flaskenv
 
 .vscode/

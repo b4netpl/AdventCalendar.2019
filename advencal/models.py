@@ -26,9 +26,11 @@ class User(db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
+    @staticmethod
     def get_user(id):
         return User.query.get(int(id))
 
+    @staticmethod
     def check_username(username):
         if (User.query.filter_by(username=username).scalar()):
             return True
@@ -53,6 +55,7 @@ class Day(db.Model):
     def __repr__(self):
         return '<Day {}>'.format(self.day_no)
 
+    @staticmethod
     def get_day(id):
         return Day.query.get(int(id))
 
@@ -67,9 +70,11 @@ class Help(db.Model):
     def __repr__(self):
         return '<Help {}>'.format(self.title)
 
+    @staticmethod
     def get_helpitem(id):
         return Help.query.get(int(id))
 
+    @staticmethod
     def get_max_order(admin):
         return db.session.query(
                 func.max(Help.order)

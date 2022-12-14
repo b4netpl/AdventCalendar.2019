@@ -1,12 +1,13 @@
-from advencal import app, db
-from flask import session, g
-from flask import redirect, url_for, request, flash, render_template
+from advencal import db
+from flask import session, g, \
+        redirect, url_for, request, flash, render_template
 from datetime import datetime
 from advencal.models import User, Day, DiscoveredDays, Help
 from advencal.helpers import commit
+from advencal.basic import bp
 
 
-@app.before_request
+@bp.before_request
 def load_logged_in_user():
     user_id = session.get('user_id')
 
@@ -16,11 +17,11 @@ def load_logged_in_user():
         g.user = User.get_user(user_id)
 
 
-@app.route('/', methods=('GET', 'POST'))
+@bp.route('/', methods=('GET', 'POST'))
 def index():
 
     if session.get('user_id') is None:
-        return redirect(url_for('login'))
+        return redirect(url_for('basic.login'))
     else:
         win = False
 
@@ -84,11 +85,11 @@ def index():
                 )
 
 
-@app.route('/help')
+@bp.route('/help')
 def help():
 
     if session.get('user_id') is None:
-        return redirect(url_for('login'))
+        return redirect(url_for('basic.login'))
 
     admin = session.get('admin')
     userhelp = Help.query.filter_by(admin=False).order_by(Help.order).all()
@@ -102,13 +103,13 @@ def help():
             )
 
 
-@app.route('/login', methods=('GET', 'POST'))
+@bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         error = None
-        user = User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).scalar()
 
         if user is None:
             error = 'Niepoprawny login'
@@ -119,24 +120,24 @@ def login():
             session.clear()
             session['user_id'] = user.id
             session['admin'] = user.admin
-            return redirect(url_for('index'))
+            return redirect(url_for('basic.index'))
 
         flash(error, 'warning')
 
     return render_template('login.html.j2')
 
 
-@app.route('/logout')
+@bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('basic.index'))
 
 
-@app.route('/changepass', methods=('GET', 'POST'))
+@bp.route('/changepass', methods=('GET', 'POST'))
 def changepass():
 
     if session.get('user_id') is None:
-        return redirect(url_for('login'))
+        return redirect(url_for('basic.login'))
 
     if request.method == 'POST':
         user_id = session.get('user_id')
@@ -160,7 +161,7 @@ def changepass():
             commit(db.session)
 
             flash('Hasło zmienione poprawnie', 'success')
-            return redirect(url_for('index'))
+            return redirect(url_for('basic.index'))
 
         flash('Hasło nie zostało zmienione', 'warning')
 
