@@ -20,9 +20,9 @@
         <div class="accordion-body">
           <textarea class="form-control" name="body" id="body" rows="5">{{ helpitem.body|e }}</textarea>
           <div class="d-grid my-3 gap-3 d-md-flex col-12 justify-content-md-end">
-            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preview_help" data-bs-dataid="{{ helpitem.id }}">Podgląd</button>
-            <button type="submit" name="save_helpitem" class="btn btn-success">Zapisz</button>
-            <button type="submit" name="del_helpitem" class="btn btn-danger">Usuń</button>
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#preview_help" data-bs-dataid="{{ helpitem.id }}">{{ _('Podgląd') }}</button>
+            <button type="submit" name="save_helpitem" class="btn btn-success">{{ _('Zapisz') }}</button>
+            <button type="submit" name="del_helpitem" class="btn btn-danger">{{ _('Usuń') }}</button>
           </div>
         </div>
       </div>
@@ -34,17 +34,17 @@
 {%- endmacro %}
 
 <div class="d-grid my-3 gap-3 d-md-flex col-12 justify-content-md-end">
-  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addhelpitem_modal">Dodaj nową pozycję</button>
-  <button type="button" class="btn btn-warning" onclick="sendPostWithSortableOrder()">Zapisz kolejność</button>
+  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addhelpitem_modal">{{ _('Dodaj nową pozycję') }}</button>
+  <button type="button" class="btn btn-warning" onclick="sendPostWithSortableOrder()">{{ _('Zapisz kolejność') }}</button>
 </div>
 
-<h1>Pomoc</h1>
-<p>Witamy w kalendarzu adwentowym na kolejny rok! :)</p>
+<h1>{{ _('Pomoc') }}</h1>
+<p>{{ _('Witamy w kalendarzu adwentowym na kolejny rok! :)')  }}</p>
 
 {{ helpaccordion(userhelp, "accordionHelpUser") }}
 
 <p></p>
-<h1>Dla administratorów</h1>
+<h1>{{ _('Dla administratorów') }}</h1>
 <p></p>
 
 {{ helpaccordion(adminhelp, "accordionHelpAdmin") }}
@@ -54,20 +54,20 @@
     <div class="modal-content">
       <form method="post">
         <div class="modal-header">
-          <h5 class="modal-title" id="addhelpitem_modalLabel">Dodaj nową pozycję do Pomocy</h5>
+          <h5 class="modal-title" id="addhelpitem_modalLabel">{{ _('Dodaj nową pozycję do Pomocy') }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <input class="form-control my-3" name="helpitemtitle" id="helpitemtitle" value="" placeholder="Tytuł">
-          <textarea class="form-control my-3" name="helpitembody" id="helpitembody" rows="5" placeholder="Treść"></textarea>
+          <input class="form-control my-3" name="helpitemtitle" id="helpitemtitle" value="" placeholder="{{ _('Tytuł') }}">
+          <textarea class="form-control my-3" name="helpitembody" id="helpitembody" rows="5" placeholder="{{ _('Treść') }}"></textarea>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" name="helpitemadmin" id="helpitemadmin" value="helpitemadmin">
-            <label class="form-check-label" for="helpitemadmin">Dla administratorów</label>
+            <label class="form-check-label" for="helpitemadmin">{{ _('Dla administratorów') }}</label>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
-          <button class="btn btn-warning d-inline btn-ok" type="submit">Dodaj</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Anuluj') }}</button>
+          <button class="btn btn-warning d-inline btn-ok" type="submit">{{ _('Dodaj') }}</button>
         </div>
       </form>
     </div>
@@ -78,7 +78,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-          <h5 class="modal-title" id="myModalLabel">Podgląd</h5>
+          <h5 class="modal-title" id="myModalLabel">{{ _('Podgląd') }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -96,7 +96,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Zamknij') }}</button>
       </div>
     </div>
   </div>

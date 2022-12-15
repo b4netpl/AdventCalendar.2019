@@ -29,17 +29,17 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           {% if g.user['admin'] %}
           <li class="nav-item">
-            <a href="{{ url_for('admin.questsed') }}" class="nav-link">Questy</a>
+            <a href="{{ url_for('admin.questsed') }}" class="nav-link">{{ _('Questy') }}</a>
           </li>
           <li class="nav-item">
-            <a href="{{ url_for('admin.tweaks') }}" class="nav-item nav-link">Postępy</a>
+            <a href="{{ url_for('admin.tweaks') }}" class="nav-item nav-link">{{ _('Postępy') }}</a>
           </li>
           <li class="nav-item">
-            <a href="{{ url_for('admin.users') }}" class="nav-item nav-link">Użytkownicy</a>
+            <a href="{{ url_for('admin.users') }}" class="nav-item nav-link">{{ _('Użytkownicy') }}</a>
           </li>
           {% if session['time_shift'] %}
           <li class="nav-item">
-            <a class="nav-link disabled">Dzień: {{ session['time_shift'] }}</a>
+            <a class="nav-link disabled">{{ _('Dzień') }}: {{ session['time_shift'] }}</a>
           </li>
           {% endif %}
           {% endif %}
@@ -51,9 +51,9 @@
               {{ g.user['username'] }}
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a href="{{ url_for('basic.changepass') }}" class="dropdown-item">Zmień hasło</a></li>
-              <li><a href="{{ url_for('basic.help') }}" class="dropdown-item">Pomoc</a></li>
-              <li><a href="{{ url_for('basic.logout') }}" class="dropdown-item">Wyloguj</a></li>
+              <li><a href="{{ url_for('basic.changepass') }}" class="dropdown-item">{{ _('Zmień hasło') }}</a></li>
+              <li><a href="{{ url_for('basic.help') }}" class="dropdown-item">{{ _('Pomoc') }}</a></li>
+              <li><a href="{{ url_for('basic.logout') }}" class="dropdown-item">{{ _('Wyloguj') }}</a></li>
             </ul>
           </li>
         </ul>
@@ -76,9 +76,9 @@
     <div class="row p-5 gap-5">
       <div class="p-5 mb-4 bg-primary bg-gradient border rounded-3">
         <div class="container-fluid py-5">
-          <h1 class="display-5 fw-bold">Gratulacje</h1>
-          <p class="col-md-8 fs-4">Rozwiązałaś wszystkie zagadki, wykazałaś się wiedzą i wytrwałością. Możesz być z siebie naprawdę dumna!</p>
-          <p class="col-md-8 fs-4">Cudownej Wigilii!<br>Do zobaczenia!</p>
+          <h1 class="display-5 fw-bold">{{ _('Gratulacje') }}</h1>
+          <p class="col-md-8 fs-4">{{ _('Rozwiązałaś wszystkie zagadki, wykazałaś się wiedzą i wytrwałością. Możesz być z siebie naprawdę dumna!') }}</p>
+          <p class="col-md-8 fs-4">{{ _('Cudownej Wigilii!<br>Do zobaczenia!') }}</p>
         </div>
       </div>
     </div>

@@ -4,21 +4,21 @@
 
 <form method="post">
   <fieldset class="form-group border rounded-3 p-3 col-4">
-    <legend class="float-none w-auto px-3">Zmień hasło</legend>
+    <legend class="float-none w-auto px-3">{{ _('Zmień hasło') }}</legend>
 
     <div class="form-group">
-      <input class="form-control" name="old_pass" id="new_pass" type="password" placeholder="Stare hasło">
+      <input class="form-control" name="old_pass" id="new_pass" type="password" placeholder="{{ _('Stare hasło') }}">
     </div>
 
     <div class="form-group">
-        <input class="form-control" name="new_pass" id="new_pass" type="password" placeholder="Nowe hasło">
+        <input class="form-control" name="new_pass" id="new_pass" type="password" placeholder="{{ _('Nowe hasło') }}">
     </div>
 
     <div class="form-group">
-        <input class="form-control" name="new_pass_again" id="new_pass_again" type="password" placeholder="Potwierdź nowe hasło">
+        <input class="form-control" name="new_pass_again" id="new_pass_again" type="password" placeholder="{{ _('Potwierdź nowe hasło') }}">
     </div>
     
-    <button type="submit" class="btn btn-warning">Zmień hasło</button>
+    <button type="submit" class="btn btn-warning">{{ _('Zmień hasło') }}</button>
 
 </fieldset>
 </form>

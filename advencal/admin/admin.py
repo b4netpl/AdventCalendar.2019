@@ -10,6 +10,7 @@ from datetime import datetime, time
 from advencal.models import User, Day, DiscoveredDays, Help
 from advencal.helpers import commit
 from advencal.admin import bp
+from flask_babel import _
 
 
 @bp.before_request
@@ -186,11 +187,11 @@ def users():
 
             new_user = request.form['new_user']
             if User.check_username(new_user):
-                flash(Markup(
-                        'Użytkownik <strong>'
-                        + new_user
-                        + '</strong> już istnieje'
-                        ), 'warning')
+                flash(Markup(_(
+                        'Użytkownik <strong>%(new_user)s</strong>'
+                        ' już istnieje',
+                        new_user=new_user
+                        )), 'warning')
                 return render_template('users.html.j2', users=users)
 
             if request.form['pass_source'] == 'pass_input':
@@ -250,11 +251,10 @@ def users():
             db.session.delete(user)
             commit(db.session)
 
-            flash(Markup(
-                    'Użytkownik <strong>'
-                    + username_del
-                    + '</strong> został usunięty'
-                    ), 'success')
+            flash(Markup(_(
+                    'Użytkownik <strong>%(username_del)s</strong>'
+                    ' został usunięty', username_del=username_del
+                    )), 'success')
 
             users = User.query.all()
 

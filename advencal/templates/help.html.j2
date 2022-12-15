@@ -23,20 +23,20 @@
 
 {% endmacro %}
 
-<h1>Pomoc</h1>
-<p>Witamy w kalendarzu adwentowym na kolejny rok! :)</p>
+<h1>{{ _('Pomoc') }}</h1>
+<p>{{ _('Witamy w kalendarzu adwentowym na kolejny rok! :)') }}</p>
 
 {{ helpaccordion(userhelp, 'accordionHelpUser') }}
 
 {% if admin %}
 <p></p>
-<h1>Dla administratorów</h1>
+<h1>{{ _('Dla administratorów') }}</h1>
 <p></p>
 
 {{ helpaccordion(adminhelp, 'accordionHelpAdmin') }}
 
 <div class="d-grid col-4 mx-auto my-4">
-  <a class="btn btn-warning" href="/edithelp" role="button">Edytuj</a>
+  <a class="btn btn-warning" href="/edithelp" role="button">{{ _('Edytuj') }}</a>
 </div>
 
 {% endif %}

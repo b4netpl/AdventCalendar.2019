@@ -7,28 +7,28 @@
 
 <form class="form-inline" method="post">
     <fieldset class="form-group border rounded-3 p-3">
-        <legend class="float-none w-auto px-3">Dodaj użytkownika</legend>
-        <label class="my-1 mr-2" for="new_user">Login</label>
+        <legend class="float-none w-auto px-3">{{ _('Dodaj użytkownika') }}</legend>
+        <label class="my-1 mr-2" for="new_user">{{ _('Login') }}</label>
         <input class="form-control my-1 mr-sm-2" name="new_user" id="new_user">
         <div class="form-check">
             <input class="form-check-input" type="radio" name="pass_source" id="pass_input" value="pass_input" checked="checked" onclick="enable_pass('new_pass')">
-            <label class="form-check-label" for="pass_input">Podaj hasło</label>
+            <label class="form-check-label" for="pass_input">{{ _('Podaj hasło') }}</label>
         </div>
         <div class="form-check">
             <input class="form-check-input" type="radio" name="pass_source" id="pass_gen" value="pass_gen" onclick="disable_pass('new_pass')">
-            <label class="form-check-label" for="pass_gen">Wygeneruj losowe hasło</label>
+            <label class="form-check-label" for="pass_gen">{{ _('Wygeneruj losowe hasło') }}</label>
         </div>
-        <label class="my-1 mr-2" for="new_pass">Hasło</label>
+        <label class="my-1 mr-2" for="new_pass">{{ _('Hasło') }}</label>
         <input class="form-control my-1 mr-sm-2" name="new_pass" id="new_pass">
-        <button type="submit" class="btn btn-success my-1">Dodaj użytkownika</button>
+        <button type="submit" class="btn btn-success my-1">{{ _('Dodaj użytkownika') }}</button>
     </fieldset>
 </form>
 
 <fieldset class="form-group border rounded-3 p-3">
-    <legend class="float-none w-auto px-3">Zarządzaj użytkownikami</legend>
+    <legend class="float-none w-auto px-3">{{ _('Zarządzaj użytkownikami') }}</legend>
     <table class="table table-hover">
         <thead>
-            <th scope="col">Nazwa użytkownika</th>
+            <th scope="col">{{ _('Nazwa użytkownika') }}</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </thead>
@@ -40,12 +40,12 @@
                 </td>
                 <td>
                     {% if not user.admin %}
-                    <button class="btn btn-warning btn-sm text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#changepass_modal" data-bs-userid="{{ user.id }}">Zmień hasło</button>
+                    <button class="btn btn-warning btn-sm text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#changepass_modal" data-bs-userid="{{ user.id }}">{{ _('Zmień hasło') }}</button>
                     {% endif %}
                 </td>
                 <td>
                     {% if not user.admin %}
-                        <button class="btn btn-danger btn-sm" data-bs-userid="{{ user.id }}" data-bs-username="{{ user.username }}" data-bs-toggle="modal" data-bs-target="#confirm_delete">Usuń</button>
+                        <button class="btn btn-danger btn-sm" data-bs-userid="{{ user.id }}" data-bs-username="{{ user.username }}" data-bs-toggle="modal" data-bs-target="#confirm_delete">{{ _('Usuń') }}</button>
                     {% endif %}
                 </td>
             </tr>
@@ -59,25 +59,25 @@
         <div class="modal-content">
             <form method="post">
             <div class="modal-header">
-                <h5 class="modal-title" id="changepass_modalLabel">Podaj nowe hasło</h5>
+                <h5 class="modal-title" id="changepass_modalLabel">{{ _('Podaj nowe hasło') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_input" value="change_pass_input" checked="checked" onclick="enable_pass('change_pass')">
-                    <label class="form-check-label" for="change_pass_input">Podaj hasło</label>
+                    <label class="form-check-label" for="change_pass_input">{{ _('Podaj hasło') }}</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="change_pass_source" id="change_pass_gen" value="change_pass_gen" onclick="disable_pass('change_pass')">
-                    <label class="form-check-label" for="change_pass_gen">Wygeneruj losowe hasło</label>
+                    <label class="form-check-label" for="change_pass_gen">{{ _('Wygeneruj losowe hasło') }}</label>
                 </div>
-                <label class="my-1 mr-2" for="change_pass">Hasło</label>
+                <label class="my-1 mr-2" for="change_pass">{{ _('Hasło') }}</label>
                 <input class="form-control my-1 mr-sm-2" name="change_pass" id="change_pass">
             </div>
             <div class="modal-footer">
                 <input type="hidden" id="user_id" name="user_id" value="">
                     <div class="input-group mb-3">
-                        <button type="submit" class="btn btn-warning my-1">Ustaw nowe hasło</button>
+                        <button type="submit" class="btn btn-warning my-1">{{ _('Ustaw nowe hasło') }}</button>
                     </div>
                 
             </div>
@@ -90,16 +90,16 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="myModalLabel">Czy aby na pewno?</h5>
+            <h5 class="modal-title" id="myModalLabel">{{ _('Czy aby na pewno?') }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Czy na pewno chcesz usunąć użytkownika <b class="username"></b> ?</p>
-          <p>To operacja z gatunku nieodwracalnych.</p>
+          <p>{{ _('Czy na pewno chcesz usunąć użytkownika') }} <b class="username"></b> ?</p>
+          <p>{{ _('To operacja z gatunku nieodwracalnych.') }}</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nie</button>
-          <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline btn-ok" type="submit" id="user_del" name="user_del" value="">Tak</button></form>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Nie') }}</button>
+          <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline btn-ok" type="submit" id="user_del" name="user_del" value="">{{ _('Tak') }}</button></form>
         </div>
       </div>
     </div>
@@ -110,17 +110,17 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="credentials_modalLabel">Ważne!</h5>
+                <h5 class="modal-title" id="credentials_modalLabel">{{ _('Ważne!') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h3>Nowe hasło: <code id="copyText">{{ credentials['pass'] }}</code></h3>
-                <button id="copyButton" class="btn btn-success my-1" onclick="copyToClipboard('{{ credentials['pass'] }}')">Skopiuj do schowka</button>
-                <p><strong>Uwaga!</strong> To jest ostatni dobry moment, żeby skopiować hasło użytkownika! (Np. po to, żeby mu je wysłać.) Po zamknięciu tego okna odczytanie hasła nie będzie możliwe! (Ale naturalnie będzie można je ustawić od nowa przez <span class="btn btn-warning btn-sm">Zmień hasło</span> poniżej.)</p>
-                <p>A tutaj jeszcze gotowiec do skopiowania np. do maila:</p>
-                <textarea class="form-control" rows="3">Login: {{ credentials['login'] }} 
-Hasło: {{ credentials['pass'] }} 
-Pomocny URL: https://adwent.jutrzenka.mlerp.pl</textarea>
+                <h3>{{ _('Nowe hasło: ') }}<code id="copyText">{{ credentials['pass'] }}</code></h3>
+                <button id="copyButton" class="btn btn-success my-1" onclick="copyToClipboard('{{ credentials['pass'] }}')">{{ _('Skopiuj do schowka') }}</button>
+                <p><strong>{{ _('Uwaga!') }}</strong> {{ _('To jest ostatni dobry moment, żeby skopiować hasło użytkownika! (Np. po to, żeby mu je wysłać.) Po zamknięciu tego okna odczytanie hasła nie będzie możliwe! (Ale naturalnie będzie można je ustawić od nowa przez') }} <span class="btn btn-warning btn-sm">{{ _('Zmień hasło') }}</span>{{ _(' poniżej.)') }}</p>
+                <p>{{ _('A tutaj jeszcze gotowiec do skopiowania np. do maila:') }}</p>
+                <textarea class="form-control" rows="3">{{ _('Login') }}: {{ credentials['login'] }} 
+{{ _('Hasło') }}: {{ credentials['pass'] }} 
+{{ _('Pomocny URL') }}: https://adwent.jutrzenka.mlerp.pl</textarea>
             </div>
         </div>
     </div>
