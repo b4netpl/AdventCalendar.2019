@@ -5,6 +5,7 @@ from datetime import datetime
 from advencal.models import User, Day, DiscoveredDays, Help
 from advencal.helpers import commit
 from advencal.basic import bp
+from flask_babel import _
 
 
 @bp.before_request
@@ -41,11 +42,10 @@ def index():
                     commit(db.session)
                 # wrong answer
                 else:
-                    flash(
+                    flash(_(
                             'To nie jest prawidłowa odpowiedź... '
-                            'Spróbuj jeszcze raz!',
-                            'warning'
-                            )
+                            'Spróbuj jeszcze raz!'
+                            ), 'warning')
             else:
                 visit = DiscoveredDays(
                         day_id=request.form['day_id'],
@@ -112,9 +112,9 @@ def login():
         user = User.query.filter_by(username=username).scalar()
 
         if user is None:
-            error = 'Niepoprawny login'
+            error = _('Niepoprawny login')
         elif not user.check_password(password):
-            error = 'Niepoprawne hasło'
+            error = _('Niepoprawne hasło')
 
         if error is None:
             session.clear()
@@ -149,20 +149,20 @@ def changepass():
         user = User.get_user(user_id)
 
         if not user.check_password(old_pass):
-            flash('Niepoprawne hasło', 'danger')
+            flash(_('Niepoprawne hasło'), 'danger')
             error = True
 
         if new_pass != new_pass_again:
-            flash('Nowe hasła nie są jednakowe', 'danger')
+            flash(_('Nowe hasła nie są jednakowe'), 'danger')
             error = True
 
         if error is False:
             user.set_password(new_pass)
             commit(db.session)
 
-            flash('Hasło zmienione poprawnie', 'success')
+            flash(_('Hasło zmienione poprawnie'), 'success')
             return redirect(url_for('basic.index'))
 
-        flash('Hasło nie zostało zmienione', 'warning')
+        flash(_('Hasło nie zostało zmienione'), 'warning')
 
     return render_template('changepass.html.j2')

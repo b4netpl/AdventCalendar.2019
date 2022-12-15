@@ -3,7 +3,7 @@
 {% block content %}
 
 <fieldset class="form-group border rounded-3 p-3">
-    <legend class="float-none w-auto px-3">Postępy użytkowników</legend>
+    <legend class="float-none w-auto px-3">{{ _('Postępy użytkowników') }}</legend>
     <table class="table">
         {% for user in users %}
         <tr>
@@ -24,35 +24,35 @@
 
 <form class="form-inline" method="post">
     <fieldset class="form-group border rounded-3 p-3">
-        <legend class="float-none w-auto px-3">Przesuń kalendarz w czasie</legend>
-        <label class="my-1 mr-2" for="time_shift">Dla którego dnia miesiąca wygenerować kalendarz?</label>
+        <legend class="float-none w-auto px-3">{{ _('Przesuń kalendarz w czasie') }}</legend>
+        <label class="my-1 mr-2" for="time_shift">{{ _('Dla którego dnia miesiąca wygenerować kalendarz?') }}</label>
         <input class="form-control my-1 mr-sm-2" name="time_shift" id="time_shift" value="{{ date_today }}">
-        <button type="submit" class="btn btn-success my-1">Ustaw</button>
+        <button type="submit" class="btn btn-success my-1">{{ _('Ustaw') }}</button>
     </fieldset>
 </form>
 
 
 <form method="post">
     <fieldset class="form-group border rounded-3 p-3">
-        <legend class="float-none w-auto px-3">Usuń odwiedziny</legend>
+        <legend class="float-none w-auto px-3">{{ _('Usuń odwiedziny') }}</legend>
         <div class="row p-3">
             <div class="col">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="del_discos" id="del_all" value="del_all" checked="checked">
-                    <label class="form-check-label" for="del_all">wszystkie</label>
+                    <label class="form-check-label" for="del_all">{{ _('wszystkie') }}</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="del_discos" id="del_taf" value="del_taf">
-                    <label class="form-check-label" for="del_taf">dzisiejsze i przyszłe</label>
+                    <label class="form-check-label" for="del_taf">{{ _('dzisiejsze i przyszłe') }}</label>
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="del_except_quests" id="del_except_quests" value="del_except_quests">
-                    <label class="form-check-label" for="del_except_quests">poza questami</label>
+                    <label class="form-check-label" for="del_except_quests">{{ _('poza questami') }}</label>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
-                    <label for="del_users">dla użytkowników:</label>
+                    <label for="del_users">{{ _('dla użytkowników:') }}</label>
                     <select class="form-control" name="del_users" id="del_users" size="5" multiple>
                         {%- for user in users %}
                         <option value="{{ user.id }}">{{ user.username }}</option>
@@ -63,7 +63,7 @@
         </div>
         <div class="row">
             <div class="d-grid col-4 mx-auto">
-                <button type="submit" class="btn btn-danger">Usuń</button>
+                <button type="submit" class="btn btn-danger">{{ _('Usuń') }}</button>
             </div>
         </div>
     </fieldset>
@@ -72,11 +72,11 @@
 
 <form method="post">
     <fieldset class="form-group border rounded-3 p-3">
-        <legend class="float-none w-auto px-3">Dodaj odwiedziny i rozwiąż wszystkie zadania</legend>
+        <legend class="float-none w-auto px-3">{{ _('Dodaj odwiedziny i rozwiąż wszystkie zadania') }}</legend>
         <div class="row p-3">
             <div class="col">
                 <div class="form-group">
-                    <label for="solve_users">dla użytkowników:</label>
+                    <label for="solve_users">{{ _('dla użytkowników:') }}</label>
                     <select class="form-control" name="solve_users" id="solve_users" size="5" multiple>
                         {%- for user in users %}
                         <option value="{{ user.id }}">{{ user.username }}</option>
@@ -87,7 +87,7 @@
         </div>
         <div class="row">
             <div class="d-grid col-4 mx-auto">
-                <button type="submit" class="btn btn-danger">Rozwiąż</button>
+                <button type="submit" class="btn btn-danger">{{ _('Rozwiąż') }}</button>
             </div>
         </div>
     </fieldset>

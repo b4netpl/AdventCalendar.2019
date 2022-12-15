@@ -4,23 +4,23 @@
 
 <form method="post">
   <fieldset class="form-group border rounded-3 p-3">
-    <legend class="float-none w-auto px-3">Edytuj treść questa i odpowiedź</legend>
+    <legend class="float-none w-auto px-3">{{ _('Edytuj treść questa i odpowiedź') }}</legend>
     <div class="form-group">
       
-      <label for="quest">Treść questa</label>
+      <label for="quest">{{ _('Treść questa') }}</label>
       <textarea class="form-control" name="quest" id="quest" rows="10">{{ quest }}</textarea>
     </div>
     <div class="form-group">
-      <label for="quest_answer">Odpowiedź</label>
+      <label for="quest_answer">{{ _('Odpowiedź') }}</label>
       <input class="form-control" name="quest_answer" id="quest_answer" value="{{ quest_answer }}">
     </div>
     <div class="form-group">
-      <label for="hour">Godzina startu</label>
+      <label for="hour">{{ _('Godzina startu') }}</label>
       <input class="form-control" name="hour" id="hour" value="{{ hour }}">
     </div>
     <input type="hidden" name="day_id" id="day_id" value="{{ day_id }}">
-    <button type="submit" class="btn btn-warning my-3">Zapisz</button>
-    <a class="btn btn-secondary my-3" href="/questsed" role="button">Anuluj</a>
+    <button type="submit" class="btn btn-warning my-3">{{ _('Zapisz') }}</button>
+    <a class="btn btn-secondary my-3" href="/questsed" role="button">{{ _('Anuluj') }}</a>
   </fieldset>
 </form>
 

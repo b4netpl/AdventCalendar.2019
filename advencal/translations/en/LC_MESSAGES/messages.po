@@ -1,0 +1,419 @@
+# English translations for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-12-15 22:42+0100\n"
+"PO-Revision-Date: 2022-12-15 03:43+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+#: advencal/admin/admin.py:190
+#, fuzzy, python-format
+msgid "Użytkownik <strong>%(new_user)s</strong>już istnieje"
+msgstr "User <strong>%(new_user)s</strong> already exists"
+
+#: advencal/admin/admin.py:254
+#, fuzzy, python-format
+msgid "Użytkownik <strong>%(username_del)s</strong> został usunięty"
+msgstr "User <strong>%(username_del)s</strong> deleted"
+
+#: advencal/basic/basic.py:45
+msgid "To nie jest prawidłowa odpowiedź... Spróbuj jeszcze raz!"
+msgstr "This answer is not correct... Try again!"
+
+#: advencal/basic/basic.py:115
+msgid "Niepoprawny login"
+msgstr "Incorrect username"
+
+#: advencal/basic/basic.py:117 advencal/basic/basic.py:152
+msgid "Niepoprawne hasło"
+msgstr "Incorrect "
+
+#: advencal/basic/basic.py:156
+msgid "Nowe hasła nie są jednakowe"
+msgstr "New passwords are not identical"
+
+#: advencal/basic/basic.py:163
+msgid "Hasło zmienione poprawnie"
+msgstr "Password changed successfully"
+
+#: advencal/basic/basic.py:166
+msgid "Hasło nie zostało zmienione"
+msgstr "Password was not changed"
+
+#: advencal/templates/base.html.j2:32
+msgid "Questy"
+msgstr "Quests"
+
+#: advencal/templates/base.html.j2:35
+msgid "Postępy"
+msgstr "Progress"
+
+#: advencal/templates/base.html.j2:38
+msgid "Użytkownicy"
+msgstr "Users"
+
+#: advencal/templates/base.html.j2:42
+msgid "Dzień"
+msgstr "Day"
+
+#: advencal/templates/base.html.j2:54 advencal/templates/changepass.html.j2:7
+#: advencal/templates/changepass.html.j2:21 advencal/templates/users.html.j2:43
+#: advencal/templates/users.html.j2:119
+msgid "Zmień hasło"
+msgstr "Change password"
+
+#: advencal/templates/base.html.j2:55 advencal/templates/edithelp.html.j2:41
+#: advencal/templates/help.html.j2:26
+msgid "Pomoc"
+msgstr "Help"
+
+#: advencal/templates/base.html.j2:56
+msgid "Wyloguj"
+msgstr "Log out"
+
+#: advencal/templates/base.html.j2:79
+msgid "Gratulacje"
+msgstr "Congratulations"
+
+#: advencal/templates/base.html.j2:80
+msgid ""
+"Rozwiązałaś wszystkie zagadki, wykazałaś się wiedzą i wytrwałością. "
+"Możesz być z siebie naprawdę dumna!"
+msgstr ""
+"You have solved all quests, you have demonstrated knowledge and "
+"perserverance. You can be really proud of yourself!"
+
+#: advencal/templates/base.html.j2:81
+msgid "Cudownej Wigilii!<br>Do zobaczenia!"
+msgstr "Merry Christmas!<br>See you!"
+
+#: advencal/templates/calendar.html.j2:21
+msgid "Cześć!"
+msgstr "Hi!"
+
+#: advencal/templates/calendar.html.j2:25
+msgid "Jeszcze nie czas!"
+msgstr "It's not the time yet!"
+
+#: advencal/templates/calendar.html.j2:27
+msgid "dzisiaj"
+msgstr "today"
+
+#: advencal/templates/calendar.html.j2:27
+msgid "jutro"
+msgstr "tomorrow"
+
+#: advencal/templates/calendar.html.j2:27
+msgid "pojutrze"
+msgstr "2 days"
+
+#: advencal/templates/calendar.html.j2:27
+msgid "za "
+msgstr "in "
+
+#: advencal/templates/calendar.html.j2:27
+msgid " dni"
+msgstr " days"
+
+#: advencal/templates/calendar.html.j2:28
+msgid "To zadanie będzie można rozwiązać już"
+msgstr "This quest can be solved in"
+
+#: advencal/templates/calendar.html.j2:28
+msgid "o godzinie"
+msgstr "at"
+
+#: advencal/templates/calendar.html.j2:40 advencal/templates/quests.html.j2:28
+msgid "Zadanie!"
+msgstr "Quest!"
+
+#: advencal/templates/calendar.html.j2:49
+msgid "Twoja odpowiedź..."
+msgstr "Your answer..."
+
+#: advencal/templates/calendar.html.j2:51 advencal/templates/quests.html.j2:39
+msgid "Sprawdź!"
+msgstr "Check!"
+
+#: advencal/templates/calendar.html.j2:64
+msgid "Tym razem się udało!"
+msgstr "No quest this time!"
+
+#: advencal/templates/calendar.html.j2:69
+msgid "Odkryj"
+msgstr "Reveal"
+
+#: advencal/templates/changepass.html.j2:10
+msgid "Stare hasło"
+msgstr "Old password"
+
+#: advencal/templates/changepass.html.j2:14
+msgid "Nowe hasło"
+msgstr "New password"
+
+#: advencal/templates/changepass.html.j2:18
+msgid "Potwierdź nowe hasło"
+msgstr "Repeat new password"
+
+#: advencal/templates/edithelp.html.j2:23
+#: advencal/templates/edithelp.html.j2:81
+msgid "Podgląd"
+msgstr "Preview"
+
+#: advencal/templates/edithelp.html.j2:24
+#: advencal/templates/questedit.html.j2:22
+msgid "Zapisz"
+msgstr "Save"
+
+#: advencal/templates/edithelp.html.j2:25 advencal/templates/tweaks.html.j2:66
+#: advencal/templates/users.html.j2:48
+msgid "Usuń"
+msgstr "Delete"
+
+#: advencal/templates/edithelp.html.j2:37
+msgid "Dodaj nową pozycję"
+msgstr "Add new item"
+
+#: advencal/templates/edithelp.html.j2:38
+msgid "Zapisz kolejność"
+msgstr "Save order"
+
+#: advencal/templates/edithelp.html.j2:42 advencal/templates/help.html.j2:27
+msgid "Witamy w kalendarzu adwentowym na kolejny rok! :)"
+msgstr "Welcome to this year's advent calendar! :)"
+
+#: advencal/templates/edithelp.html.j2:47
+#: advencal/templates/edithelp.html.j2:65 advencal/templates/help.html.j2:33
+msgid "Dla administratorów"
+msgstr "For administrators"
+
+#: advencal/templates/edithelp.html.j2:57
+msgid "Dodaj nową pozycję do Pomocy"
+msgstr "Add new Help item"
+
+#: advencal/templates/edithelp.html.j2:61
+msgid "Tytuł"
+msgstr "Title"
+
+#: advencal/templates/edithelp.html.j2:62
+msgid "Treść"
+msgstr "Content"
+
+#: advencal/templates/edithelp.html.j2:69
+#: advencal/templates/questedit.html.j2:23
+msgid "Anuluj"
+msgstr "Cancel"
+
+#: advencal/templates/edithelp.html.j2:70
+msgid "Dodaj"
+msgstr "Add"
+
+#: advencal/templates/edithelp.html.j2:99
+msgid "Zamknij"
+msgstr "Close"
+
+#: advencal/templates/help.html.j2:39
+msgid "Edytuj"
+msgstr "Edit"
+
+#: advencal/templates/login.html.j2:29 advencal/templates/login.html.j2:30
+#: advencal/templates/users.html.j2:11 advencal/templates/users.html.j2:121
+msgid "Login"
+msgstr "Username"
+
+#: advencal/templates/login.html.j2:34 advencal/templates/login.html.j2:35
+#: advencal/templates/users.html.j2:21 advencal/templates/users.html.j2:74
+#: advencal/templates/users.html.j2:122
+msgid "Hasło"
+msgstr "Password"
+
+#: advencal/templates/login.html.j2:38
+msgid "Zaloguj"
+msgstr "Log in"
+
+#: advencal/templates/questedit.html.j2:7
+msgid "Edytuj treść questa i odpowiedź"
+msgstr "Edit quest and answer"
+
+#: advencal/templates/questedit.html.j2:10
+msgid "Treść questa"
+msgstr "Quest"
+
+#: advencal/templates/questedit.html.j2:14
+msgid "Odpowiedź"
+msgstr "Answer"
+
+#: advencal/templates/questedit.html.j2:18 advencal/templates/quests.html.j2:11
+msgid "Godzina startu"
+msgstr "Starting hour"
+
+#: advencal/templates/quests.html.j2:6
+msgid "Edytuj questy"
+msgstr "Edit quests"
+
+#: advencal/templates/quests.html.j2:9
+msgid "Dzień miesiąca"
+msgstr "Day of month"
+
+#: advencal/templates/quests.html.j2:10
+msgid "Quest"
+msgstr "Quest"
+
+#: advencal/templates/quests.html.j2:59
+msgid "Biblioteka obrazków"
+msgstr "Images library"
+
+#: advencal/templates/quests.html.j2:62 advencal/templates/quests.html.j2:63
+msgid "Załaduj"
+msgstr "Upload"
+
+#: advencal/templates/quests.html.j2:69
+msgid "Grafika"
+msgstr "Image"
+
+#: advencal/templates/quests.html.j2:70
+msgid "Link"
+msgstr "Link"
+
+#: advencal/templates/tweaks.html.j2:6
+msgid "Postępy użytkowników"
+msgstr "Users' progress"
+
+#: advencal/templates/tweaks.html.j2:27
+msgid "Przesuń kalendarz w czasie"
+msgstr "Shift calendar in time"
+
+#: advencal/templates/tweaks.html.j2:28
+msgid "Dla którego dnia miesiąca wygenerować kalendarz?"
+msgstr "Generate calendar for which day of month?"
+
+#: advencal/templates/tweaks.html.j2:30
+msgid "Ustaw"
+msgstr "Set"
+
+#: advencal/templates/tweaks.html.j2:37
+msgid "Usuń odwiedziny"
+msgstr "Delete visits"
+
+#: advencal/templates/tweaks.html.j2:42
+msgid "wszystkie"
+msgstr "all"
+
+#: advencal/templates/tweaks.html.j2:46
+msgid "dzisiejsze i przyszłe"
+msgstr "today's and future ones"
+
+#: advencal/templates/tweaks.html.j2:50
+msgid "poza questami"
+msgstr "except quests"
+
+#: advencal/templates/tweaks.html.j2:55 advencal/templates/tweaks.html.j2:79
+msgid "dla użytkowników:"
+msgstr "for users:"
+
+#: advencal/templates/tweaks.html.j2:75
+msgid "Dodaj odwiedziny i rozwiąż wszystkie zadania"
+msgstr "Mark as visited and solve all quests"
+
+#: advencal/templates/tweaks.html.j2:90
+msgid "Rozwiąż"
+msgstr "Solve"
+
+#: advencal/templates/users.html.j2:10 advencal/templates/users.html.j2:23
+msgid "Dodaj użytkownika"
+msgstr "Add user"
+
+#: advencal/templates/users.html.j2:15 advencal/templates/users.html.j2:68
+msgid "Podaj hasło"
+msgstr "Enter password"
+
+#: advencal/templates/users.html.j2:19 advencal/templates/users.html.j2:72
+msgid "Wygeneruj losowe hasło"
+msgstr "Generate new password"
+
+#: advencal/templates/users.html.j2:28
+msgid "Zarządzaj użytkownikami"
+msgstr "Manage users"
+
+#: advencal/templates/users.html.j2:31
+msgid "Nazwa użytkownika"
+msgstr "Username"
+
+#: advencal/templates/users.html.j2:62
+msgid "Podaj nowe hasło"
+msgstr "Enter new password"
+
+#: advencal/templates/users.html.j2:80
+msgid "Ustaw nowe hasło"
+msgstr "Set new password"
+
+#: advencal/templates/users.html.j2:93
+msgid "Czy aby na pewno?"
+msgstr "Are you sure?"
+
+#: advencal/templates/users.html.j2:97
+msgid "Czy na pewno chcesz usunąć użytkownika"
+msgstr "Are you sure you want to delete user"
+
+#: advencal/templates/users.html.j2:98
+msgid "To operacja z gatunku nieodwracalnych."
+msgstr "This action cannot be undone."
+
+#: advencal/templates/users.html.j2:101
+msgid "Nie"
+msgstr "No"
+
+#: advencal/templates/users.html.j2:102
+msgid "Tak"
+msgstr "Yes"
+
+#: advencal/templates/users.html.j2:113
+msgid "Ważne!"
+msgstr "Caution!"
+
+#: advencal/templates/users.html.j2:117
+msgid "Nowe hasło: "
+msgstr "New password: "
+
+#: advencal/templates/users.html.j2:118
+msgid "Skopiuj do schowka"
+msgstr "Copy to clipboard"
+
+#: advencal/templates/users.html.j2:119
+msgid "Uwaga!"
+msgstr "Warning!"
+
+#: advencal/templates/users.html.j2:119
+msgid ""
+"To jest ostatni dobry moment, żeby skopiować hasło użytkownika! (Np. po "
+"to, żeby mu je wysłać.) Po zamknięciu tego okna odczytanie hasła nie "
+"będzie możliwe! (Ale naturalnie będzie można je ustawić od nowa przez"
+msgstr ""
+"This is the last good moment to copy user's password! (E.g. to send it to"
+" her/him.) After closing this window, you will not be able to read the "
+"password! (But you will be able to reset it again with"
+
+#: advencal/templates/users.html.j2:119
+msgid " poniżej.)"
+msgstr " below.)"
+
+#: advencal/templates/users.html.j2:120
+msgid "A tutaj jeszcze gotowiec do skopiowania np. do maila:"
+msgstr "And here a snippet to copy e.g. to email:"
+
+#: advencal/templates/users.html.j2:123
+msgid "Pomocny URL"
+msgstr "Helpful URL"
+

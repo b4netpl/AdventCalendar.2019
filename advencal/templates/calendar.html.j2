@@ -18,14 +18,14 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="notyetpopup{{ day_id }}Label">Cześć!</h5>
+                                <h5 class="modal-title" id="notyetpopup{{ day_id }}Label">{{ _('Cześć!') }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p>Jeszcze nie czas!</p>
+                                <p>{{ _('Jeszcze nie czas!') }}</p>
                                 {%- set daysdiff = (date_today.replace(day=day_data[day_id]['day_no']) - date_today).days -%}
-                                {%- set daysstring = {0: "dzisiaj", 1: "jutro", 2:"pojutrze"}[daysdiff] | default("za " + daysdiff|string + " dni") -%}
-                                <p><small>To zadanie będzie można rozwiązać już {{ daysstring }} o godzinie {{ day_data[day_id]['hour'].isoformat(timespec='minutes') }}!</small></p>
+                                {%- set daysstring = {0: _("dzisiaj"), 1: _("jutro"), 2: _("pojutrze")}[daysdiff] | default(_("za ") + daysdiff|string + _(" dni")) -%}
+                                <p><small>{{ _('To zadanie będzie można rozwiązać już') }} {{ daysstring }} {{ _('o godzinie') }} {{ day_data[day_id]['hour'].isoformat(timespec='minutes') }}!</small></p>
                             </div>
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="discoverpopup{{ day_id }}Label">Zadanie!</h5>
+                                <h5 class="modal-title" id="discoverpopup{{ day_id }}Label">{{ _('Zadanie!') }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -46,9 +46,9 @@
                             <div class="modal-footer">
                                 <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day_id }}">
                                     <div class="input-group mb-3">
-                                        <input type="text" name="answer" id="answer" class="form-control" placeholder="Twoja odpowiedź..." aria-label="Twoja odpowiedź..." aria-describedby="button-addon2">
+                                        <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ _('Twoja odpowiedź...') }}" aria-label="{{ _('Twoja odpowiedź...') }}" aria-describedby="button-addon2">
                                         <div class="input-group-append">
-                                            <button class="btn btn-success" type="submit" id="button-addon2">Sprawdź!</button>
+                                            <button class="btn btn-success" type="submit" id="button-addon2">{{ _('Sprawdź!') }}</button>
                                         </div>
                                     </div>
                                 </form>
@@ -61,12 +61,12 @@
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="discoverpopup{{ day_id }}Label">Tym razem się udało!</h5>
+                                <h5 class="modal-title" id="discoverpopup{{ day_id }}Label">{{ _('Tym razem się udało!') }}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-footer">
                                 <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day_id }}">
-                                    <button class="btn btn-success" type="submit" id="button-addon2">Odkryj</button>
+                                    <button class="btn btn-success" type="submit" id="button-addon2">{{ _('Odkryj') }}</button>
                                 </form>
                             </div>
                         </div>

@@ -3,12 +3,12 @@
 {% block content %}
 
 <fieldset class="form-group border rounded-3 p-3">
-    <legend class="float-none w-auto px-3">Edytuj questy</legend>
+    <legend class="float-none w-auto px-3">{{ _('Edytuj questy') }}</legend>
     <table class="table table-hover">
         <thead>
-            <th scope="col">Dzień miesiąca</th>
-            <th scope="col">Quest</th>
-            <th scope="col">Godzina startu</th>
+            <th scope="col">{{ _('Dzień miesiąca') }}</th>
+            <th scope="col">{{ _('Quest') }}</th>
+            <th scope="col">{{ _('Godzina startu') }}</th>
             <th scope="col"></th>
             <th scope="col"></th>
             <th scope="col"></th>
@@ -25,7 +25,7 @@
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="preview{{ day.id }}Label">Zadanie!</h5>
+                                        <h5 class="modal-title" id="preview{{ day.id }}Label">{{ _('Zadanie!') }}</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -36,7 +36,7 @@
                                             <div class="input-group mb-3">
                                                 <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ day.quest_answer }}" aria-label="{{ day.quest_answer }}" aria-describedby="button-addon2" readonly>
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-success" type="submit" id="button-addon2" disabled>Sprawdź!</button>
+                                                    <button class="btn btn-success" type="submit" id="button-addon2" disabled>{{ _('Sprawdź!') }}</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -56,18 +56,18 @@
 </fieldset>
 
 <fieldset class="form-group border rounded-3 p-3">
-    <legend class="float-none w-auto px-3">Biblioteka obrazków</legend>
+    <legend class="float-none w-auto px-3">{{ _('Biblioteka obrazków') }}</legend>
     <form action ="/questsed" method = "POST" enctype = "multipart/form-data">
         <div class="input-group mb-3">
-            <input type="file" class="form-control" id="upload_asset" name="upload_asset" aria-describedby="upload_asset" aria-label="Załaduj">
-            <button class="btn btn-outline-success" type="submit" id="upload_asset">Załaduj</button>
+            <input type="file" class="form-control" id="upload_asset" name="upload_asset" aria-describedby="upload_asset" aria-label="{{ _('Załaduj') }}">
+            <button class="btn btn-outline-success" type="submit" id="upload_asset">{{ _('Załaduj') }}</button>
 
         </div>
     </form> 
     <table class="table table-hover">
         <thead>
-            <th scope="col">Grafika</th>
-            <th scope="col">Link</th>
+            <th scope="col">{{ _('Grafika') }}</th>
+            <th scope="col">{{ _('Link') }}</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </thead>
