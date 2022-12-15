@@ -7,7 +7,11 @@ def test_index_nologin(client):
     WHEN the '/' page is requested (GET)
     THEN check that response is valid
     """
-    response = client.get(url_for('basic.index'), follow_redirects=True)
+    response = client.get(
+            url_for('basic.index'),
+            follow_redirects=True,
+            headers={'accept-language': 'pl'}
+            )
     assert response.request.path == '/login'
     assert 'Zaloguj' in response.data.decode('utf-8')
 
@@ -18,7 +22,10 @@ def test_login(client):
     WHEN the '/' page is requested (POST)
     THEN check that response is 405
     """
-    response = client.get(url_for('basic.login'))
+    response = client.get(
+            url_for('basic.login'),
+            headers={'accept-language': 'pl'}
+            )
     assert response.status_code == 200
     assert 'Zaloguj' in response.data.decode('utf-8')
 
@@ -36,7 +43,7 @@ def test_index_quest_answer_wrong(client, init_database):
     response = client.post(url_for('basic.index'), data={
             "day_id": 1,
             "answer": "pięć"
-            })
+            }, headers={'accept-language': 'pl'})
     assert 'To nie jest prawidłowa odpowiedź...' \
         in response.data.decode('utf-8')
     assert 'data-bs-target="#discoverpopup1">17</a>' \
@@ -56,7 +63,7 @@ def test_index_quest_answer_correct(client, init_database):
     response = client.post(url_for('basic.index'), data={
             "day_id": 1,
             "answer": "cztery"
-            })
+            }, headers={'accept-language': 'pl'})
     assert 'data-bs-target="#discoverpopup1">17</a>' \
         not in response.data.decode('utf-8')
 
@@ -73,7 +80,7 @@ def test_index_no_quest_for_day(client, init_database):
         sess['time_shift'] = 17
     response = client.post(url_for('basic.index'), data={
             "day_id": 2
-            })
+            }, headers={'accept-language': 'pl'})
     assert 'data-bs-target="#discoverpopup1">2</a>' \
         not in response.data.decode('utf-8')
 
@@ -89,6 +96,6 @@ def test_index_win(client, init_database):
         sess['admin'] = True
     response = client.post(url_for('admin.tweaks'), data={
             'solve_users': [2]
-            }, follow_redirects=True)
+            }, follow_redirects=True, headers={'accept-language': 'pl'})
     assert '<h1 class="display-5 fw-bold">' \
         in response.data.decode('utf-8')

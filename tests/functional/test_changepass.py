@@ -7,7 +7,11 @@ def test_changepass_nologin(client, init_database):
     WHEN the '/changepass' page is requested (GET) by anonymous client
     THEN login page is displayed
     """
-    response = client.get(url_for('basic.changepass'), follow_redirects=True)
+    response = client.get(
+            url_for('basic.changepass'),
+            follow_redirects=True,
+            headers={'accept-language': 'pl'}
+            )
     assert 'Zaloguj' in response.data.decode('utf-8')
 
 
@@ -23,7 +27,7 @@ def test_changepass_wrong_password(client, init_database):
             "old_pass": "incorrect",
             "new_pass": "whatever",
             "new_pass_again": "whatever"
-            })
+            }, headers={'accept-language': 'pl'})
     assert 'Niepoprawne hasło' in response.data.decode('utf-8')
 
 
@@ -40,7 +44,7 @@ def test_changepass_new_password_not_identical(client, init_database):
             "old_pass": "user",
             "new_pass": "whatever",
             "new_pass_again": "incorrect"
-            })
+            }, headers={'accept-language': 'pl'})
     assert 'Nowe hasła nie są jednakowe' in response.data.decode('utf-8')
 
 
@@ -56,5 +60,5 @@ def test_changepass_correct(client, init_database):
             "old_pass": "user",
             "new_pass": "whatever",
             "new_pass_again": "whatever"
-            }, follow_redirects=True)
+            }, follow_redirects=True, headers={'accept-language': 'pl'})
     assert 'Hasło zmienione poprawnie' in response.data.decode('utf-8')
