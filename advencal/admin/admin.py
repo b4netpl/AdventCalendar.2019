@@ -4,32 +4,20 @@ import string
 
 from advencal import db
 from flask import session, redirect, request, url_for, render_template, \
-        flash, Markup, g
+        flash, Markup
 from werkzeug.utils import secure_filename
 from datetime import datetime, time
 from advencal.models import User, Day, DiscoveredDays, Help
-from advencal.helpers import commit
+from advencal.helpers import commit, admin_required
 from advencal.admin import bp
 from flask_babel import _
-
-
-@bp.before_request
-def load_logged_in_user():
-    user_id = session.get('user_id')
-
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = User.get_user(user_id)
+from flask_login import login_required
 
 
 @bp.route('/questsed', methods=('GET', 'POST'))
+@login_required
+@admin_required
 def questsed():
-
-    if session.get('user_id') is None:
-        return redirect(url_for('basic.login'))
-    if not session.get('admin'):
-        return redirect(url_for('basic.index'))
 
     date_today = datetime.today().day
 
@@ -70,12 +58,9 @@ def questsed():
 
 
 @bp.route('/questedit', methods=['POST'])
+@login_required
+@admin_required
 def questedit():
-
-    if session.get('user_id') is None:
-        return redirect(url_for('basic.login'))
-    if not session.get('admin'):
-        return redirect(url_for('basic.index'))
 
     if 'quest_edit' in request.form:
         quest_data = Day.get_day(int(request.form['quest_edit']))
@@ -99,12 +84,9 @@ def questedit():
 
 
 @bp.route('/tweaks', methods=('GET', 'POST'))
+@login_required
+@admin_required
 def tweaks():
-
-    if session.get('user_id') is None:
-        return redirect(url_for('basic.login'))
-    if not session.get('admin'):
-        return redirect(url_for('basic.index'))
 
     date_today = datetime.today().day
 
@@ -172,12 +154,9 @@ def tweaks():
 
 
 @bp.route('/users', methods=('GET', 'POST'))
+@login_required
+@admin_required
 def users():
-
-    if session.get('user_id') is None:
-        return redirect(url_for('basic.login'))
-    if not session.get('admin'):
-        return redirect(url_for('basic.index'))
 
     users = User.query.all()
 
@@ -267,12 +246,9 @@ def users():
 
 
 @bp.route('/edithelp', methods=('GET', 'POST'))
+@login_required
+@admin_required
 def edithelp():
-
-    if session.get('user_id') is None:
-        return redirect(url_for('basic.login'))
-    if not session.get('admin'):
-        return redirect(url_for('basic.index'))
 
     if request.method == 'POST':
 

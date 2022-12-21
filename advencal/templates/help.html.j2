@@ -28,7 +28,7 @@
 
 {{ helpaccordion(userhelp, 'accordionHelpUser') }}
 
-{% if admin %}
+{% if current_user.admin %}
 <p></p>
 <h1>{{ _('Dla administratorów') }}</h1>
 <p></p>
