@@ -3,11 +3,15 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_babel import Babel
+from flask_login import LoginManager
 
 
 db = SQLAlchemy()
 migrate = Migrate()
 babel = Babel()
+login = LoginManager()
+login.login_view = 'basic.login'
+login.login_message = None
 
 
 def create_app(config_class=Config):
@@ -18,6 +22,8 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
 
     babel.init_app(app)
+
+    login.init_app(app)
 
     from advencal.basic import bp as basic_bp
     app.register_blueprint(basic_bp)

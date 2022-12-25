@@ -1,6 +1,7 @@
 import pytest
 
 from datetime import time
+from flask_login import FlaskLoginClient
 from advencal import create_app, db, init_db_cli
 from advencal.models import User, Day, Help
 
@@ -147,6 +148,32 @@ def init_database(client):
     yield
 
     db.drop_all()
+
+
+@pytest.fixture
+def user_client(flask_app):
+
+    app_context = flask_app.test_request_context()
+    app_context.push()
+
+    flask_app.test_client_class = FlaskLoginClient
+    user = User(id=1, username='testuser', admin=False)
+    user.set_password('user')
+
+    return flask_app.test_client(user=user)
+
+
+@pytest.fixture
+def admin_client(flask_app):
+
+    app_context = flask_app.test_request_context()
+    app_context.push()
+
+    flask_app.test_client_class = FlaskLoginClient
+    user = User(id=2, username='testadmin', admin=True)
+    user.set_password('admin')
+
+    return flask_app.test_client(user=user)
 
 
 @pytest.fixture

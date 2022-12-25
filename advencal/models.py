@@ -1,6 +1,7 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy import func
-from advencal import db
+from flask_login import UserMixin
+from advencal import db, login
 
 
 class DiscoveredDays(db.Model):
@@ -11,7 +12,7 @@ class DiscoveredDays(db.Model):
     day = db.relationship('Day', back_populates='users')
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(
             db.String(64),
@@ -42,6 +43,11 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+
+@login.user_loader
+def load_user(id):
+    return User.get_user(id)
 
 
 class Day(db.Model):

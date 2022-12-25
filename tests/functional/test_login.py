@@ -9,7 +9,8 @@ def test_login_user_incorrect(client, init_database):
     """
     response = client.post(url_for('basic.login'), data={
             "username": "incorrectuser",
-            "password": "user"
+            "password": "user",
+            "remember_me": False
             }, follow_redirects=True, headers={'accept-language': 'pl'})
     assert response.status_code == 200
     assert 'Zmień hasło' not in response.data.decode('utf-8')
@@ -17,7 +18,8 @@ def test_login_user_incorrect(client, init_database):
 
     response = client.post(url_for('basic.login'), data={
             "username": "testuser",
-            "password": "incorrectpass"
+            "password": "incorrectpass",
+            "remember_me": False
             }, follow_redirects=True, headers={'accept-language': 'pl'})
     assert response.status_code == 200
     assert 'Zmień hasło' not in response.data.decode('utf-8')
@@ -32,23 +34,37 @@ def test_login_user_correct(client, init_database):
     """
     response = client.post(url_for('basic.login'), data={
             "username": "testuser",
-            "password": "user"
+            "password": "user",
+            "remember_me": True
             }, follow_redirects=True, headers={'accept-language': 'pl'})
     assert response.status_code == 200
     assert 'Zmień hasło' in response.data.decode('utf-8')
 
 
-def test_logout(client, init_database):
+def test_logout(user_client, init_database):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/logout' page is requested (GET)
     THEN user is logged out (no session) and login page is displayed
     """
-    with client.session_transaction() as sess:
-        sess['user_id'] = 1
-        response = client.get(
-                url_for('basic.logout'),
-                headers={'accept-language': 'pl'}
-                )
+    response = user_client.get(
+            url_for('basic.logout'),
+            headers={'accept-language': 'pl'}
+            )
     assert session.get('user_id') is None
     assert 'Zmień hasło' not in response.data.decode('utf-8')
+
+
+def test_login_loggedin_user(user_client, init_database):
+    """
+    GIVEN a Flask app configured for testing
+    WHEN the '/login' page is requested (GET) by logged in user
+    THEN index page is displayed
+    """
+    response = user_client.get(
+            url_for('basic.login'),
+            follow_redirects=True,
+            headers={'accept-language': 'pl'}
+            )
+    assert response.status_code == 200
+    assert 'Zmień hasło' in response.data.decode('utf-8')
