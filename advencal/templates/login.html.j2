@@ -35,7 +35,12 @@
         <label for="password">{{ _('Hasło') }}</label>
       </div>
 
-      <input type="submit" value="{{ _('Zaloguj') }}" class="btn btn-primary btn-lg w-100 mt-4 mb-4">
+      <div class="form-check form-check-inline form-switch mt-4">
+        <input class="form-check-input" type="checkbox" role="switch" name="remember_me" id="remember_me" value="remember_me">
+        <label class="form-check-label" for="remember_me">{{ _('Zapamiętaj mnie') }}</label>
+      </div>
+      <input type="submit" value="{{ _('Zaloguj') }}" class="btn btn-primary btn-lg w-100 mb-4">
+
     </form>
     <span class="text-muted">&copy; 2022 B4Team</span>
   </main>

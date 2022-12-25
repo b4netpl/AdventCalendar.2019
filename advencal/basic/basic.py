@@ -103,7 +103,7 @@ def login():
             error = _('Niepoprawne hasło')
 
         if error is None:
-            login_user(user)
+            login_user(user, remember=request.form['remember_me'])
             return redirect(url_for('basic.index'))
 
         flash(error, 'warning')

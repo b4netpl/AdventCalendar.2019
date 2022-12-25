@@ -9,7 +9,8 @@ def test_login_user_incorrect(client, init_database):
     """
     response = client.post(url_for('basic.login'), data={
             "username": "incorrectuser",
-            "password": "user"
+            "password": "user",
+            "remember_me": False
             }, follow_redirects=True, headers={'accept-language': 'pl'})
     assert response.status_code == 200
     assert 'Zmień hasło' not in response.data.decode('utf-8')
@@ -17,7 +18,8 @@ def test_login_user_incorrect(client, init_database):
 
     response = client.post(url_for('basic.login'), data={
             "username": "testuser",
-            "password": "incorrectpass"
+            "password": "incorrectpass",
+            "remember_me": False
             }, follow_redirects=True, headers={'accept-language': 'pl'})
     assert response.status_code == 200
     assert 'Zmień hasło' not in response.data.decode('utf-8')
@@ -32,7 +34,8 @@ def test_login_user_correct(client, init_database):
     """
     response = client.post(url_for('basic.login'), data={
             "username": "testuser",
-            "password": "user"
+            "password": "user",
+            "remember_me": True
             }, follow_redirects=True, headers={'accept-language': 'pl'})
     assert response.status_code == 200
     assert 'Zmień hasło' in response.data.decode('utf-8')
