@@ -63,6 +63,11 @@ def test_quests_del_quest(admin_client, init_database):
 
 
 def test_fake_fs(admin_client, init_database, fs):
+    """
+    This is to avoid a strange bug. First use of pyfakefs fixture in tests
+    will always make first request redirected to login page, even though
+    flask-login test client is used.
+    """
     fs.add_real_directory(os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             os.pardir,

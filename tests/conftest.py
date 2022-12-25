@@ -35,7 +35,7 @@ def runner_client(flask_app):
 
 
 @pytest.fixture
-def init_database():
+def init_database(client):
     db.create_all()
 
     user1 = User(id=1, username='testuser', admin=False)
