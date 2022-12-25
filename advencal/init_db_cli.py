@@ -27,11 +27,11 @@ def register(app):
 
         commit(db.session)
 
-    @init_data.command("empty-calendar")
+    @init_data.command("create-calendar")
     @click.confirmation_option(
             prompt='Are you sure you want to ERASE the calendar?'
             )
-    def empty_calendar():
+    def create_calendar():
         """
         Initialize empty calendar.
 
@@ -77,7 +77,7 @@ def register(app):
 
         commit(db.session)
 
-    @init_data.command("help-load")
+    @init_data.command("load-help")
     @click.argument(
             'language',
             type=click.Choice(['pl', 'en'], case_sensitive=False)
@@ -85,7 +85,7 @@ def register(app):
     @click.confirmation_option(
             prompt='Are you sure you want to replace contents of Help section?'
             )
-    def help_load(language):
+    def load_help(language):
         """
         Load Help contents in <language> from file.
 
@@ -115,7 +115,7 @@ def register(app):
 
             commit(db.session)
 
-    @init_data.command("help-save")
+    @init_data.command("save-help")
     @click.argument(
             'language',
             type=click.Choice(['pl', 'en'], case_sensitive=False)
@@ -123,7 +123,7 @@ def register(app):
     @click.confirmation_option(
             prompt='Are you sure you want to replace Help data file?'
             )
-    def help_save(language):
+    def save_help(language):
         """
         Save Help contents in <language> to file.
 

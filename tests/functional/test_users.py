@@ -133,7 +133,7 @@ def test_users_del_user(admin_client, init_database):
     THEN message is displayed and then user is not visible in the users table
     """
     response = admin_client.post(url_for('admin.users'), data={
-            'user_del': 1
+            'del_user': 1
             }, follow_redirects=True, headers={'accept-language': 'pl'})
     assert 'Użytkownik <strong>testuser</strong> został usunięty' \
         in response.data.decode('utf-8')

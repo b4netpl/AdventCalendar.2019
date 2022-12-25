@@ -42,14 +42,14 @@ def test_help_admin(admin_client, init_database):
     assert 'Tytuł admin 1' in response.data.decode('utf-8')
 
 
-def test_edithelp_not_loggedin(client, init_database):
+def test_edit_help_not_loggedin(client, init_database):
     """
     GIVEN a Flask app configured for testing
-    WHEN the '/edithelp' page is requested (GET) by anonymous client
+    WHEN the '/edit_help' page is requested (GET) by anonymous client
     THEN login page is displayed
     """
     response = client.get(
-            url_for('admin.edithelp'),
+            url_for('admin.edit_help'),
             follow_redirects=True,
             headers={'accept-language': 'pl'}
             )
@@ -57,14 +57,14 @@ def test_edithelp_not_loggedin(client, init_database):
     assert 'Zaloguj' in response.data.decode('utf-8')
 
 
-def test_edithelp_not_admin(user_client, init_database):
+def test_edit_help_not_admin(user_client, init_database):
     """
     GIVEN a Flask app configured for testing
-    WHEN the '/edithelp' page is requested (GET) by non-admin user
+    WHEN the '/edit_help' page is requested (GET) by non-admin user
     THEN index page is displayed
     """
     response = user_client.get(
-            url_for('admin.edithelp'),
+            url_for('admin.edit_help'),
             follow_redirects=True,
             headers={'accept-language': 'pl'}
             )
@@ -72,14 +72,14 @@ def test_edithelp_not_admin(user_client, init_database):
     assert 'testuser' in response.data.decode('utf-8')
 
 
-def test_edithelp_admin(admin_client, init_database):
+def test_edit_help_admin(admin_client, init_database):
     """
     GIVEN a Flask app configured for testing
-    WHEN the '/edithelp' page is requested (GET) by admin user
+    WHEN the '/edit_help' page is requested (GET) by admin user
     THEN edit help items page is displayed
     """
     response = admin_client.get(
-            url_for('admin.edithelp'),
+            url_for('admin.edit_help'),
             follow_redirects=True,
             headers={'accept-language': 'pl'}
             )
@@ -87,14 +87,14 @@ def test_edithelp_admin(admin_client, init_database):
     assert 'testadmin' in response.data.decode('utf-8')
 
 
-def test_edithelp_add_item(admin_client, init_database):
+def test_edit_help_add_item(admin_client, init_database):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/helpedit' page is requested (POST) by admin user
             adding help item
     THEN new help item is visible
     """
-    response = admin_client.post(url_for('admin.edithelp'), data={
+    response = admin_client.post(url_for('admin.edit_help'), data={
             'helpitemtitle': 'Tytuł 6',
             'helpitembody': 'Treść 6'
             }, follow_redirects=True, headers={'accept-language': 'pl'})
@@ -102,14 +102,14 @@ def test_edithelp_add_item(admin_client, init_database):
     assert 'Treść 6' in response.data.decode('utf-8')
 
 
-def test_edithelp_delete_item(admin_client, init_database):
+def test_edit_help_delete_item(admin_client, init_database):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/helpedit' page is requested (POST) by admin user
             deleting help item
     THEN help item is not visible
     """
-    response = admin_client.post(url_for('admin.edithelp'), data={
+    response = admin_client.post(url_for('admin.edit_help'), data={
             'del_helpitem': 'submit',
             'helpitem_id': 1
             }, follow_redirects=True, headers={'accept-language': 'pl'})
@@ -117,14 +117,14 @@ def test_edithelp_delete_item(admin_client, init_database):
     assert 'Treść 1' not in response.data.decode('utf-8')
 
 
-def test_edithelp_change_item(admin_client, init_database):
+def test_edit_help_change_item(admin_client, init_database):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/helpedit' page is requested (POST) by admin user
             changing help item
     THEN help item has new value
     """
-    response = admin_client.post(url_for('admin.edithelp'), data={
+    response = admin_client.post(url_for('admin.edit_help'), data={
             'save_helpitem': 'submit',
             'helpitem_id': 1,
             'title': 'Tytuł zmieniony',
@@ -136,14 +136,14 @@ def test_edithelp_change_item(admin_client, init_database):
     assert 'Treść zmieniona' in response.data.decode('utf-8')
 
 
-def test_edithelp_reorder_items(admin_client, init_database):
+def test_edit_help_reorder_items(admin_client, init_database):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/helpedit' page is requested (POST) by admin user
             changing help items order
     THEN help items are displayed in new order
     """
-    response = admin_client.post(url_for('admin.edithelp'), data={
+    response = admin_client.post(url_for('admin.edit_help'), data={
             'userhelp_order': '2,3,4,5,1',
             'adminhelp_order': '6,7,8'
             }, follow_redirects=True, headers={'accept-language': 'pl'})
