@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-12-15 22:42+0100\n"
+"POT-Creation-Date: 2022-12-25 04:24+0100\n"
 "PO-Revision-Date: 2022-12-15 03:43+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,37 +18,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.11.0\n"
 
-#: advencal/admin/admin.py:190
+#: advencal/admin/admin.py:169
 #, fuzzy, python-format
-msgid "Użytkownik <strong>%(new_user)s</strong>już istnieje"
+msgid "Użytkownik <strong>%(new_user)s</strong> już istnieje"
 msgstr "User <strong>%(new_user)s</strong> already exists"
 
-#: advencal/admin/admin.py:254
+#: advencal/admin/admin.py:233
 #, fuzzy, python-format
 msgid "Użytkownik <strong>%(username_del)s</strong> został usunięty"
 msgstr "User <strong>%(username_del)s</strong> deleted"
 
-#: advencal/basic/basic.py:45
+#: advencal/basic/basic.py:33
 msgid "To nie jest prawidłowa odpowiedź... Spróbuj jeszcze raz!"
 msgstr "This answer is not correct... Try again!"
 
-#: advencal/basic/basic.py:115
+#: advencal/basic/basic.py:101
 msgid "Niepoprawny login"
 msgstr "Incorrect username"
 
-#: advencal/basic/basic.py:117 advencal/basic/basic.py:152
+#: advencal/basic/basic.py:103 advencal/basic/basic.py:132
 msgid "Niepoprawne hasło"
 msgstr "Incorrect "
 
-#: advencal/basic/basic.py:156
+#: advencal/basic/basic.py:136
 msgid "Nowe hasła nie są jednakowe"
 msgstr "New passwords are not identical"
 
-#: advencal/basic/basic.py:163
+#: advencal/basic/basic.py:143
 msgid "Hasło zmienione poprawnie"
 msgstr "Password changed successfully"
 
-#: advencal/basic/basic.py:166
+#: advencal/basic/basic.py:146
 msgid "Hasło nie zostało zmienione"
 msgstr "Password was not changed"
 
@@ -239,7 +239,11 @@ msgstr "Username"
 msgid "Hasło"
 msgstr "Password"
 
-#: advencal/templates/login.html.j2:38
+#: advencal/templates/login.html.j2:40
+msgid "Zapamiętaj mnie"
+msgstr "Remember me"
+
+#: advencal/templates/login.html.j2:42
 msgid "Zaloguj"
 msgstr "Log in"
 
