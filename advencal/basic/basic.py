@@ -117,9 +117,9 @@ def logout():
     return redirect(url_for('basic.index'))
 
 
-@bp.route('/changepass', methods=('GET', 'POST'))
+@bp.route('/change_pass', methods=('GET', 'POST'))
 @login_required
-def changepass():
+def change_pass():
 
     if request.method == 'POST':
         old_pass = request.form['old_pass']
@@ -145,4 +145,4 @@ def changepass():
 
         flash(_('Hasło nie zostało zmienione'), 'warning')
 
-    return render_template('changepass.html.j2')
+    return render_template('change_pass.html.j2')

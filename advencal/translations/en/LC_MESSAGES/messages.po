@@ -25,8 +25,8 @@ msgstr "User <strong>%(new_user)s</strong> already exists"
 
 #: advencal/admin/admin.py:233
 #, fuzzy, python-format
-msgid "Użytkownik <strong>%(username_del)s</strong> został usunięty"
-msgstr "User <strong>%(username_del)s</strong> deleted"
+msgid "Użytkownik <strong>%(del_username)s</strong> został usunięty"
+msgstr "User <strong>%(del_username)s</strong> deleted"
 
 #: advencal/basic/basic.py:33
 msgid "To nie jest prawidłowa odpowiedź... Spróbuj jeszcze raz!"
@@ -68,13 +68,13 @@ msgstr "Users"
 msgid "Dzień"
 msgstr "Day"
 
-#: advencal/templates/base.html.j2:54 advencal/templates/changepass.html.j2:7
-#: advencal/templates/changepass.html.j2:21 advencal/templates/users.html.j2:43
+#: advencal/templates/base.html.j2:54 advencal/templates/change_pass.html.j2:7
+#: advencal/templates/change_pass.html.j2:21 advencal/templates/users.html.j2:43
 #: advencal/templates/users.html.j2:119
 msgid "Zmień hasło"
 msgstr "Change password"
 
-#: advencal/templates/base.html.j2:55 advencal/templates/edithelp.html.j2:41
+#: advencal/templates/base.html.j2:55 advencal/templates/edit_help.html.j2:41
 #: advencal/templates/help.html.j2:26
 msgid "Pomoc"
 msgstr "Help"
@@ -155,72 +155,72 @@ msgstr "No quest this time!"
 msgid "Odkryj"
 msgstr "Reveal"
 
-#: advencal/templates/changepass.html.j2:10
+#: advencal/templates/change_pass.html.j2:10
 msgid "Stare hasło"
 msgstr "Old password"
 
-#: advencal/templates/changepass.html.j2:14
+#: advencal/templates/change_pass.html.j2:14
 msgid "Nowe hasło"
 msgstr "New password"
 
-#: advencal/templates/changepass.html.j2:18
+#: advencal/templates/change_pass.html.j2:18
 msgid "Potwierdź nowe hasło"
 msgstr "Repeat new password"
 
-#: advencal/templates/edithelp.html.j2:23
-#: advencal/templates/edithelp.html.j2:81
+#: advencal/templates/edit_help.html.j2:23
+#: advencal/templates/edit_help.html.j2:81
 msgid "Podgląd"
 msgstr "Preview"
 
-#: advencal/templates/edithelp.html.j2:24
-#: advencal/templates/questedit.html.j2:22
+#: advencal/templates/edit_help.html.j2:24
+#: advencal/templates/edit_quest.html.j2:22
 msgid "Zapisz"
 msgstr "Save"
 
-#: advencal/templates/edithelp.html.j2:25 advencal/templates/tweaks.html.j2:66
+#: advencal/templates/edit_help.html.j2:25 advencal/templates/tweaks.html.j2:66
 #: advencal/templates/users.html.j2:48
 msgid "Usuń"
 msgstr "Delete"
 
-#: advencal/templates/edithelp.html.j2:37
+#: advencal/templates/edit_help.html.j2:37
 msgid "Dodaj nową pozycję"
 msgstr "Add new item"
 
-#: advencal/templates/edithelp.html.j2:38
+#: advencal/templates/edit_help.html.j2:38
 msgid "Zapisz kolejność"
 msgstr "Save order"
 
-#: advencal/templates/edithelp.html.j2:42 advencal/templates/help.html.j2:27
+#: advencal/templates/edit_help.html.j2:42 advencal/templates/help.html.j2:27
 msgid "Witamy w kalendarzu adwentowym na kolejny rok! :)"
 msgstr "Welcome to this year's advent calendar! :)"
 
-#: advencal/templates/edithelp.html.j2:47
-#: advencal/templates/edithelp.html.j2:65 advencal/templates/help.html.j2:33
+#: advencal/templates/edit_help.html.j2:47
+#: advencal/templates/edit_help.html.j2:65 advencal/templates/help.html.j2:33
 msgid "Dla administratorów"
 msgstr "For administrators"
 
-#: advencal/templates/edithelp.html.j2:57
+#: advencal/templates/edit_help.html.j2:57
 msgid "Dodaj nową pozycję do Pomocy"
 msgstr "Add new Help item"
 
-#: advencal/templates/edithelp.html.j2:61
+#: advencal/templates/edit_help.html.j2:61
 msgid "Tytuł"
 msgstr "Title"
 
-#: advencal/templates/edithelp.html.j2:62
+#: advencal/templates/edit_help.html.j2:62
 msgid "Treść"
 msgstr "Content"
 
-#: advencal/templates/edithelp.html.j2:69
-#: advencal/templates/questedit.html.j2:23
+#: advencal/templates/edit_help.html.j2:69
+#: advencal/templates/edit_quest.html.j2:23
 msgid "Anuluj"
 msgstr "Cancel"
 
-#: advencal/templates/edithelp.html.j2:70
+#: advencal/templates/edit_help.html.j2:70
 msgid "Dodaj"
 msgstr "Add"
 
-#: advencal/templates/edithelp.html.j2:99
+#: advencal/templates/edit_help.html.j2:99
 msgid "Zamknij"
 msgstr "Close"
 
@@ -247,19 +247,19 @@ msgstr "Remember me"
 msgid "Zaloguj"
 msgstr "Log in"
 
-#: advencal/templates/questedit.html.j2:7
+#: advencal/templates/edit_quest.html.j2:7
 msgid "Edytuj treść questa i odpowiedź"
 msgstr "Edit quest and answer"
 
-#: advencal/templates/questedit.html.j2:10
+#: advencal/templates/edit_quest.html.j2:10
 msgid "Treść questa"
 msgstr "Quest"
 
-#: advencal/templates/questedit.html.j2:14
+#: advencal/templates/edit_quest.html.j2:14
 msgid "Odpowiedź"
 msgstr "Answer"
 
-#: advencal/templates/questedit.html.j2:18 advencal/templates/quests.html.j2:11
+#: advencal/templates/edit_quest.html.j2:18 advencal/templates/quests.html.j2:11
 msgid "Godzina startu"
 msgstr "Starting hour"
 

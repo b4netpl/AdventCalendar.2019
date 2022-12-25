@@ -19,7 +19,7 @@ def test_app_group_help(runner_client):
     WHEN flask cli is run with init-data group arg
     THEN init-data command group help and contents are displayed
     """
-    assert 'empty-calendar' in runner_client.invoke(args='init-data').output
+    assert 'create-calendar' in runner_client.invoke(args='init-data').output
 
 
 def test_create_user(runner_client, init_database):
@@ -68,48 +68,48 @@ def test_create_user_double(runner_client, init_database, caplog):
     assert 'UNIQUE constraint failed' in caplog.text
 
 
-def test_empty_calendar_noaction(runner_client, init_database):
+def test_create_calendar_noaction(runner_client, init_database):
     """
     GIVEN flask cli app
-    WHEN empty-calendar command is used with default No aswer to prompt
+    WHEN create-calendar command is used with default No aswer to prompt
     THEN no data is changed in Day table
     """
     assert 'ERASE the calendar' in runner_client.invoke(args=[
             'init-data',
-            'empty-calendar'
+            'create-calendar'
             ], input='\n').output
     assert Day.get_day(1).day_no == 17
 
 
-def test_empty_calendar(runner_client, init_database):
+def test_create_calendar(runner_client, init_database):
     """
     GIVEN flask cli app
     WHEN empty-calendar command is used with --yes arg
     THEN initial data is written to Day table
     """
-    runner_client.invoke(args=['init-data', 'empty-calendar', '--yes'])
+    runner_client.invoke(args=['init-data', 'create-calendar', '--yes'])
     assert Day.get_day(1).day_no == 17
 
 
-def test_help_load_nofile(runner_client, init_database, fs):
+def test_load_help_nofile(runner_client, init_database, fs):
     """
     GIVEN flask cli app
-    WHEN help-load command is used and file is not loaded
+    WHEN load-help command is used and file is not loaded
     THEN error message is displayed
     """
     assert 'Error opening file. Data not changed.' \
         in runner_client.invoke(args=[
                 'init-data',
-                'help-load',
+                'load-help',
                 'pl',
                 '--yes'
                 ]).output
 
 
-def test_help_load(runner_client, init_database, fs):
+def test_load_help(runner_client, init_database, fs):
     """
     GIVEN flask cli app
-    WHEN help-load command is used
+    WHEN load-help command is used
     THEN file contents are loaded to Help table
     """
     read_data = json.dumps([{
@@ -119,34 +119,34 @@ def test_help_load(runner_client, init_database, fs):
             "admin": False
             }])
     fs.create_file('./advencal/help/help.pl.json', contents=read_data)
-    runner_client.invoke(args=['init-data', 'help-load', 'pl', '--yes'])
+    runner_client.invoke(args=['init-data', 'load-help', 'pl', '--yes'])
     helpitem = Help.get_helpitem(1)
     assert helpitem.title == 'Tytuł z pliku'
 
 
-def test_help_save_nofile(runner_client, init_database, fs):
+def test_save_help_nofile(runner_client, init_database, fs):
     """
     GIVEN flask cli app
-    WHEN help-save command is used and file is not writable
+    WHEN save-help command is used and file is not writable
     THEN error message is displayed
     """
     assert 'Error writing to file. Data not written.' \
         in runner_client.invoke(args=[
                 'init-data',
-                'help-save',
+                'save-help',
                 'pl',
                 '--yes'
                 ]).output
 
 
-def test_help_save(runner_client, init_database, fs):
+def test_save_help(runner_client, init_database, fs):
     """
     GIVEN flask cli app
-    WHEN help-save command is used
+    WHEN save-help command is used
     THEN Help table contents are saved to file and file ends with newline
     """
     fs.create_file('./advencal/help/help.pl.json')
-    runner_client.invoke(args=['init-data', 'help-save', 'pl', '--yes'])
+    runner_client.invoke(args=['init-data', 'save-help', 'pl', '--yes'])
     with open('./advencal/help/help.pl.json') as f:
         helpfile = f.read()
         assert 'Tytuł 1' in helpfile

@@ -14,17 +14,17 @@ from flask_babel import _
 from flask_login import login_required
 
 
-@bp.route('/questsed', methods=('GET', 'POST'))
+@bp.route('/edit_quests', methods=('GET', 'POST'))
 @login_required
 @admin_required
-def questsed():
+def edit_quests():
 
     date_today = datetime.today().day
 
     if request.method == 'POST':
 
-        if 'quest_del' in request.form:
-            quest = Day.get_day(request.form['quest_del'])
+        if 'del_quest' in request.form:
+            quest = Day.get_day(request.form['del_quest'])
             quest.quest = None
             quest.quest_answer = None
             commit(db.session)
@@ -36,13 +36,13 @@ def questsed():
                     secure_filename(f.filename)
                     ))
 
-        elif 'asset_del' in request.form:
+        elif 'del_asset' in request.form:
             os.remove(os.path.join(
                     './advencal/static/quests/',
-                    secure_filename(request.form['asset_del'])
+                    secure_filename(request.form['del_asset'])
                     ))
 
-        return redirect(url_for('admin.questsed'))
+        return redirect(url_for('admin.edit_quests'))
 
     if request.method == 'GET':
         users = User.query.all()
@@ -57,15 +57,15 @@ def questsed():
                 )
 
 
-@bp.route('/questedit', methods=['POST'])
+@bp.route('/edit_quest', methods=['POST'])
 @login_required
 @admin_required
-def questedit():
+def edit_quest():
 
-    if 'quest_edit' in request.form:
-        quest_data = Day.get_day(int(request.form['quest_edit']))
+    if 'edit_quest' in request.form:
+        quest_data = Day.get_day(int(request.form['edit_quest']))
         return render_template(
-                'questedit.html.j2',
+                'edit_quest.html.j2',
                 quest=str(quest_data.quest or ''),
                 quest_answer=str(quest_data.quest_answer or ''),
                 hour=quest_data.hour,
@@ -80,7 +80,7 @@ def questedit():
         day.hour = time.fromisoformat(request.form['hour'])
         commit(db.session)
 
-    return redirect(url_for('admin.questsed'))
+    return redirect(url_for('admin.edit_quests'))
 
 
 @bp.route('/tweaks', methods=('GET', 'POST'))
@@ -223,16 +223,16 @@ def users():
                     credentials=credentials
                     )
 
-        if 'user_del' in request.form:
+        if 'del_user' in request.form:
 
-            user = User.get_user(request.form['user_del'])
-            username_del = user.username
+            user = User.get_user(request.form['del_user'])
+            del_username = user.username
             db.session.delete(user)
             commit(db.session)
 
             flash(Markup(_(
-                    'Użytkownik <strong>%(username_del)s</strong>'
-                    ' został usunięty', username_del=username_del
+                    'Użytkownik <strong>%(del_username)s</strong>'
+                    ' został usunięty', del_username=del_username
                     )), 'success')
 
             users = User.query.all()
@@ -245,10 +245,10 @@ def users():
     return render_template('users.html.j2', users=users)
 
 
-@bp.route('/edithelp', methods=('GET', 'POST'))
+@bp.route('/edit_help', methods=('GET', 'POST'))
 @login_required
 @admin_required
-def edithelp():
+def edit_help():
 
     if request.method == 'POST':
 
@@ -297,7 +297,7 @@ def edithelp():
     adminhelp = Help.query.filter_by(admin=True).order_by(Help.order).all()
 
     return render_template(
-            'edithelp.html.j2',
+            'edit_help.html.j2',
             userhelp=userhelp,
             adminhelp=adminhelp
             )

@@ -40,7 +40,7 @@
                 </td>
                 <td>
                     {% if not user.admin %}
-                    <button class="btn btn-warning btn-sm text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#changepass_modal" data-bs-userid="{{ user.id }}">{{ _('Zmień hasło') }}</button>
+                    <button class="btn btn-warning btn-sm text-nowrap" type="button" data-bs-toggle="modal" data-bs-target="#change_pass_modal" data-bs-userid="{{ user.id }}">{{ _('Zmień hasło') }}</button>
                     {% endif %}
                 </td>
                 <td>
@@ -54,12 +54,12 @@
     </table>
 </fieldset>
 
-<div class="modal fade" id="changepass_modal" tabindex="-1" role="dialog" aria-labelledby="changepass_modalLabel" aria-hidden="true">
+<div class="modal fade" id="change_pass_modal" tabindex="-1" role="dialog" aria-labelledby="change_pass_modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form method="post">
             <div class="modal-header">
-                <h5 class="modal-title" id="changepass_modalLabel">{{ _('Podaj nowe hasło') }}</h5>
+                <h5 class="modal-title" id="change_pass_modalLabel">{{ _('Podaj nowe hasło') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -99,7 +99,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Nie') }}</button>
-          <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline btn-ok" type="submit" id="user_del" name="user_del" value="">{{ _('Tak') }}</button></form>
+          <form action="/users" method="POST" class="d-inline"><button class="btn btn-danger d-inline btn-ok" type="submit" id="del_user" name="del_user" value="">{{ _('Tak') }}</button></form>
         </div>
       </div>
     </div>
@@ -164,7 +164,7 @@
         <script type="text/javascript">
           // Populate change password modal with values from button
           // that triggered the modal. 
-          const changePassModal = document.getElementById('changepass_modal')
+          const changePassModal = document.getElementById('change_pass_modal')
           changePassModal.addEventListener('show.bs.modal', event => {
             const button = event.relatedTarget
             const userId = button.getAttribute('data-bs-userid')
@@ -181,7 +181,7 @@
             const button = event.relatedTarget
             const userId = button.getAttribute('data-bs-userid')
             const userName = button.getAttribute('data-bs-username')
-            const modalUserIdInput = userDelModal.querySelector('#user_del')
+            const modalUserIdInput = userDelModal.querySelector('#del_user')
             const modalUserNameText = userDelModal.querySelector('.username')
             modalUserIdInput.value = userId
             modalUserNameText.textContent = userName
