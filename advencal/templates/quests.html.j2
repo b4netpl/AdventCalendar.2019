@@ -34,7 +34,7 @@
                                     <div class="modal-footer">
                                         <form method="post"><input type="hidden" id="day_id" name="day_id" value="{{ day.id }}">
                                             <div class="input-group mb-3">
-                                                <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ day.quest_answer }}" aria-label="{{ day.quest_answer }}" aria-describedby="button-addon2" readonly>
+                                                <input type="text" name="answer" id="answer" class="form-control" placeholder="{{ day.quest_answer|e }}" aria-label="{{ day.quest_answer }}" aria-describedby="button-addon2" readonly>
                                                 <div class="input-group-append">
                                                     <button class="btn btn-success" type="submit" id="button-addon2" disabled>{{ _('Sprawdź!') }}</button>
                                                 </div>
