@@ -118,8 +118,8 @@
                 <button id="copyButton" class="btn btn-success my-1" onclick="copyToClipboard('{{ credentials['pass'] }}')">{{ _('Skopiuj do schowka') }}</button>
                 <p><strong>{{ _('Uwaga!') }}</strong> {{ _('To jest ostatni dobry moment, żeby skopiować hasło użytkownika! (Np. po to, żeby mu je wysłać.) Po zamknięciu tego okna odczytanie hasła nie będzie możliwe! (Ale naturalnie będzie można je ustawić od nowa przez') }} <span class="btn btn-warning btn-sm">{{ _('Zmień hasło') }}</span>{{ _(' poniżej.)') }}</p>
                 <p>{{ _('A tutaj jeszcze gotowiec do skopiowania np. do maila:') }}</p>
-                <textarea class="form-control" rows="3">{{ _('Login') }}: {{ credentials['login'] }} 
-{{ _('Hasło') }}: {{ credentials['pass'] }} 
+                <textarea class="form-control" rows="3">{{ _('Login') }}: {{ credentials['login']|e }} 
+{{ _('Hasło') }}: {{ credentials['pass']|e }} 
 {{ _('Pomocny URL') }}: https://adwent.jutrzenka.mlerp.pl</textarea>
             </div>
         </div>

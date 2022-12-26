@@ -8,15 +8,15 @@
     <div class="form-group">
       
       <label for="quest">{{ _('Treść questa') }}</label>
-      <textarea class="form-control" name="quest" id="quest" rows="10">{{ quest }}</textarea>
+      <textarea class="form-control" name="quest" id="quest" rows="10">{{ quest|e }}</textarea>
     </div>
     <div class="form-group">
       <label for="quest_answer">{{ _('Odpowiedź') }}</label>
-      <input class="form-control" name="quest_answer" id="quest_answer" value="{{ quest_answer }}">
+      <input class="form-control" name="quest_answer" id="quest_answer" value="{{ quest_answer|e }}">
     </div>
     <div class="form-group">
       <label for="hour">{{ _('Godzina startu') }}</label>
-      <input class="form-control" name="hour" id="hour" value="{{ hour }}">
+      <input class="form-control" name="hour" id="hour" value="{{ hour|e }}">
     </div>
     <input type="hidden" name="day_id" id="day_id" value="{{ day_id }}">
     <button type="submit" class="btn btn-warning my-3">{{ _('Zapisz') }}</button>
