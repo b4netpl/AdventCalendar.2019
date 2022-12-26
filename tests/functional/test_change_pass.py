@@ -44,7 +44,7 @@ def test_change_pass_new_password_not_identical(user_client, init_database):
     assert 'Nowe hasła nie są jednakowe' in response.data.decode('utf-8')
 
 
-def test_chang_epass_correct(user_client, init_database):
+def test_change_pass_correct(user_client, init_database):
     """
     GIVEN a Flask app configured for testing
     WHEN the '/change_pass' page is requested (POST) with correct data
