@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_babel import Babel
 from flask_login import LoginManager
+from flask_debugtoolbar import DebugToolbarExtension
 
 
 db = SQLAlchemy()
@@ -12,6 +13,7 @@ babel = Babel()
 login = LoginManager()
 login.login_view = 'basic.login'
 login.login_message = None
+toolbar = DebugToolbarExtension()
 
 
 def create_app(config_class=Config):
@@ -24,6 +26,8 @@ def create_app(config_class=Config):
     babel.init_app(app)
 
     login.init_app(app)
+
+    toolbar.init_app(app)
 
     from advencal.basic import bp as basic_bp
     app.register_blueprint(basic_bp)
