@@ -48,16 +48,16 @@ def test_get_user(init_database):
     assert User.get_user(1).id == 1
 
 
-def test_check_username(init_database):
+def test_user_exists(init_database):
     """
     GIVEN a username string
-    WHEN check_username() is called with a username
+    WHEN User.exists() is called with a username
     THEN True is returned if user with that username exists in the database
             and False is returned if user with that username does not exist
             in the database
     """
-    assert User.check_username('testadmin') is True
-    assert User.check_username('test') is False
+    assert User.exists('testadmin') is True
+    assert User.exists('test') is False
 
 
 def test_day_repr(new_day):

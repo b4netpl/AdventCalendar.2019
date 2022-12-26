@@ -37,7 +37,7 @@ def test_create_user(runner_client, init_database):
             'pass'
             ])
     assert result.output == ''
-    assert User.check_username('clitest') is True
+    assert User.exists('clitest') is True
 
     user = User.query.filter_by(username='clitest').scalar()
     assert user.check_password('pass') is True

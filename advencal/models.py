@@ -32,7 +32,7 @@ class User(UserMixin, db.Model):
         return User.query.get(int(id))
 
     @staticmethod
-    def check_username(username):
+    def exists(username):
         if (User.query.filter_by(username=username).scalar()):
             return True
         else:
