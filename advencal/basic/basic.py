@@ -141,7 +141,7 @@ def change_pass():
             commit(db.session)
 
             flash(_('Hasło zmienione poprawnie'), 'success')
-            return redirect(url_for('basic.index'))
+            return redirect(url_for('basic.logout'))
 
         flash(_('Hasło nie zostało zmienione'), 'warning')
 
