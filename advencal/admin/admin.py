@@ -165,7 +165,7 @@ def users():
         if 'new_user' in request.form:
 
             new_user = request.form['new_user']
-            if User.check_username(new_user):
+            if User.exists(new_user):
                 flash(Markup(_(
                         'Użytkownik <strong>%(new_user)s</strong>'
                         ' już istnieje',
